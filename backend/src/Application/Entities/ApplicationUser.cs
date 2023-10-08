@@ -3,8 +3,10 @@ using MongoDB.Bson;
 
 namespace Application.Entities;
 
-public class ApplicationUser : MongoIdentityUser<ObjectId>
+public sealed class ApplicationUser : MongoIdentityUser<ObjectId>
 {
+    #region Constructors
+
     public ApplicationUser()
     {
     }
@@ -17,6 +19,16 @@ public class ApplicationUser : MongoIdentityUser<ObjectId>
     {
     }
 
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
+    #endregion
+    
+    public UserInfo? UserInfo { get; set; }
+}
+
+public sealed class UserInfo
+{
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public required DateTime Birthdate { get; set; }
+    public required byte Sex { get; set; }
+    public required bool IsMarried { get; set; }
 }

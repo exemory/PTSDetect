@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace Application.Entities;
 
-public class Role : MongoIdentityRole<ObjectId>
+public sealed class Role : MongoIdentityRole<ObjectId>
 {
     public Role()
     {
