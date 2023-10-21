@@ -20,7 +20,7 @@ public sealed class ApplicationUser : MongoIdentityUser<ObjectId>
     }
 
     #endregion
-    
+
     public UserInfo? UserInfo { get; set; }
 }
 
@@ -28,7 +28,13 @@ public sealed class UserInfo
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public required DateTime Birthdate { get; set; }
-    public required byte Sex { get; set; }
+    public required DateOnly Birthdate { get; set; }
+    public required Sex Sex { get; set; }
     public required bool IsMarried { get; set; }
+}
+
+public enum Sex : byte
+{
+    Male = 0,
+    Female = 1
 }
