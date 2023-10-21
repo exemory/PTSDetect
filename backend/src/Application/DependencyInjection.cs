@@ -1,5 +1,9 @@
-﻿using Application.Entities;
+﻿using System.Reflection;
+using AppAny.HotChocolate.FluentValidation;
+using Application.Entities;
+using Application.Features.Auth;
 using Application.Options;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
@@ -12,6 +16,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
         var mongoDbOptions = configuration
             .GetRequiredSection(MongoDBOptions.SectionName)
             .Get<MongoDBOptions>();
@@ -39,6 +45,12 @@ public static class DependencyInjection
             })
             .AddRoles<Role>()
             .AddMongoDbStores<IMongoDbContext>(mongoDbContext);
+
+        services.AddGraphQLServer()
+            .AddFluentValidation()
+            .AddQueryType<Query>()
+            .AddMutationType<RegisterUserMutation>()
+            .AddMutationConventions();
 
         return services;
     }
