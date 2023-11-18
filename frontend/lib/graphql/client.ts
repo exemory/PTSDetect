@@ -9,7 +9,7 @@ export const { getClient } = registerApolloClient(() => {
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
     link: new HttpLink({
-      uri: "https://spacex-production.up.railway.app/",
+      uri: process.env.GRAPHQL_API_URI,
     }),
   });
 });
