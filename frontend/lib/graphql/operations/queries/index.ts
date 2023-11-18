@@ -1,1 +1,1 @@
-export * from "./getAllFilms";
+export * from './getAllFilms';

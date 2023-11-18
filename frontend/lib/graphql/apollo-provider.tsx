@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { ApolloLink, HttpLink } from "@apollo/client";
+import { ApolloLink, HttpLink } from '@apollo/client';
 import {
   NextSSRApolloClient,
   ApolloNextAppProvider,
   NextSSRInMemoryCache,
   SSRMultipartLink,
-} from "@apollo/experimental-nextjs-app-support/ssr";
-import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
-import { setVerbosity } from "ts-invariant";
+} from '@apollo/experimental-nextjs-app-support/ssr';
+import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
+import { setVerbosity } from 'ts-invariant';
 
-if (process.env.NODE_ENV === "development") {
-  setVerbosity("debug");
+if (process.env.NODE_ENV === 'development') {
+  setVerbosity('debug');
   loadDevMessages();
   loadErrorMessages();
 }
@@ -24,7 +24,7 @@ function makeClient() {
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
     link:
-      typeof window === "undefined"
+      typeof window === 'undefined'
         ? ApolloLink.from([
             // in a SSR environment, if you use multipart features like
             // @defer, you need to decide how to handle these.

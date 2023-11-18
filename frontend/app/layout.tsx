@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { ApolloWrapper } from "@/lib/graphql/apollo-provider";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { ApolloWrapper } from '@/lib/graphql/apollo-provider';
+import './globals.css';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "PTSDetect",
-  description: "Diagnose post-traumatic stress disorder",
+  title: 'PTSDetect',
+  description: 'Diagnose post-traumatic stress disorder',
 };
 
 export default function RootLayout({
