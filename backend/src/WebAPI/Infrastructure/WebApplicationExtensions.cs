@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Application.Infrastructure;
 
 namespace WebAPI.Infrastructure;
 

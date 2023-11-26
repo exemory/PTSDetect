@@ -1,9 +1,10 @@
-﻿using AspNetCore.Identity.MongoDbCore.Models;
+﻿using Application.Common.Interfaces.Primitives;
+using AspNetCore.Identity.MongoDbCore.Models;
 using MongoDB.Bson;
 
-namespace Application.Entities;
+namespace Application.Infrastructure.Identity;
 
-public sealed class ApplicationUser : MongoIdentityUser<ObjectId>
+public sealed class ApplicationUser : MongoIdentityUser<ObjectId>, IDocument<ObjectId>
 {
     #region Constructors
 
@@ -22,6 +23,7 @@ public sealed class ApplicationUser : MongoIdentityUser<ObjectId>
     #endregion
 
     public UserInfo? UserInfo { get; set; }
+    public ICollection<Guid> RefreshTokens { get; set; } = new List<Guid>();
 }
 
 public sealed class UserInfo
