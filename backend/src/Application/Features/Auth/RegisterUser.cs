@@ -1,8 +1,10 @@
-﻿using AppAny.HotChocolate.FluentValidation;
-using Application.Common.Exceptions;
-using Application.Entities;
+﻿using Application.Common.Constants;
+using Application.Common.Errors;
+using Application.Common.Interfaces;
+using Application.Extensions;
+using Application.Infrastructure.Identity;
 using FluentValidation;
-using Microsoft.AspNetCore.Identity;
+using Void = Application.ScalarTypes.Void;
 
 namespace Application.Features.Auth;
 
@@ -40,34 +42,25 @@ public class RegisterUserInputValidator : AbstractValidator<RegisterUserInput>
     }
 }
 
+[ExtendObjectType(GraphQlTypes.Mutation)]
 public class RegisterUserMutation
 {
-    [Error(typeof(RegistrationFailedException))]
-    public async Task<RegisteredUserInfo> RegisterUser(
-        [Service] UserManager<ApplicationUser> userManager,
-        [UseFluentValidation] RegisterUserInput input)
+    [Error<ValidationError>]
+    [Error<RegistrationFailedError>]
+    public async Task<MutationResult<Void>> RegisterUser(
+        [Service] IIdentityService identityService,
+        [Service] IValidator<RegisterUserInput> inputValidator,
+        RegisterUserInput input,
+        CancellationToken cancellationToken)
     {
-        var user = new ApplicationUser(input.Username, input.Email)
-        {
-            UserInfo = new UserInfo
-            {
-                FirstName = input.Firstname,
-                LastName = input.Lastname,
-                Birthdate = input.Birthdate,
-                Sex = input.Sex,
-                IsMarried = input.IsMarried
-            }
-        };
+        var validationResult = inputValidator.ValidateToResult(input);
 
-        var result = await userManager.CreateAsync(user, input.Password);
-
-        if (!result.Succeeded)
+        if (validationResult.IsFailure)
         {
-            throw new RegistrationFailedException(result.Errors);
+            return validationResult.ToMutationResult();
         }
 
-        return new RegisteredUserInfo(user.UserName!, user.Email!);
+        var registrationResult = await identityService.RegisterUser(input, cancellationToken);
+        return registrationResult.ToMutationResult();
     }
 }
-
-public record RegisteredUserInfo(string Username, string Email);

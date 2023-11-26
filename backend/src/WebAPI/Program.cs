@@ -7,6 +7,9 @@ builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapEndpoints();
 
 app.Run();

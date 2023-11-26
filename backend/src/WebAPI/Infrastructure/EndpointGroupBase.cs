@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-
-namespace Application.Infrastructure;
+﻿namespace WebAPI.Infrastructure;
 
 public abstract class EndpointGroupBase
 {
