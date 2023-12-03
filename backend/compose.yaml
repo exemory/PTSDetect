@@ -1,0 +1,35 @@
+﻿version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: src/WebAPI/Dockerfile
+    image: ptsdetect/backend
+    environment:
+      ASPNETCORE_URLS: "http://+:80"
+      MongoDbOptions__ConnectionString: "mongodb://root:9BjFZXmE2d@mongo"
+      MongoDbOptions__AppDatabaseName: "AppDB"
+      JwtOptions__Issuer: "http://localhost:5000"
+      JwtOptions__Audience: "http://localhost"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: curl --fail http://localhost/healthz || exit
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+  
+  mongo:
+    image: mongo:7.0.3
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 9BjFZXmE2d
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s

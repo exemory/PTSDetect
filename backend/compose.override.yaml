@@ -1,0 +1,19 @@
+﻿version: "3.8"
+
+services:
+  backend:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      JwtOptions__Auth__Secret: "qWIkxVOV0AQNXbjfHbG6a4DPY5pydKIxolxft12fDzwz746P7w"
+      JwtOptions__Refresh__Secret: "SLRvpalnIrK8e7S8lG31yIZibnxP1Jk9gQNfBe2jhxeaN5ZQRa"
+    ports:
+      - "5000:80"
+  
+  mongo:
+    volumes:
+      - ptsdetect-mongodb-dev:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  ptsdetect-mongodb-dev:
