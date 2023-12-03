@@ -9,8 +9,6 @@ builder.Services.AddWebApiServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.MapHealthChecks();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
