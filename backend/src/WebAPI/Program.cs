@@ -1,17 +1,37 @@
 using Application;
+using Serilog;
 using WebAPI;
 using WebAPI.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddWebApiServices(builder.Configuration);
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+    builder.Host.UseSerilog((context, configuration) =>
+        configuration.ReadFrom.Configuration(context.Configuration)
+    );
 
-app.UseAuthentication();
-app.UseAuthorization();
+    builder.Services.AddApplicationServices(builder.Configuration);
+    builder.Services.AddWebApiServices(builder.Configuration);
 
-app.MapEndpoints();
+    var app = builder.Build();
 
-app.Run();
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.MapEndpoints();
+
+    app.Run();
+}
+catch (Exception e)
+{
+    Log.Fatal(e, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
