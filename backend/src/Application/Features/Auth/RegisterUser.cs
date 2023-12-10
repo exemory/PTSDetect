@@ -36,7 +36,7 @@ public class RegisterUserInputValidator : AbstractValidator<RegisterUserInput>
             .Length(1, 100);
         RuleFor(x => x.Birthdate)
             .NotEmpty()
-            .InclusiveBetween(new DateOnly(1990, 1, 1), DateOnly.FromDateTime(DateTime.Today));
+            .InclusiveBetween(new DateOnly(1900, 1, 1), DateOnly.FromDateTime(DateTime.Today));
         RuleFor(x => x.Sex)
             .IsInEnum();
     }
