@@ -42,6 +42,7 @@ public static class DependencyInjection
 
         services.AppDbContext(configuration, out var appDbContext);
         services.AddIdentity(configuration, appDbContext);
+        services.AddCors(configuration);
         services.AddAuthentication(authJwtOptions);
         services.AddAuthorization();
         services.AddHotChocolate();
@@ -69,6 +70,28 @@ public static class DependencyInjection
             })
             .AddRoles<Role>()
             .AddMongoDbStores<IMongoDbContext>(new MongoDbContext(appDbContext.AppDb));
+
+        return services;
+    }
+
+    private static IServiceCollection AddCors(this IServiceCollection services, IConfiguration configuration)
+    {
+        var corsOptions = configuration
+            .GetRequiredSection(CorsOptions.SectionName)
+            .Get<CorsOptions>();
+
+        if (corsOptions is null)
+        {
+            throw new InvalidOperationException("Failed to obtain CORS options from configuration.");
+        }
+
+        services.AddCors(x =>
+            x.AddDefaultPolicy(y =>
+                y.WithOrigins(corsOptions.AllowedOrigins)
+                    .WithMethods(corsOptions.AllowedMethods)
+                    .AllowAnyHeader()
+            )
+        );
 
         return services;
     }
