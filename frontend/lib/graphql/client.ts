@@ -9,7 +9,7 @@ export const { getClient } = registerApolloClient(() => {
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
     link: new HttpLink({
-      uri: process.env.GRAPHQL_API_URI,
+      uri: 'http://localhost:5000/graphql/' || process.env.GRAPHQL_API_URI,
     }),
   });
 });

@@ -20,7 +20,7 @@ export default function RootLayout({
               assessments, aiding in the identification and support for those
               affected by PTSD.&rdquo;
             </p>
-            <footer className="text-sm">Sofia Davis</footer>
+            <footer className="text-sm">Vladyslav Susidko</footer>
           </blockquote>
         </div>
       </div>

@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'development') {
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: process.env.GRAPHQL_API_URI,
+    uri: 'http://localhost:5000/graphql/' || process.env.GRAPHQL_API_URI,
   });
 
   return new NextSSRApolloClient({
