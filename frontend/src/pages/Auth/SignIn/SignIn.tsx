@@ -4,9 +4,24 @@ import { Button, Checkbox, FormControl, FormLabel, IconButton, Input, Link, Typo
 import { NavLink } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const formSchema = yup
+  .object({
+    email: yup.string().email().required(),
+    password: yup.string().required(),
+  })
+  .required();
 
 const SignIn = () => {
   const [passwordInputType, setPasswordInputType] = useState('password');
+  const { register, handleSubmit } = useForm({
+    resolver: yupResolver(formSchema),
+  });
+
+  const onSubmit = handleSubmit((data) => console.log(data));
 
   return (
     <AuthLayout>
@@ -21,18 +36,17 @@ const SignIn = () => {
           </Typography>
         </div>
 
-        <form>
+        <form onSubmit={onSubmit}>
           <div className="flex flex-col gap-4">
             <FormControl required>
               <FormLabel>Email</FormLabel>
-              <Input type="email" name="email" />
+              <Input type="email" {...register('email')} />
             </FormControl>
 
             <FormControl required>
               <FormLabel>Password</FormLabel>
               <Input
                 type={passwordInputType}
-                name="password"
                 endDecorator={
                   <IconButton
                     onClick={() =>
@@ -42,6 +56,7 @@ const SignIn = () => {
                     {passwordInputType === 'password' ? <Eye color="gray" /> : <EyeOff color="gray" />}
                   </IconButton>
                 }
+                {...register('password')}
               />
             </FormControl>
 
