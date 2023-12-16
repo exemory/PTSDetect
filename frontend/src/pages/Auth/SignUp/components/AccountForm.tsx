@@ -4,6 +4,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useStore } from '@/store/useStore';
 
 const formSchema = yup
   .object({
@@ -15,7 +16,8 @@ const formSchema = yup
       .matches(/[^\s]/, 'Password must contain at least one non-whitespace character')
       .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
       .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .matches(/[0-9]/, 'Password must contain at least one digit'),
+      .matches(/[0-9]/, 'Password must contain at least one digit')
+      .matches(/[!@#$%^&*()-_=+[\]{};:'",.<>/?]/, 'Password must contain at least one non-alphanumeric character'),
     repeatPassword: yup
       .string()
       .oneOf([yup.ref('password')], 'Passwords must match')
@@ -24,6 +26,7 @@ const formSchema = yup
   .required();
 
 export const AccountForm = () => {
+  const { setActiveStep, account, setAccount } = useStore((state) => state.signUp);
   const [passwordInputType, setPasswordInputType] = useState('password');
   const [repeatPasswordInputType, setRepeatPasswordInputType] = useState('password');
   const {
@@ -32,9 +35,13 @@ export const AccountForm = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(formSchema),
+    defaultValues: account,
   });
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    setAccount(data);
+    setActiveStep(1);
+  });
 
   return (
     <form onSubmit={onSubmit}>

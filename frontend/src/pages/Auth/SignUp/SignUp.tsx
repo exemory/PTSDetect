@@ -1,14 +1,13 @@
 import { AuthLayout } from '@/pages/Auth/components';
 import { routes } from '@/routes';
-import { Link, Step, StepButton, StepIndicator, Stepper, Typography } from '@mui/joy';
+import { Link, Step, StepButton, StepIndicator, Stepper, Typography, stepClasses } from '@mui/joy';
 import { NavLink } from 'react-router-dom';
 import { Check } from 'lucide-react';
-import { useState } from 'react';
-import { AdditionalInfoForm, AccountForm, PersonalDetailsForm } from '@/pages/Auth/SignIn/components';
+import { AdditionalInfoForm, AccountForm, PersonalDetailsForm } from '@/pages/Auth/SignUp/components';
+import { useStore } from '@/store/useStore';
 
 const SignUp = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const steps = ['Account', 'Personal Details', 'Additional'];
+  const { steps, activeStep, setActiveStep } = useStore((state) => state.signUp);
 
   const getActiveForm = () => {
     switch (activeStep) {
@@ -34,26 +33,28 @@ const SignUp = () => {
           </Typography>
         </div>
 
-        <Stepper>
+        <Stepper
+          sx={{
+            [`& .${stepClasses.disabled} *`]: {
+              color: 'neutral.plainDisabledColor',
+              cursor: 'default',
+            },
+          }}
+        >
           {steps.map((step, index) => (
             <Step
               key={step}
               indicator={
                 <StepIndicator
-                  onClick={() => setActiveStep(index)}
                   variant={activeStep <= index ? 'soft' : 'solid'}
                   color={activeStep < index ? 'neutral' : 'primary'}
                 >
                   {activeStep <= index ? index + 1 : <Check size={16} />}
                 </StepIndicator>
               }
-              sx={{
-                '&::after': {
-                  ...(activeStep > index && index !== 2 && { bgcolor: 'primary.solidBg' }),
-                },
-              }}
+              disabled={activeStep < index}
             >
-              <StepButton onClick={() => setActiveStep(index)}>{step}</StepButton>
+              <StepButton onClick={() => activeStep >= index && setActiveStep(index)}>{step}</StepButton>
             </Step>
           ))}
         </Stepper>

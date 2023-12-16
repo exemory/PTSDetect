@@ -2,6 +2,7 @@ import { Button, FormControl, FormHelperText, FormLabel, Input } from '@mui/joy'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useStore } from '@/store/useStore';
 
 const formSchema = yup
   .object({
@@ -12,15 +13,20 @@ const formSchema = yup
   .required();
 
 export const PersonalDetailsForm = () => {
+  const { setActiveStep, personalDetails, setPersonalDetails } = useStore((state) => state.signUp);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(formSchema),
+    defaultValues: personalDetails,
   });
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    setPersonalDetails(data);
+    setActiveStep(2);
+  });
 
   return (
     <form onSubmit={onSubmit}>

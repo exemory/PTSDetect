@@ -1,12 +1,24 @@
 import { AuthLayout } from '@/pages/Auth/components';
 import { routes } from '@/routes';
-import { Button, Checkbox, FormControl, FormLabel, IconButton, Input, Link, Typography } from '@mui/joy';
-import { NavLink } from 'react-router-dom';
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  IconButton,
+  Input,
+  Link,
+  Typography,
+} from '@mui/joy';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { LOGIN } from '@/graphql/mutations';
+import { useMutation } from '@apollo/client';
 
 const formSchema = yup
   .object({
@@ -17,11 +29,36 @@ const formSchema = yup
 
 const SignIn = () => {
   const [passwordInputType, setPasswordInputType] = useState('password');
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(formSchema),
   });
+  const [login, { loading }] = useMutation(LOGIN);
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const navigate = useNavigate();
+
+  const onSubmit = handleSubmit(async (formData) => {
+    try {
+      const { data } = await login({
+        variables: {
+          login: formData.email,
+          password: formData.password,
+        },
+      });
+
+      if (data?.login.errors && data.login.errors.length > 0) {
+        console.log(data?.login.errors);
+        return;
+      }
+
+      navigate(routes.HOME);
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  });
 
   return (
     <AuthLayout>
@@ -38,12 +75,13 @@ const SignIn = () => {
 
         <form onSubmit={onSubmit}>
           <div className="flex flex-col gap-4">
-            <FormControl required>
+            <FormControl required error={!!errors.email}>
               <FormLabel>Email</FormLabel>
               <Input type="email" {...register('email')} />
+              <FormHelperText>{errors.email?.message}</FormHelperText>
             </FormControl>
 
-            <FormControl required>
+            <FormControl required error={!!errors.password}>
               <FormLabel>Password</FormLabel>
               <Input
                 type={passwordInputType}
@@ -58,6 +96,7 @@ const SignIn = () => {
                 }
                 {...register('password')}
               />
+              <FormHelperText>{errors.password?.message}</FormHelperText>
             </FormControl>
 
             <div className="flex flex-col gap-6">
@@ -67,7 +106,7 @@ const SignIn = () => {
                   <Link level="title-sm">Forgot your password?</Link>
                 </NavLink>
               </div>
-              <Button type="submit" fullWidth>
+              <Button loading={loading} type="submit" fullWidth>
                 Sign in
               </Button>
             </div>
