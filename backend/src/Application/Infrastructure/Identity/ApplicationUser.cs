@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces.Primitives;
+﻿using Application.Primitives;
 using AspNetCore.Identity.MongoDbCore.Models;
 using MongoDB.Bson;
 

@@ -27,6 +27,8 @@ try
 
     app.MapEndpoints();
 
+    await app.InitializeDatabase();
+
     app.Run();
 }
 catch (Exception e)

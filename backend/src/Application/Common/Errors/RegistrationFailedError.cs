@@ -4,9 +4,20 @@ namespace Application.Common.Errors;
 
 public record struct RegistrationError(string Code, string Message);
 
-public class RegistrationFailedError(ICollection<RegistrationError> errors)
-    : Error($"Registration failed, resulting in {errors.Count} errors")
+public class RegistrationFailedError : Error
 {
-    public string ErrorsCount { get; } = errors.Count.ToString(); //TODO: replace with int when HC14.0 released
-    public ICollection<RegistrationError> Errors { get; } = errors;
+    public int ErrorsCount { get; }
+    public IList<RegistrationError> Errors { get; }
+
+    private RegistrationFailedError(IList<RegistrationError> errors)
+        : base($"Registration failed, resulting in {errors.Count} errors")
+    {
+        ErrorsCount = errors.Count;
+        Errors = errors;
+    }
+
+    public RegistrationFailedError(IEnumerable<RegistrationError> errors)
+        : this(errors.ToList())
+    {
+    }
 }

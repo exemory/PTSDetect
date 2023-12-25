@@ -1,0 +1,208 @@
+{
+  "id": "657d7272a24def72b8419b84",
+  "availableTranslations": [
+    "uk"
+  ],
+  "questionGroups": [
+    {
+      "id": "4ec6f0cb-4b8f-484b-8c5f-5fac2e83132b",
+      "questions": [
+        {
+          "id": "8b5baa83-e54f-4937-a534-e0b4177fc848",
+          "answers": [
+            {
+              "id": "9e4b22cd-92d5-46c3-8a25-d152063b5109",
+              "translations": {
+                "uk": {
+                  "title": "Так"
+                }
+              }
+            },
+            {
+              "id": "b46f2fbb-ea89-4fe6-90fa-79bf696318fa",
+              "tags": [
+                "N"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Ні"
+                }
+              }
+            }
+          ],
+          "translations": {
+            "uk": {
+              "title": "Чи знаходиться Ваша країна в стані військового конфлікту?"
+            }
+          }
+        },
+        {
+          "id": "1a09856c-faed-4202-8120-b68bd85ce205",
+          "answers": [
+            {
+              "id": "dcb9dcf0-7f90-48f7-bcf8-a788be50ae69",
+              "tags": [
+                "CTSD"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Постійно"
+                }
+              }
+            },
+            {
+              "id": "fc9bbe06-745c-4f42-842f-3c7b0f542f81",
+              "tags": [
+                "CTSD"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Часто"
+                }
+              }
+            },
+            {
+              "id": "7006bc53-10e6-48ef-89e2-88a0cd6722f5",
+              "tags": [
+                "A",
+                "D"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Інколи"
+                }
+              }
+            },
+            {
+              "id": "92e79343-7080-4ab8-9043-aacbec105f96",
+              "tags": [
+                "A",
+                "D"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Дуже рідко"
+                }
+              }
+            },
+            {
+              "id": "6589efaa-ac90-4d2d-9c01-3da5f4e23fd5",
+              "tags": [
+                "N"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Ніколи"
+                }
+              }
+            }
+          ],
+          "translations": {
+            "uk": {
+              "title": "Чи перебуваєте Ви в країні, що є зоною військового конфлікту?"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1f5dd186-b8ce-493c-930e-8b173a053182",
+      "questions": [
+        {
+          "id": "8b1d5ac5-e4a0-4d6d-bbf3-3b17c39f9306",
+          "answers": [
+            {
+              "id": "9e4b22cd-92d5-46c3-8a25-d152063b5109",
+              "translations": {
+                "uk": {
+                  "title": "Так"
+                }
+              }
+            },
+            {
+              "id": "b46f2fbb-ea89-4fe6-90fa-79bf696318fa",
+              "tags": [
+                "N"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Ні"
+                }
+              }
+            }
+          ],
+          "translations": {
+            "uk": {
+              "title": "Чи знаходиться Ваша країна в стані військового конфлікту?"
+            }
+          }
+        },
+        {
+          "id": "1a09856c-faed-4202-8120-b68bd85ce205",
+          "answers": [
+            {
+              "id": "dcb9dcf0-7f90-48f7-bcf8-a788be50ae69",
+              "tags": [
+                "MT"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Безумовно, так"
+                }
+              }
+            },
+            {
+              "id": "f554fbbf-2120-4812-94c6-bd7dcdd90836",
+              "tags": [
+                "MT"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Значною мірою"
+                }
+              }
+            },
+            {
+              "id": "ccc05f65-0334-4718-8bac-abfd6d8edb8d",
+              "tags": [
+                "PTS"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Помірно"
+                }
+              }
+            },
+            {
+              "id": "d9c2a105-c7c8-4c86-bb51-cced6dc8786f",
+              "tags": [
+                "A"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Незначною мірою"
+                }
+              }
+            },
+            {
+              "id": "447030ac-e110-412b-aab2-3e2f8774c19a",
+              "tags": [
+                "N"
+              ],
+              "translations": {
+                "uk": {
+                  "title": "Безумовно, ні"
+                }
+              }
+            }
+          ],
+          "translations": {
+            "uk": {
+              "title": "Чи зруйнувалося у Вас уявлення про справедливий і добрий світ через певні Ваші дії, бездіяльність або через Ваш свідомий вибір?"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

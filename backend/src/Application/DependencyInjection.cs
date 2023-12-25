@@ -6,6 +6,7 @@ using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Application.Features.Auth;
+using Application.Features.GeneralTest;
 using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;
@@ -29,16 +30,20 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddJwtOptions(configuration, out var authJwtOptions, out _);
+        services.Configure<AssetFilePaths>(AssetFilePaths.SectionName,
+            configuration.GetRequiredSection(AssetFilePaths.SectionName));
 
         services.AddHttpContextAccessor();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
 
         services.AddSingleton(TimeProvider.System);
         services.AddSingleton<ITokenService, JwtTokenService>();
         services.AddSingleton<IUserRepository, UserRepository>();
+        services.AddSingleton<ITestRepository, TestRepository>();
 
         services.AppDbContext(configuration, out var appDbContext);
         services.AddIdentity(configuration, appDbContext);
@@ -204,7 +209,8 @@ public static class DependencyInjection
     {
         services.AddGraphQLServer()
             .AddAuthorization()
-            .AddQueryType<Query>()
+            .AddQueryType<Query>(x => x.Name(GraphQlTypes.Query))
+            .AddTypeExtension<GeneralTestQuestionsQuery>()
             .AddMutationType(x => x.Name(GraphQlTypes.Mutation))
             .AddTypeExtension<RegisterUserMutation>()
             .AddTypeExtension<LoginMutation>()

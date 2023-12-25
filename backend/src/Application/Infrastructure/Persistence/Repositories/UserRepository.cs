@@ -30,7 +30,7 @@ public class UserRepository(IAppDbContext context) : IUserRepository
         await context.Users.UpdateOneAsync(filter, updateDefinition, cancellationToken: cancellationToken);
     }
 
-    public async Task<bool> CheckTokenExistence(string userId, Guid refreshTokenId)
+    public async Task<bool> CheckTokenExistence(string userId, Guid refreshTokenId, CancellationToken cancellationToken)
     {
         var filter = Builders<ApplicationUser>.Filter.And(
             Builders<ApplicationUser>.Filter
@@ -39,7 +39,9 @@ public class UserRepository(IAppDbContext context) : IUserRepository
                 .AnyIn(x => x.RefreshTokens, [refreshTokenId])
         );
 
-        var count = await context.Users.CountDocumentsAsync(filter, new CountOptions {Limit = 1});
+        var count = await context.Users.CountDocumentsAsync(filter, new CountOptions {Limit = 1},
+            cancellationToken: cancellationToken);
+
         return count > 0;
     }
 }

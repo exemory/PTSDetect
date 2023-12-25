@@ -7,13 +7,20 @@ namespace Application.Infrastructure.Persistence;
 
 public class AppDbContext : IAppDbContext
 {
+    private readonly AppDbCollectionNames _collectionNames;
+
     public IMongoDatabase AppDb { get; }
     public IMongoCollection<ApplicationUser> Users { get; }
+
+    IMongoCollection<T> IAppDbContext.Tests<T>() =>
+        AppDb.GetCollection<T>(_collectionNames.Tests);
 
     public AppDbContext(IMongoDatabase appDatabase, AppDbCollectionNames collectionNames)
     {
         AppDb = appDatabase;
-        Users = AppDb.GetCollection<ApplicationUser>(collectionNames.Users);
+        _collectionNames = collectionNames;
+
+        Users = AppDb.GetCollection<ApplicationUser>(_collectionNames.Users);
     }
 
     public AppDbContext(IMongoClient client, string appDatabaseName, AppDbCollectionNames collectionNames)

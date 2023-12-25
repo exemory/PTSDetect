@@ -8,4 +8,5 @@ public interface IAppDbContext
     public IMongoDatabase AppDb { get; }
 
     public IMongoCollection<ApplicationUser> Users { get; }
+    public IMongoCollection<T> Tests<T>();
 }
