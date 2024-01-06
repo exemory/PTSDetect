@@ -14,7 +14,7 @@ public class TestRepository(IAppDbContext context) : ITestRepository
     public async Task<bool> CheckGeneralTestExistence(CancellationToken cancellationToken)
     {
         var filter = Builders<GeneralTest>.Filter
-            .Eq(x => x.Id, TestIdentifiers.GeneralTestId);
+            .Eq(x => x.Id, GeneralTestIdentifiers.TestId);
 
         var count = await context
             .Tests<GeneralTest>()
@@ -27,12 +27,12 @@ public class TestRepository(IAppDbContext context) : ITestRepository
     public Task<GeneralTest> GetGeneralTest(CancellationToken cancellationToken)
     {
         var filterDefinition = Builders<GeneralTest>.Filter
-            .Eq(x => x.Id, TestIdentifiers.GeneralTestId);
+            .Eq(x => x.Id, GeneralTestIdentifiers.TestId);
 
         return context
             .Tests<GeneralTest>()
             .Find(filterDefinition)
-            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            .FirstAsync(cancellationToken: cancellationToken);
     }
 
     public async Task<IQueryable<Question>> GetGeneralTestQuestions(string languageCode,
@@ -41,7 +41,7 @@ public class TestRepository(IAppDbContext context) : ITestRepository
         var test = await context
             .Tests<GeneralTest>()
             .AsQueryable()
-            .FirstAsync(x => x.Id == TestIdentifiers.GeneralTestId, cancellationToken);
+            .FirstAsync(x => x.Id == GeneralTestIdentifiers.TestId, cancellationToken);
 
         return test.QuestionGroups
             .AsQueryable()
@@ -64,7 +64,7 @@ public class TestRepository(IAppDbContext context) : ITestRepository
     public Task SaveGeneralTest(GeneralTest test, CancellationToken cancellationToken)
     {
         var filterDefinition = Builders<GeneralTest>.Filter
-            .Eq(x => x.Id, TestIdentifiers.GeneralTestId);
+            .Eq(x => x.Id, GeneralTestIdentifiers.TestId);
 
         return context
             .Tests<GeneralTest>()

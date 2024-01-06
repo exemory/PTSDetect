@@ -1,4 +1,5 @@
-﻿using Application.Infrastructure.Identity;
+﻿using Application.Documents;
+using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence.Interfaces;
 using Application.Options;
 using MongoDB.Driver;
@@ -15,12 +16,15 @@ public class AppDbContext : IAppDbContext
     IMongoCollection<T> IAppDbContext.Tests<T>() =>
         AppDb.GetCollection<T>(_collectionNames.Tests);
 
+    public IMongoCollection<Advice> Advice { get; set; }
+
     public AppDbContext(IMongoDatabase appDatabase, AppDbCollectionNames collectionNames)
     {
         AppDb = appDatabase;
         _collectionNames = collectionNames;
 
         Users = AppDb.GetCollection<ApplicationUser>(_collectionNames.Users);
+        Advice = AppDb.GetCollection<Advice>(_collectionNames.Advice);
     }
 
     public AppDbContext(IMongoClient client, string appDatabaseName, AppDbCollectionNames collectionNames)

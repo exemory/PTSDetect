@@ -14,7 +14,7 @@ public class ValidationError : Error
     public IList<PropertyValidationError> Errors { get; }
 
     private ValidationError(IList<PropertyValidationError> errors)
-        : base($"Validation failed, resulting in {errors.Count} errors")
+        : base($"Validation failed, resulting in {errors.Count} error{(errors.Count != 1 ? 's' : "")}")
     {
         ErrorsCount = errors.Count;
         Errors = errors;

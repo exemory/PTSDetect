@@ -1,6 +1,6 @@
 ﻿namespace Application.Common.Constants;
 
-public static class AnswerTags
+public static class ProblemTags
 {
     public const string SuicideSyndrome = "SS";
     public const string ChronicTraumaticStressDisorder = "CTSD";

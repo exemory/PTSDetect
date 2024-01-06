@@ -9,11 +9,12 @@ using Microsoft.Extensions.Options;
 namespace Application.Infrastructure.Persistence;
 
 public class DatabaseInitializer(
-    IOptions<AssetFilePaths> options,
+    IOptions<AssetOptions> assetOptions,
     ILogger<DatabaseInitializer> logger,
-    ITestRepository testRepository) : IDatabaseInitializer
+    ITestRepository testRepository,
+    IAdviceRepository adviceRepository) : IDatabaseInitializer
 {
-    private readonly AssetFilePaths _paths = options.Value;
+    private readonly AssetOptions _assetOptions = assetOptions.Value;
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new()
     {
@@ -24,7 +25,7 @@ public class DatabaseInitializer(
     {
         if (!await testRepository.CheckGeneralTestExistence(cancellationToken))
         {
-            await using var fileStream = File.OpenRead(_paths.GeneralTestFilePath);
+            await using var fileStream = File.OpenRead(_assetOptions.GeneralTestFilePath);
 
             var generalTest = await JsonSerializer.DeserializeAsync<GeneralTest>(fileStream, _jsonSerializerOptions,
                 cancellationToken);
@@ -36,6 +37,22 @@ public class DatabaseInitializer(
             }
 
             await testRepository.SaveGeneralTest(generalTest, cancellationToken);
+        }
+
+        if (!await adviceRepository.CheckAdviceExistence(cancellationToken))
+        {
+            await using var fileStream = File.OpenRead(_assetOptions.AdviceFilePath);
+
+            var advice = await JsonSerializer.DeserializeAsync<IEnumerable<Advice>>(fileStream, _jsonSerializerOptions,
+                cancellationToken);
+
+            if (advice == null)
+            {
+                logger.LogError("Failed to deserialize advice");
+                throw new InvalidOperationException("Failed to deserialize advice.");
+            }
+
+            await adviceRepository.SaveAdviceAsync(advice, cancellationToken);
         }
     }
 }

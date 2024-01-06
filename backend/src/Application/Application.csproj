@@ -17,6 +17,7 @@
       <PackageReference Include="HotChocolate" Version="13.8.1" />
       <PackageReference Include="HotChocolate.AspNetCore" Version="13.8.1" />
       <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.8.1" />
+      <PackageReference Include="HotChocolate.Data" Version="13.8.1" />
       <PackageReference Include="MediatR" Version="12.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0" />

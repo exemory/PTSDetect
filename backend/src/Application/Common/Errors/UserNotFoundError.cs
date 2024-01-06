@@ -2,6 +2,6 @@
 
 namespace Application.Common.Errors;
 
-public class UserNotFoundError(string userId) : Error($"User with id '{userId}' is not found")
+public class UserNotFoundError(string userId) : Error($"User with id {userId} is not found")
 {
 }

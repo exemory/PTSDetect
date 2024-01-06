@@ -7,6 +7,9 @@ using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Application.Features.Auth;
 using Application.Features.GeneralTest;
+using Application.Features.GeneralTest.ResultsAnalysis;
+using Application.Features.GeneralTest.ResultsAnalysis.Interfaces;
+using Application.Features.GeneralTest.ResultsAnalysis.Strategies;
 using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;
@@ -30,11 +33,18 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddJwtOptions(configuration, out var authJwtOptions, out _);
-        services.Configure<AssetFilePaths>(AssetFilePaths.SectionName,
-            configuration.GetRequiredSection(AssetFilePaths.SectionName));
+        services.Configure<AssetOptions>(configuration.GetRequiredSection(AssetOptions.SectionName));
 
         services.AddHttpContextAccessor();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddGeneralTestProcessor();
+
+        services.AppDbContext(configuration, out var appDbContext);
+        services.AddIdentity(configuration, appDbContext);
+        services.AddCors(configuration);
+        services.AddAuthentication(authJwtOptions);
+        services.AddAuthorization();
+        services.AddHotChocolate();
 
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IIdentityService, IdentityService>();
@@ -44,13 +54,7 @@ public static class DependencyInjection
         services.AddSingleton<ITokenService, JwtTokenService>();
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<ITestRepository, TestRepository>();
-
-        services.AppDbContext(configuration, out var appDbContext);
-        services.AddIdentity(configuration, appDbContext);
-        services.AddCors(configuration);
-        services.AddAuthentication(authJwtOptions);
-        services.AddAuthorization();
-        services.AddHotChocolate();
+        services.AddSingleton<IAdviceRepository, AdviceRepository>();
 
         return services;
     }
@@ -175,6 +179,19 @@ public static class DependencyInjection
         }
     }
 
+    private static IServiceCollection AddGeneralTestProcessor(this IServiceCollection services)
+    {
+        services.AddTransient<IPotentialProblemsDetection, PotentialCtsdDetection>();
+        services.AddTransient<IPotentialProblemsDetection, PotentialMtDetection>();
+        services.AddTransient<IPotentialProblemsDetection, PotentialPcsDetection>();
+        services.AddTransient<IPotentialProblemsDetection, PotentialPtsdDetection>();
+        services.AddTransient<IPotentialProblemsDetection, PotentialSsDetection>();
+
+        services.AddTransient<IGeneralTestAnswersProcessor, GeneralTestAnswersProcessor>();
+
+        return services;
+    }
+
     private static IServiceCollection AppDbContext(this IServiceCollection services, IConfiguration configuration,
         out AppDbContext appDbContext)
     {
@@ -209,16 +226,22 @@ public static class DependencyInjection
     {
         services.AddGraphQLServer()
             .AddAuthorization()
-            .AddQueryType<Query>(x => x.Name(GraphQlTypes.Query))
+            .AddQueryType(x => x.Name(GraphQlTypes.Query))
             .AddTypeExtension<GeneralTestQuestionsQuery>()
+            .AddTypeExtension<GeneralTestResultsQuery>()
+            .AddTypeExtension<GeneralTestResultQuery>()
             .AddMutationType(x => x.Name(GraphQlTypes.Mutation))
             .AddTypeExtension<RegisterUserMutation>()
             .AddTypeExtension<LoginMutation>()
             .AddTypeExtension<RefreshTokenMutation>()
+            .AddTypeExtension<SubmitGeneralTestAnswersMutation>()
             .AddMutationConventions()
             .AddType<Void>()
             .AddType<RegistrationError>()
-            .AddType<PropertyValidationError>();
+            .AddType<PropertyValidationError>()
+            .AddFiltering()
+            .AddSorting()
+            .AddProjections();
 
         return services;
     }

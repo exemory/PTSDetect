@@ -14,12 +14,7 @@ public class GeneralTestQuestionsInputValidator : AbstractValidator<GeneralTestQ
     {
         RuleFor(x => x.LanguageCode)
             .NotEmpty()
-            .Must(x => LanguageCodes.Set.Contains(x))
-            .WithMessage(x =>
-            {
-                var availableLanguageCodes = string.Join(", ", LanguageCodes.Set);
-                return $"{{PropertyName}} must contain language code. Available codes: {availableLanguageCodes}";
-            });
+            .MustBeLanguageCode(LanguageCodes.Set);
     }
 }
 
@@ -36,7 +31,7 @@ public class GeneralTestQuestionsQuery
 
         if (validationResult.IsFailure)
         {
-            return new GeneralTestQuestionsPayload(null, validationResult.Errors.Select(x => x.Message));
+            return new GeneralTestQuestionsPayload(null!, validationResult.Errors.Select(x => x.Message));
         }
 
         var questions = await testRepository
@@ -46,4 +41,6 @@ public class GeneralTestQuestionsQuery
     }
 }
 
-public record GeneralTestQuestionsPayload(IQueryable<Question>? Questions, IEnumerable<string>? Errors);
+public record GeneralTestQuestionsPayload(
+    [property: UsePaging] IQueryable<Question>? Questions,
+    IEnumerable<string>? Errors);

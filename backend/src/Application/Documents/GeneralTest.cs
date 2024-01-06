@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Application.Common.Constants;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Models;
 
@@ -7,7 +8,7 @@ namespace Application.Documents;
 public class GeneralTest : IDocument<string>
 {
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+    public string Id { get; set; } = GeneralTestIdentifiers.TestId;
 
     public int Version { get; set; } = 1;
     public IList<string> AvailableTranslations { get; set; } = [];
