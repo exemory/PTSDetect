@@ -31,7 +31,8 @@ public class GeneralTestQuestionsQuery
 
         if (validationResult.IsFailure)
         {
-            return new GeneralTestQuestionsPayload(null!, validationResult.Errors.Select(x => x.Message));
+            return new GeneralTestQuestionsPayload(null,
+                validationResult.UnionErrors<IGeneralTestQuestionsErrorUnion>());
         }
 
         var questions = await testRepository
@@ -41,6 +42,9 @@ public class GeneralTestQuestionsQuery
     }
 }
 
+[UnionType("GeneralTestQuestionsErrorUnion")]
+public interface IGeneralTestQuestionsErrorUnion;
+
 public record GeneralTestQuestionsPayload(
     [property: UsePaging] IQueryable<Question>? Questions,
-    IEnumerable<string>? Errors);
+    IEnumerable<IGeneralTestQuestionsErrorUnion>? Errors);

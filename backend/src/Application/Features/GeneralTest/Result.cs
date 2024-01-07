@@ -1,4 +1,5 @@
 ﻿using Application.Common.Constants;
+using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Application.Common.Models;
@@ -37,7 +38,7 @@ public class GeneralTestResultQuery
         var validationResult = inputValidator.ValidateToResult(input);
         if (validationResult.IsFailure)
         {
-            return new GeneralTestResultPayload(null!, validationResult.Errors.Select(x => x.Message));
+            return new GeneralTestResultPayload(null, validationResult.UnionErrors<IGeneralTestResultErrorUnion>());
         }
 
         var testResultWithAdvice =
@@ -46,13 +47,16 @@ public class GeneralTestResultQuery
 
         if (testResultWithAdvice is null)
         {
-            return new GeneralTestResultPayload(null, [$"Test result with id {input.ResultId} is not found"]);
+            return new GeneralTestResultPayload(null, [new TestResultNotFoundError(input.ResultId)]);
         }
 
         return new GeneralTestResultPayload(testResultWithAdvice, null);
     }
 }
 
+[UnionType("GeneralTestResultError")]
+public interface IGeneralTestResultErrorUnion;
+
 public record GeneralTestResultPayload(
     GeneralTestResult? Result,
-    IEnumerable<string>? Errors);
+    IEnumerable<IGeneralTestResultErrorUnion>? Errors);

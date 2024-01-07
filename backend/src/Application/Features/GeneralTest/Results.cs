@@ -34,7 +34,7 @@ public class GeneralTestResultsQuery
         var validationResult = inputValidator.ValidateToResult(input);
         if (validationResult.IsFailure)
         {
-            return new GeneralTestResultsPayload(null!, validationResult.Errors.Select(x => x.Message));
+            return new GeneralTestResultsPayload(null, validationResult.UnionErrors<IGeneralTestResultsErrorUnion>());
         }
 
         var testResultsWithAdvice =
@@ -44,10 +44,13 @@ public class GeneralTestResultsQuery
     }
 }
 
+[UnionType("GeneralTestResultsError")]
+public interface IGeneralTestResultsErrorUnion;
+
 public record GeneralTestResultsPayload(
     [property: UsePaging]
     [property: UseProjection]
     [property: UseFiltering]
     [property: UseSorting]
     IQueryable<GeneralTestResult>? Results,
-    IEnumerable<string>? Errors);
+    IEnumerable<IGeneralTestResultsErrorUnion>? Errors);

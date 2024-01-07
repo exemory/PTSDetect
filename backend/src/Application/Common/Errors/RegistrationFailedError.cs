@@ -1,4 +1,4 @@
-﻿using Error = Application.Primitives.Error.Error;
+﻿using Error = Application.Primitives.Error;
 
 namespace Application.Common.Errors;
 

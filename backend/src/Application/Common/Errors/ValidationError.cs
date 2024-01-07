@@ -1,4 +1,5 @@
-﻿using Error = Application.Primitives.Error.Error;
+﻿using Application.Features.GeneralTest;
+using Error = Application.Primitives.Error;
 
 namespace Application.Common.Errors;
 
@@ -8,7 +9,10 @@ public record struct PropertyValidationError(
     string PropertyName,
     ICollection<KeyValuePair<string, string>> Placeholders);
 
-public class ValidationError : Error
+public class ValidationError : Error,
+    IGeneralTestResultsErrorUnion,
+    IGeneralTestResultErrorUnion,
+    IGeneralTestQuestionsErrorUnion
 {
     public int ErrorsCount { get; }
     public IList<PropertyValidationError> Errors { get; }

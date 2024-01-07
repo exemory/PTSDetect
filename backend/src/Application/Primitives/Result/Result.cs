@@ -2,8 +2,6 @@
 
 namespace Application.Primitives.Result;
 
-using Error = Application.Primitives.Error.Error;
-
 public enum ResultKind
 {
     Success,
