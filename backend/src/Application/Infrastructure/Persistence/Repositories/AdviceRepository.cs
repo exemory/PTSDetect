@@ -25,6 +25,7 @@ public class AdviceRepository(IAppDbContext context) : IAdviceRepository
     public async Task<bool> CheckAdviceExistence(CancellationToken cancellationToken)
     {
         var adviceCount = await context.Advice.CountDocumentsAsync(Builders<Advice>.Filter.Empty,
+            new CountOptions {Limit = 1},
             cancellationToken: cancellationToken);
 
         return adviceCount > 0;

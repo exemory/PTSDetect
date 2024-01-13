@@ -21,10 +21,10 @@ public static class DependencyInjection
         {
             throw new InvalidOperationException("Failed to obtain the MongoDB options from the configuration.");
         }
-        
+
         services.AddHealthChecks()
             .AddMongoDb(mongoDbOptions.ConnectionString);
-        
+
         return services;
     }
 }

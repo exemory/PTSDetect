@@ -3,6 +3,7 @@ using Application.Common.Interfaces.Repositories;
 using Application.Common.Models;
 using Application.Extensions;
 using FluentValidation;
+using HotChocolate.Authorization;
 
 namespace Application.Features.GeneralTest;
 
@@ -21,6 +22,7 @@ public class GeneralTestQuestionsInputValidator : AbstractValidator<GeneralTestQ
 [ExtendObjectType(GraphQlTypes.Query)]
 public class GeneralTestQuestionsQuery
 {
+    [Authorize]
     public async Task<GeneralTestQuestionsPayload> GeneralTestQuestions(
         [Service] IValidator<GeneralTestQuestionsInput> inputValidator,
         [Service] ITestRepository testRepository,

@@ -2,7 +2,10 @@
 using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence.Interfaces;
 using Application.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Configuration;
 
 namespace Application.Infrastructure.Persistence;
 
@@ -18,17 +21,19 @@ public class AppDbContext : IAppDbContext
 
     public IMongoCollection<Advice> Advice { get; set; }
 
-    public AppDbContext(IMongoDatabase appDatabase, AppDbCollectionNames collectionNames)
+    public AppDbContext(IOptions<MongoDbOptions> mongoOptions,
+        IOptions<AppDbCollectionNames> collectionNames,
+        ILoggerFactory loggerFactory)
     {
-        AppDb = appDatabase;
-        _collectionNames = collectionNames;
+        _collectionNames = collectionNames.Value;
 
+        var mongoSettings = MongoClientSettings.FromConnectionString(mongoOptions.Value.ConnectionString);
+        mongoSettings.LoggingSettings = new LoggingSettings(loggerFactory, int.MaxValue);
+
+        var mongoClient = new MongoClient(mongoSettings);
+
+        AppDb = mongoClient.GetDatabase(mongoOptions.Value.AppDatabaseName);
         Users = AppDb.GetCollection<ApplicationUser>(_collectionNames.Users);
         Advice = AppDb.GetCollection<Advice>(_collectionNames.Advice);
-    }
-
-    public AppDbContext(IMongoClient client, string appDatabaseName, AppDbCollectionNames collectionNames)
-        : this(client.GetDatabase(appDatabaseName), collectionNames)
-    {
     }
 }

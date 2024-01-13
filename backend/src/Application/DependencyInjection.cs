@@ -5,6 +5,7 @@ using Application.Common.Constants;
 using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
+using Application.Extensions;
 using Application.Features.Auth;
 using Application.Features.GeneralTest;
 using Application.Features.GeneralTest.ResultsAnalysis;
@@ -20,8 +21,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
-using MongoDbGenericRepository;
 using RefreshTokenRequirement = Application.AuthRequirements.RefreshTokenRequirement;
 using Void = Application.ScalarTypes.Void;
 
@@ -34,17 +33,12 @@ public static class DependencyInjection
     {
         services.AddJwtOptions(configuration, out var authJwtOptions, out _);
         services.Configure<AssetOptions>(configuration.GetRequiredSection(AssetOptions.SectionName));
+        services.Configure<MongoDbOptions>(configuration.GetRequiredSection(MongoDbOptions.SectionName));
+        services.Configure<AppDbCollectionNames>(configuration.GetRequiredSection(AppDbCollectionNames.SectionName));
 
         services.AddHttpContextAccessor();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddGeneralTestProcessor();
-
-        services.AppDbContext(configuration, out var appDbContext);
-        services.AddIdentity(configuration, appDbContext);
-        services.AddCors(configuration);
-        services.AddAuthentication(authJwtOptions);
-        services.AddAuthorization();
-        services.AddHotChocolate();
 
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IIdentityService, IdentityService>();
@@ -55,12 +49,18 @@ public static class DependencyInjection
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<ITestRepository, TestRepository>();
         services.AddSingleton<IAdviceRepository, AdviceRepository>();
+        services.AddSingleton<IAppDbContext, AppDbContext>();
+
+        services.AddIdentity(configuration);
+        services.AddCors(configuration);
+        services.AddAuthentication(authJwtOptions);
+        services.AddAuthorization();
+        services.AddHotChocolate();
 
         return services;
     }
 
-    private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration,
-        AppDbContext appDbContext)
+    private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
     {
         var identityOptions = configuration
             .GetRequiredSection(IdentityOptions.SectionName)
@@ -78,7 +78,7 @@ public static class DependencyInjection
                 config.Password.RequiredLength = identityOptions.RequiredPasswordLength;
             })
             .AddRoles<Role>()
-            .AddMongoDbStores<IMongoDbContext>(new MongoDbContext(appDbContext.AppDb));
+            .AddMongoDbStores();
 
         return services;
     }
@@ -188,36 +188,6 @@ public static class DependencyInjection
         services.AddTransient<IPotentialProblemsDetection, PotentialSsDetection>();
 
         services.AddTransient<IGeneralTestAnswersProcessor, GeneralTestAnswersProcessor>();
-
-        return services;
-    }
-
-    private static IServiceCollection AppDbContext(this IServiceCollection services, IConfiguration configuration,
-        out AppDbContext appDbContext)
-    {
-        var mongoDbOptions = configuration
-            .GetRequiredSection(MongoDbOptions.SectionName)
-            .Get<MongoDbOptions>();
-
-        if (mongoDbOptions is null)
-        {
-            throw new InvalidOperationException("Failed to obtain the MongoDB options from the configuration.");
-        }
-
-        var appDbCollectionNames = configuration
-            .GetRequiredSection(AppDbCollectionNames.SectionName)
-            .Get<AppDbCollectionNames>();
-
-        if (appDbCollectionNames is null)
-        {
-            throw new InvalidOperationException(
-                "Failed to obtain collections names of the application database from the configuration.");
-        }
-
-        var mongoClient = new MongoClient(mongoDbOptions.ConnectionString);
-        appDbContext = new AppDbContext(mongoClient, mongoDbOptions.AppDatabaseName, appDbCollectionNames);
-
-        services.AddSingleton<IAppDbContext>(appDbContext);
 
         return services;
     }
