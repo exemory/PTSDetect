@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Interfaces.Primitives;
+﻿namespace Application.Primitives;
 
 public interface IDocument<TKey> where TKey : IEquatable<TKey>
 {

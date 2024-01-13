@@ -2,8 +2,6 @@
 
 namespace Application.Primitives.Result;
 
-using Error = Application.Primitives.Error.Error;
-
 public sealed class Result<T> : Result
 {
     private readonly T? _value;

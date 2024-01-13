@@ -1,4 +1,4 @@
-﻿namespace Application.Primitives.Error;
+﻿namespace Application.Primitives;
 
 public abstract class Error(string message)
 {

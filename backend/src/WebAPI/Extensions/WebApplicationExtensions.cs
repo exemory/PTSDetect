@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.Common.Interfaces;
 using WebAPI.Infrastructure;
 
 namespace WebAPI.Extensions;
@@ -23,5 +24,12 @@ public static class WebApplicationExtensions
         }
 
         return app;
+    }
+
+    public static async Task InitializeDatabase(this IApplicationBuilder app)
+    {
+        await using var scope = app.ApplicationServices.CreateAsyncScope();
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();
+        await dbInitializer.InitializeDatabase(default);
     }
 }

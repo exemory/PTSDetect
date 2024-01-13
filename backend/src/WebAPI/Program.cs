@@ -1,4 +1,7 @@
 using Application;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using Serilog;
 using WebAPI;
 using WebAPI.Extensions;
@@ -15,6 +18,8 @@ try
         configuration.ReadFrom.Configuration(context.Configuration)
     );
 
+    BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+
     builder.Services.AddApplicationServices(builder.Configuration);
     builder.Services.AddWebApiServices(builder.Configuration);
 
@@ -26,6 +31,8 @@ try
     app.UseAuthorization();
 
     app.MapEndpoints();
+
+    await app.InitializeDatabase();
 
     app.Run();
 }

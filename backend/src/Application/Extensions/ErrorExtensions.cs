@@ -1,4 +1,4 @@
-﻿using Error = Application.Primitives.Error.Error;
+﻿using Error = Application.Primitives.Error;
 using Void = Application.ScalarTypes.Void;
 
 namespace Application.Extensions;
