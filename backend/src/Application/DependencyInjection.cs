@@ -200,6 +200,7 @@ public static class DependencyInjection
             .AddTypeExtension<GeneralTestQuestionsQuery>()
             .AddTypeExtension<GeneralTestResultsQuery>()
             .AddTypeExtension<GeneralTestResultQuery>()
+            .AddTypeExtension<IsEmailTakenQuery>()
             .AddMutationType(x => x.Name(GraphQlTypes.Mutation))
             .AddTypeExtension<RegisterUserMutation>()
             .AddTypeExtension<LoginMutation>()
