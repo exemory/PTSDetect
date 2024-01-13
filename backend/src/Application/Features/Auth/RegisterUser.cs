@@ -9,7 +9,6 @@ using Void = Application.ScalarTypes.Void;
 namespace Application.Features.Auth;
 
 public record RegisterUserInput(
-    string Username,
     string Email,
     string Password,
     string? Firstname,
@@ -22,9 +21,6 @@ public class RegisterUserInputValidator : AbstractValidator<RegisterUserInput>
 {
     public RegisterUserInputValidator()
     {
-        RuleFor(x => x.Username)
-            .NotEmpty()
-            .MaximumLength(20);
         RuleFor(x => x.Email)
             .NotNull()
             .EmailAddress();
