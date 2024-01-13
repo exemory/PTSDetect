@@ -1,3 +1,3 @@
 ﻿namespace Application.Common.Models;
 
-public record LoggedInUserInfo(string Id, string? Username, string? Email, ICollection<string> Roles);
+public record LoggedInUserInfo(string Id, string? Email, ICollection<string> Roles);

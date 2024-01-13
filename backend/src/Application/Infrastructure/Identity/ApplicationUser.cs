@@ -13,11 +13,8 @@ public sealed class ApplicationUser : MongoIdentityUser<ObjectId>, IDocument<Obj
     {
     }
 
-    public ApplicationUser(string userName, string email) : base(userName, email)
-    {
-    }
-
-    public ApplicationUser(string userName) : base(userName)
+    public ApplicationUser(string email)
+        : base(Guid.NewGuid().ToString(), email)
     {
     }
 

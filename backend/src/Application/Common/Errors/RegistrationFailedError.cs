@@ -10,7 +10,7 @@ public class RegistrationFailedError : Error
     public IList<RegistrationError> Errors { get; }
 
     private RegistrationFailedError(IList<RegistrationError> errors)
-        : base($"Registration failed, resulting in {errors.Count} errors")
+        : base($"Registration failed, resulting in {errors.Count} error{(errors.Count != 1 ? 's' : "")}")
     {
         ErrorsCount = errors.Count;
         Errors = errors;

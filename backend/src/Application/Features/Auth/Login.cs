@@ -8,14 +8,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.Auth;
 
-public record LoginInput(string Login, string Password);
+public record LoginInput(string Email, string Password);
 
 public class LoginInputValidator : AbstractValidator<LoginInput>
 {
     public LoginInputValidator()
     {
-        RuleFor(x => x.Login)
-            .NotEmpty();
+        RuleFor(x => x.Email)
+            .NotEmpty()
+            .EmailAddress();
         RuleFor(x => x.Password)
             .NotEmpty();
     }
@@ -42,7 +43,7 @@ public class LoginMutation
             return validationResult.Errors.ToMutationResult<Token>();
         }
 
-        var loginResult = await identityService.LoginByPasswordAsync(input.Login, input.Password, cancellationToken);
+        var loginResult = await identityService.LoginByPasswordAsync(input.Email, input.Password, cancellationToken);
         if (loginResult.IsFailure)
         {
             return loginResult.Errors.ToMutationResult<Token>();
