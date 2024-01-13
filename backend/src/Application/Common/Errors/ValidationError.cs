@@ -1,4 +1,5 @@
-﻿using Application.Features.GeneralTest;
+﻿using Application.Features.Auth;
+using Application.Features.GeneralTest;
 using Error = Application.Primitives.Error;
 
 namespace Application.Common.Errors;
@@ -12,7 +13,8 @@ public record struct PropertyValidationError(
 public class ValidationError : Error,
     IGeneralTestResultsErrorUnion,
     IGeneralTestResultErrorUnion,
-    IGeneralTestQuestionsErrorUnion
+    IGeneralTestQuestionsErrorUnion,
+    IIsEmailTakenErrorUnion
 {
     public int ErrorsCount { get; }
     public IList<PropertyValidationError> Errors { get; }

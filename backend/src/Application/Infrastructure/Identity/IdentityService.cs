@@ -80,6 +80,11 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         return Result.Result.Success(await GetUserRolesAsync(user));
     }
 
+    public async Task<Result.Result<bool>> IsEmailTaken(string email, CancellationToken cancellationToken)
+    {
+        return await userManager.FindByEmailAsync(email) is not null;
+    }
+
     private Task<IList<string>> GetUserRolesAsync(ApplicationUser user)
     {
         return userManager.GetRolesAsync(user);

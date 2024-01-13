@@ -14,4 +14,7 @@ public interface IIdentityService
 
     public Task<Result.Result<IList<string>>> GetUserRolesAsync(string userId,
         CancellationToken cancellationToken);
+
+    public Task<Result.Result<bool>> IsEmailTaken(string email,
+        CancellationToken cancellationToken);
 }
