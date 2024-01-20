@@ -11,19 +11,18 @@ export interface SignUpSlice {
       password: string;
       repeatPassword: string;
     };
-    setAccount: (account: { email: string; password: string }) => void;
+    setAccount: (account: { email: string; password: string; repeatPassword: string }) => void;
     personalDetails: {
-      username: string;
       firstName: string;
       lastName: string;
-    };
-    setPersonalDetails: (personalDetails: { username: string; firstName: string; lastName: string }) => void;
-    additionalInfo: {
       birthdate: string;
+    };
+    setPersonalDetails: (personalDetails: { firstName: string; lastName: string; birthdate: string }) => void;
+    additionalInfo: {
       gender: Sex;
       isMarried: boolean;
     };
-    setAdditionalInfo: (additionalInfo: { birthdate: string; gender: string; isMarried: boolean }) => void;
+    setAdditionalInfo: (additionalInfo: { gender: Sex; isMarried: boolean }) => void;
     reset: () => void;
   };
 }
@@ -47,9 +46,9 @@ export const createSignUpSlice: ImmerStateCreator<SignUpSlice> = (set) => {
           state.signUp.account = account;
         }),
       personalDetails: {
-        username: '',
         firstName: '',
         lastName: '',
+        birthdate: '',
       },
       setPersonalDetails: (personalDetails) => {
         set((state) => {
@@ -57,7 +56,6 @@ export const createSignUpSlice: ImmerStateCreator<SignUpSlice> = (set) => {
         });
       },
       additionalInfo: {
-        birthdate: '',
         gender: Sex.Male,
         isMarried: false,
       },
@@ -70,8 +68,8 @@ export const createSignUpSlice: ImmerStateCreator<SignUpSlice> = (set) => {
         set((state) => {
           state.signUp.activeStep = 0;
           state.signUp.account = { email: '', password: '', repeatPassword: '' };
-          state.signUp.personalDetails = { username: '', firstName: '', lastName: '' };
-          state.signUp.additionalInfo = { birthdate: '', gender: Sex.Male, isMarried: false };
+          state.signUp.personalDetails = { birthdate: '', firstName: '', lastName: '' };
+          state.signUp.additionalInfo = { gender: Sex.Male, isMarried: false };
         });
       },
     },

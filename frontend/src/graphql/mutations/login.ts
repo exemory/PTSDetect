@@ -1,8 +1,8 @@
 import { gql } from '@/__generated__/gql';
 
 export const LOGIN = gql(/* GraphQL */ `
-  mutation Login($login: String!, $password: String!) {
-    login(input: { login: $login, password: $password }) {
+  mutation Login($input: LoginInput!) {
+    login(input: $input) {
       token {
         value
         expirationTime

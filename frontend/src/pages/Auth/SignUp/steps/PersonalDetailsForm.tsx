@@ -6,9 +6,9 @@ import { useStore } from '@/store/useStore';
 
 const formSchema = yup
   .object({
-    username: yup.string().required('Username is required'),
     firstName: yup.string().required('First name is required'),
     lastName: yup.string().required('Last name is required'),
+    birthdate: yup.string().required('Birthdate is required'),
   })
   .required();
 
@@ -31,12 +31,6 @@ export const PersonalDetailsForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-4">
-        <FormControl error={!!errors.username}>
-          <FormLabel>Username</FormLabel>
-          <Input type="text" {...register('username')} />
-          <FormHelperText>{errors.username?.message}</FormHelperText>
-        </FormControl>
-
         <FormControl error={!!errors.firstName}>
           <FormLabel>First name</FormLabel>
           <Input type="text" {...register('firstName')} />
@@ -47,6 +41,12 @@ export const PersonalDetailsForm = () => {
           <FormLabel>Last name</FormLabel>
           <Input type="text" {...register('lastName')} />
           <FormHelperText>{errors.lastName?.message}</FormHelperText>
+        </FormControl>
+
+        <FormControl error={!!errors.birthdate}>
+          <FormLabel>Birthdate</FormLabel>
+          <Input type="date" {...register('birthdate')} />
+          <FormHelperText>{errors.birthdate?.message}</FormHelperText>
         </FormControl>
 
         <div className="flex flex-col mt-6">

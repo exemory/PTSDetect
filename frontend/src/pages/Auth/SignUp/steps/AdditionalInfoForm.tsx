@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  Radio,
-  RadioGroup,
-  Sheet,
-} from '@mui/joy';
+import { Box, Button, Checkbox, FormControl, FormHelperText, FormLabel, Radio, RadioGroup, Sheet } from '@mui/joy';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -23,7 +12,6 @@ import { toast } from 'react-toastify';
 
 const formSchema = yup
   .object({
-    birthdate: yup.string().required('Birthdate is required'),
     gender: yup.mixed<Sex>().oneOf(Object.values(Sex)).required('Gender is required'),
     isMarried: yup.boolean().required('Married is required'),
   })
@@ -49,10 +37,9 @@ export const AdditionalInfoForm = () => {
     const formData = {
       email: account.email,
       password: account.password,
-      username: personalDetails.username,
       firstname: personalDetails.firstName,
       lastname: personalDetails.lastName,
-      birthdate: data.birthdate,
+      birthdate: personalDetails.birthdate,
       sex: data.gender,
       isMarried: data.isMarried,
     };
@@ -76,12 +63,6 @@ export const AdditionalInfoForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-4">
-        <FormControl error={!!errors.birthdate}>
-          <FormLabel>Birthdate</FormLabel>
-          <Input type="date" {...register('birthdate')} />
-          <FormHelperText>{errors.birthdate?.message}</FormHelperText>
-        </FormControl>
-
         <FormControl error={!!errors.gender}>
           <FormLabel>Gender</FormLabel>
           <RadioGroup defaultValue="MALE" {...register('gender')}>

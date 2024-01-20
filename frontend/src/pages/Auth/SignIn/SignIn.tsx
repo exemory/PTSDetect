@@ -27,7 +27,7 @@ const formSchema = yup
   })
   .required();
 
-const SignIn = () => {
+export const SignIn = () => {
   const [passwordInputType, setPasswordInputType] = useState('password');
   const {
     register,
@@ -44,10 +44,16 @@ const SignIn = () => {
     try {
       const { data } = await login({
         variables: {
-          login: formData.email,
-          password: formData.password,
+          input: {
+            email: formData.email,
+            password: formData.password,
+          },
         },
       });
+
+      if (data?.login.token?.value) {
+        localStorage.setItem('token', data.login.token.value);
+      }
 
       if (data?.login.errors && data.login.errors.length > 0) {
         console.log(data?.login.errors);
@@ -116,5 +122,3 @@ const SignIn = () => {
     </AuthLayout>
   );
 };
-
-export default SignIn;

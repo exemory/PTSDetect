@@ -3,10 +3,10 @@ import { routes } from '@/routes';
 import { Link, Step, StepButton, StepIndicator, Stepper, Typography, stepClasses } from '@mui/joy';
 import { NavLink } from 'react-router-dom';
 import { Check } from 'lucide-react';
-import { AdditionalInfoForm, AccountForm, PersonalDetailsForm } from '@/pages/Auth/SignUp/components';
+import { AdditionalInfoForm, AccountForm, PersonalDetailsForm } from '@/pages/Auth/SignUp/steps';
 import { useStore } from '@/store/useStore';
 
-const SignUp = () => {
+export const SignUp = () => {
   const { steps, activeStep, setActiveStep } = useStore((state) => state.signUp);
 
   const getActiveForm = () => {
@@ -64,5 +64,3 @@ const SignUp = () => {
     </AuthLayout>
   );
 };
-
-export default SignUp;
