@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces.Primitives;
+﻿using Application.Common.Models;
+using Application.Primitives;
 using AspNetCore.Identity.MongoDbCore.Models;
 using MongoDB.Bson;
 
@@ -12,18 +13,16 @@ public sealed class ApplicationUser : MongoIdentityUser<ObjectId>, IDocument<Obj
     {
     }
 
-    public ApplicationUser(string userName, string email) : base(userName, email)
-    {
-    }
-
-    public ApplicationUser(string userName) : base(userName)
+    public ApplicationUser(string email)
+        : base(Guid.NewGuid().ToString(), email)
     {
     }
 
     #endregion
 
     public UserInfo? UserInfo { get; set; }
-    public ICollection<Guid> RefreshTokens { get; set; } = new List<Guid>();
+    public IList<Guid> RefreshTokens { get; set; } = [];
+    public IList<GeneralTestResult> GeneralTestResults { get; set; } = [];
 }
 
 public sealed class UserInfo
@@ -39,4 +38,12 @@ public enum Sex : byte
 {
     Male = 0,
     Female = 1
+}
+
+public sealed class GeneralTestResult
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public required DateTimeOffset CompletionDate { get; set; }
+    public required IList<string> PotentialProblems { get; set; }
+    public required IList<AnsweredQuestion> Answers { get; set; }
 }

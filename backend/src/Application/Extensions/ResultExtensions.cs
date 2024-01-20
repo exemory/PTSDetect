@@ -10,4 +10,9 @@ public static class ResultExtensions
 
     public static MutationResult<T> ToMutationResult<T>(this Result.Result<T> result) =>
         result.IsSuccess ? new MutationResult<T>(result.Value) : new MutationResult<T>(result.Errors);
+
+    public static IEnumerable<TUnion> UnionErrors<TUnion>(this Result.Result result) =>
+        result.Errors
+            .Where(x => x is TUnion)
+            .Cast<TUnion>();
 }

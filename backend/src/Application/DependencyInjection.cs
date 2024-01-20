@@ -5,7 +5,12 @@ using Application.Common.Constants;
 using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
+using Application.Extensions;
 using Application.Features.Auth;
+using Application.Features.GeneralTest;
+using Application.Features.GeneralTest.ResultsAnalysis;
+using Application.Features.GeneralTest.ResultsAnalysis.Interfaces;
+using Application.Features.GeneralTest.ResultsAnalysis.Strategies;
 using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;
@@ -16,8 +21,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
-using MongoDbGenericRepository;
 using RefreshTokenRequirement = Application.AuthRequirements.RefreshTokenRequirement;
 using Void = Application.ScalarTypes.Void;
 
@@ -29,19 +32,26 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddJwtOptions(configuration, out var authJwtOptions, out _);
+        services.Configure<AssetOptions>(configuration.GetRequiredSection(AssetOptions.SectionName));
+        services.Configure<MongoDbOptions>(configuration.GetRequiredSection(MongoDbOptions.SectionName));
+        services.Configure<AppDbCollectionNames>(configuration.GetRequiredSection(AppDbCollectionNames.SectionName));
 
         services.AddHttpContextAccessor();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddGeneralTestProcessor();
 
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
 
         services.AddSingleton(TimeProvider.System);
         services.AddSingleton<ITokenService, JwtTokenService>();
         services.AddSingleton<IUserRepository, UserRepository>();
+        services.AddSingleton<ITestRepository, TestRepository>();
+        services.AddSingleton<IAdviceRepository, AdviceRepository>();
+        services.AddSingleton<IAppDbContext, AppDbContext>();
 
-        services.AppDbContext(configuration, out var appDbContext);
-        services.AddIdentity(configuration, appDbContext);
+        services.AddIdentity(configuration);
         services.AddCors(configuration);
         services.AddAuthentication(authJwtOptions);
         services.AddAuthorization();
@@ -50,8 +60,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration,
-        AppDbContext appDbContext)
+    private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
     {
         var identityOptions = configuration
             .GetRequiredSection(IdentityOptions.SectionName)
@@ -69,7 +78,7 @@ public static class DependencyInjection
                 config.Password.RequiredLength = identityOptions.RequiredPasswordLength;
             })
             .AddRoles<Role>()
-            .AddMongoDbStores<IMongoDbContext>(new MongoDbContext(appDbContext.AppDb));
+            .AddMongoDbStores();
 
         return services;
     }
@@ -170,32 +179,15 @@ public static class DependencyInjection
         }
     }
 
-    private static IServiceCollection AppDbContext(this IServiceCollection services, IConfiguration configuration,
-        out AppDbContext appDbContext)
+    private static IServiceCollection AddGeneralTestProcessor(this IServiceCollection services)
     {
-        var mongoDbOptions = configuration
-            .GetRequiredSection(MongoDbOptions.SectionName)
-            .Get<MongoDbOptions>();
+        services.AddTransient<IPotentialProblemsDetection, PotentialCtsdDetection>();
+        services.AddTransient<IPotentialProblemsDetection, PotentialMtDetection>();
+        services.AddTransient<IPotentialProblemsDetection, PotentialPcsDetection>();
+        services.AddTransient<IPotentialProblemsDetection, PotentialPtsdDetection>();
+        services.AddTransient<IPotentialProblemsDetection, PotentialSsDetection>();
 
-        if (mongoDbOptions is null)
-        {
-            throw new InvalidOperationException("Failed to obtain the MongoDB options from the configuration.");
-        }
-
-        var appDbCollectionNames = configuration
-            .GetRequiredSection(AppDbCollectionNames.SectionName)
-            .Get<AppDbCollectionNames>();
-
-        if (appDbCollectionNames is null)
-        {
-            throw new InvalidOperationException(
-                "Failed to obtain collections names of the application database from the configuration.");
-        }
-
-        var mongoClient = new MongoClient(mongoDbOptions.ConnectionString);
-        appDbContext = new AppDbContext(mongoClient, mongoDbOptions.AppDatabaseName, appDbCollectionNames);
-
-        services.AddSingleton<IAppDbContext>(appDbContext);
+        services.AddTransient<IGeneralTestAnswersProcessor, GeneralTestAnswersProcessor>();
 
         return services;
     }
@@ -204,15 +196,23 @@ public static class DependencyInjection
     {
         services.AddGraphQLServer()
             .AddAuthorization()
-            .AddQueryType<Query>()
+            .AddQueryType(x => x.Name(GraphQlTypes.Query))
+            .AddTypeExtension<GeneralTestQuestionsQuery>()
+            .AddTypeExtension<GeneralTestResultsQuery>()
+            .AddTypeExtension<GeneralTestResultQuery>()
+            .AddTypeExtension<IsEmailTakenQuery>()
             .AddMutationType(x => x.Name(GraphQlTypes.Mutation))
             .AddTypeExtension<RegisterUserMutation>()
             .AddTypeExtension<LoginMutation>()
             .AddTypeExtension<RefreshTokenMutation>()
+            .AddTypeExtension<SubmitGeneralTestAnswersMutation>()
             .AddMutationConventions()
             .AddType<Void>()
             .AddType<RegistrationError>()
-            .AddType<PropertyValidationError>();
+            .AddType<PropertyValidationError>()
+            .AddFiltering()
+            .AddSorting()
+            .AddProjections();
 
         return services;
     }

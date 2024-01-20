@@ -14,7 +14,7 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         RegisterUserInput data,
         CancellationToken cancellationToken)
     {
-        var user = new ApplicationUser(data.Username, data.Email)
+        var user = new ApplicationUser(data.Email)
         {
             UserInfo = new UserInfo
             {
@@ -41,8 +41,7 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         string password,
         CancellationToken cancellationToken)
     {
-        var user = await userManager.FindByNameAsync(login)
-                   ?? await userManager.FindByEmailAsync(login);
+        var user = await userManager.FindByEmailAsync(login);
 
         if (user is null)
         {
@@ -60,7 +59,6 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
 
         return new LoggedInUserInfo(
             user.Id.ToString()!,
-            user.UserName,
             user.Email,
             userRoles
         );
@@ -78,6 +76,11 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         }
 
         return Result.Result.Success(await GetUserRolesAsync(user));
+    }
+
+    public async Task<Result.Result<bool>> IsEmailTaken(string email, CancellationToken cancellationToken)
+    {
+        return await userManager.FindByEmailAsync(email) is not null;
     }
 
     private Task<IList<string>> GetUserRolesAsync(ApplicationUser user)

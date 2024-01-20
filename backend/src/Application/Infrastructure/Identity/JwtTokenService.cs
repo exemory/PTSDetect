@@ -57,7 +57,7 @@ public class JwtTokenService(
         }
 
         var refreshTokenId = Guid.Parse(jwtRefreshToken.Id);
-        var doesTokenExists = await userRepository.CheckTokenExistence(userId, refreshTokenId);
+        var doesTokenExists = await userRepository.CheckTokenExistence(userId, refreshTokenId, cancellationToken);
 
         if (!doesTokenExists)
         {
