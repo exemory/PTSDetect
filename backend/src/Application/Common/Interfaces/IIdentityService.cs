@@ -17,4 +17,7 @@ public interface IIdentityService
 
     public Task<Result.Result<bool>> IsEmailTakenAsync(string email,
         CancellationToken cancellationToken);
+
+    public Task<Result.Result<UserInfo>> GetUserInfoAsync(string userId,
+        CancellationToken cancellationToken);
 }

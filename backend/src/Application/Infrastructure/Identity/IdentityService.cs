@@ -83,6 +83,35 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         return await userManager.FindByEmailAsync(email) is not null;
     }
 
+    public async Task<Result.Result<Common.Models.UserInfo>> GetUserInfoAsync(string userId,
+        CancellationToken cancellationToken)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+
+        if (user is null)
+        {
+            return new UserNotFoundError(userId);
+        }
+
+        PersonalInfo? personalUserInfo = null;
+
+        if (user.UserInfo is not null)
+        {
+            personalUserInfo = new PersonalInfo(
+                user.UserInfo.FirstName,
+                user.UserInfo.LastName,
+                user.UserInfo.Birthdate,
+                user.UserInfo.Sex,
+                user.UserInfo.IsMarried);
+        }
+
+        return new Common.Models.UserInfo(
+            user.Id.ToString(),
+            user.Email!,
+            personalUserInfo
+        );
+    }
+
     private Task<IList<string>> GetUserRolesAsync(ApplicationUser user)
     {
         return userManager.GetRolesAsync(user);
