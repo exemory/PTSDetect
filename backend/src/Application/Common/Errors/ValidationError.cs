@@ -1,5 +1,5 @@
-﻿using Application.Features.Auth;
-using Application.Features.GeneralTest;
+﻿using Application.Features.GeneralTest;
+using Application.Features.Registration;
 using Error = Application.Primitives.Error;
 
 namespace Application.Common.Errors;

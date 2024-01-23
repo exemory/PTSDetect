@@ -6,7 +6,7 @@ using Application.Infrastructure.Identity;
 using FluentValidation;
 using Void = Application.ScalarTypes.Void;
 
-namespace Application.Features.Auth;
+namespace Application.Features.Registration;
 
 public record RegisterUserInput(
     string Email,
@@ -56,7 +56,7 @@ public class RegisterUserMutation
             return validationResult.ToMutationResult();
         }
 
-        var registrationResult = await identityService.RegisterUser(input, cancellationToken);
+        var registrationResult = await identityService.RegisterUserAsync(input, cancellationToken);
         return registrationResult.ToMutationResult();
     }
 }

@@ -3,7 +3,7 @@ using Application.Common.Interfaces;
 using Application.Extensions;
 using FluentValidation;
 
-namespace Application.Features.Auth;
+namespace Application.Features.Registration;
 
 public record IsEmailTakenInput(string Email);
 
@@ -35,7 +35,7 @@ public class IsEmailTakenQuery
             );
         }
 
-        var isEmailTakenResult = await identityService.IsEmailTaken(input.Email, cancellationToken);
+        var isEmailTakenResult = await identityService.IsEmailTakenAsync(input.Email, cancellationToken);
 
         return new IsEmailTakenPayload(
             isEmailTakenResult.Value,
