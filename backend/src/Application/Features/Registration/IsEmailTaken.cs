@@ -3,7 +3,7 @@ using Application.Common.Interfaces;
 using Application.Extensions;
 using FluentValidation;
 
-namespace Application.Features.Auth;
+namespace Application.Features.Registration;
 
 public record IsEmailTakenInput(string Email);
 

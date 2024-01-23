@@ -1,5 +1,5 @@
 ﻿using Application.Common.Models;
-using Application.Features.Auth;
+using Application.Features.Registration;
 using Result = Application.Primitives.Result;
 
 namespace Application.Common.Interfaces;

@@ -2,7 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Extensions;
-using Application.Features.Auth;
+using Application.Features.Registration;
 using Microsoft.AspNetCore.Identity;
 using Result = Application.Primitives.Result;
 

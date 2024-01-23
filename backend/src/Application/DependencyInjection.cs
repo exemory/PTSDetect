@@ -11,6 +11,7 @@ using Application.Features.GeneralTest;
 using Application.Features.GeneralTest.ResultsAnalysis;
 using Application.Features.GeneralTest.ResultsAnalysis.Interfaces;
 using Application.Features.GeneralTest.ResultsAnalysis.Strategies;
+using Application.Features.Registration;
 using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;

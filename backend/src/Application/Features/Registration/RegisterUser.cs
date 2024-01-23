@@ -6,7 +6,7 @@ using Application.Infrastructure.Identity;
 using FluentValidation;
 using Void = Application.ScalarTypes.Void;
 
-namespace Application.Features.Auth;
+namespace Application.Features.Registration;
 
 public record RegisterUserInput(
     string Email,
