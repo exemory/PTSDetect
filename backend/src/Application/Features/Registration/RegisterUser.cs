@@ -56,7 +56,7 @@ public class RegisterUserMutation
             return validationResult.ToMutationResult();
         }
 
-        var registrationResult = await identityService.RegisterUser(input, cancellationToken);
+        var registrationResult = await identityService.RegisterUserAsync(input, cancellationToken);
         return registrationResult.ToMutationResult();
     }
 }

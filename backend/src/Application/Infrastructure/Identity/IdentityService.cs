@@ -10,7 +10,7 @@ namespace Application.Infrastructure.Identity;
 
 public class IdentityService(UserManager<ApplicationUser> userManager) : IIdentityService
 {
-    public async Task<Result.Result> RegisterUser(
+    public async Task<Result.Result> RegisterUserAsync(
         RegisterUserInput data,
         CancellationToken cancellationToken)
     {
@@ -78,7 +78,7 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         return Result.Result.Success(await GetUserRolesAsync(user));
     }
 
-    public async Task<Result.Result<bool>> IsEmailTaken(string email, CancellationToken cancellationToken)
+    public async Task<Result.Result<bool>> IsEmailTakenAsync(string email, CancellationToken cancellationToken)
     {
         return await userManager.FindByEmailAsync(email) is not null;
     }

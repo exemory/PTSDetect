@@ -35,7 +35,7 @@ public class IsEmailTakenQuery
             );
         }
 
-        var isEmailTakenResult = await identityService.IsEmailTaken(input.Email, cancellationToken);
+        var isEmailTakenResult = await identityService.IsEmailTakenAsync(input.Email, cancellationToken);
 
         return new IsEmailTakenPayload(
             isEmailTakenResult.Value,

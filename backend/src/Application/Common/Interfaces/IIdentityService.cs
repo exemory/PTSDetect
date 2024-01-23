@@ -6,7 +6,7 @@ namespace Application.Common.Interfaces;
 
 public interface IIdentityService
 {
-    public Task<Result.Result> RegisterUser(RegisterUserInput data,
+    public Task<Result.Result> RegisterUserAsync(RegisterUserInput data,
         CancellationToken cancellationToken);
 
     public Task<Result.Result<LoggedInUserInfo>> LoginByPasswordAsync(string login, string password,
@@ -15,6 +15,6 @@ public interface IIdentityService
     public Task<Result.Result<IList<string>>> GetUserRolesAsync(string userId,
         CancellationToken cancellationToken);
 
-    public Task<Result.Result<bool>> IsEmailTaken(string email,
+    public Task<Result.Result<bool>> IsEmailTakenAsync(string email,
         CancellationToken cancellationToken);
 }
