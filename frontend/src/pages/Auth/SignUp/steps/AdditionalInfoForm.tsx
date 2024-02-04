@@ -66,7 +66,7 @@ export const AdditionalInfoForm = () => {
         <FormControl error={!!errors.gender}>
           <FormLabel>Gender</FormLabel>
           <RadioGroup defaultValue="MALE" {...register('gender')}>
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col  gap-6">
               <Radio value="MALE" label="Male" {...register('gender')} />
               <Radio value="FEMALE" label="Female" {...register('gender')} />
             </div>

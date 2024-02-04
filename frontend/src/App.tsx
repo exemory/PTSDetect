@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AuthRoutes, PrivateRoutes } from '@/components/Auth';
 import { SignUp, SignIn } from '@/pages/Auth';
 import { Home } from '@/pages/Home';
+import { GeneralTest } from '@/pages/GeneralTest';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       </Route>
       <Route element={<PrivateRoutes />}>
         <Route element={<Home />} path={routes.HOME} />
+        <Route element={<GeneralTest />} path={routes.PTSD_TEST} />
       </Route>
     </Routes>
   );
