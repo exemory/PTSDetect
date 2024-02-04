@@ -1,9 +1,13 @@
 import { gql } from '@/__generated__/gql';
 
 export const GET_GENERAL_TEST_QUESTIONS = gql(/* GraphQL */ `
-  query GeneralTestQuestions($input: GeneralTestQuestionsInput!) {
+  query GeneralTestQuestions($input: GeneralTestQuestionsInput!, $first: Int, $after: String) {
     generalTestQuestions(input: $input) {
-      questions {
+      questions(first: $first, after: $after) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           id
           answers {
