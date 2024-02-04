@@ -2,7 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Extensions;
-using Application.Features.Auth;
+using Application.Features.Registration;
 using Microsoft.AspNetCore.Identity;
 using Result = Application.Primitives.Result;
 
@@ -10,7 +10,7 @@ namespace Application.Infrastructure.Identity;
 
 public class IdentityService(UserManager<ApplicationUser> userManager) : IIdentityService
 {
-    public async Task<Result.Result> RegisterUser(
+    public async Task<Result.Result> RegisterUserAsync(
         RegisterUserInput data,
         CancellationToken cancellationToken)
     {
@@ -78,9 +78,38 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         return Result.Result.Success(await GetUserRolesAsync(user));
     }
 
-    public async Task<Result.Result<bool>> IsEmailTaken(string email, CancellationToken cancellationToken)
+    public async Task<Result.Result<bool>> IsEmailTakenAsync(string email, CancellationToken cancellationToken)
     {
         return await userManager.FindByEmailAsync(email) is not null;
+    }
+
+    public async Task<Result.Result<Common.Models.UserInfo>> GetUserInfoAsync(string userId,
+        CancellationToken cancellationToken)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+
+        if (user is null)
+        {
+            return new UserNotFoundError(userId);
+        }
+
+        PersonalInfo? personalUserInfo = null;
+
+        if (user.UserInfo is not null)
+        {
+            personalUserInfo = new PersonalInfo(
+                user.UserInfo.FirstName,
+                user.UserInfo.LastName,
+                user.UserInfo.Birthdate,
+                user.UserInfo.Sex,
+                user.UserInfo.IsMarried);
+        }
+
+        return new Common.Models.UserInfo(
+            user.Id.ToString(),
+            user.Email!,
+            personalUserInfo
+        );
     }
 
     private Task<IList<string>> GetUserRolesAsync(ApplicationUser user)

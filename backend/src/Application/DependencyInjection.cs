@@ -11,6 +11,8 @@ using Application.Features.GeneralTest;
 using Application.Features.GeneralTest.ResultsAnalysis;
 using Application.Features.GeneralTest.ResultsAnalysis.Interfaces;
 using Application.Features.GeneralTest.ResultsAnalysis.Strategies;
+using Application.Features.Registration;
+using Application.Features.User;
 using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;
@@ -201,6 +203,7 @@ public static class DependencyInjection
             .AddTypeExtension<GeneralTestResultsQuery>()
             .AddTypeExtension<GeneralTestResultQuery>()
             .AddTypeExtension<IsEmailTakenQuery>()
+            .AddTypeExtension<UserInfoQuery>()
             .AddMutationType(x => x.Name(GraphQlTypes.Mutation))
             .AddTypeExtension<RegisterUserMutation>()
             .AddTypeExtension<LoginMutation>()
