@@ -1,7 +1,7 @@
 ﻿namespace Application.Common.Models;
 
-public record Advice
+public record AdviceList
 {
     public required string Problem { get; init; }
-    public required string Text { get; init; }
+    public required string[] Advices { get; init; }
 }

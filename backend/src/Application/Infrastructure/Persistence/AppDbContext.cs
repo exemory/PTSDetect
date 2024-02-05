@@ -19,7 +19,7 @@ public class AppDbContext : IAppDbContext
     IMongoCollection<T> IAppDbContext.Tests<T>() =>
         AppDb.GetCollection<T>(_collectionNames.Tests);
 
-    public IMongoCollection<Advice> Advice { get; set; }
+    public IMongoCollection<AdviceList> AdviceLists { get; set; }
 
     public AppDbContext(IOptions<MongoDbOptions> mongoOptions,
         IOptions<AppDbCollectionNames> collectionNames,
@@ -34,6 +34,6 @@ public class AppDbContext : IAppDbContext
 
         AppDb = mongoClient.GetDatabase(mongoOptions.Value.AppDatabaseName);
         Users = AppDb.GetCollection<ApplicationUser>(_collectionNames.Users);
-        Advice = AppDb.GetCollection<Advice>(_collectionNames.Advice);
+        AdviceLists = AppDb.GetCollection<AdviceList>(_collectionNames.AdviceLists);
     }
 }

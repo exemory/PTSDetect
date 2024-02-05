@@ -61,34 +61,34 @@ public class UserRepository(IAppDbContext context) : IUserRepository
     public Task<IQueryable<Common.Models.GeneralTestResult>> GetGeneralTestResults(string userId, string languageCode,
         CancellationToken cancellationToken)
     {
-        var testResultsWithAdvice = context.Users
+        var testResultsWithAdvices = context.Users
             .AsQueryable()
             .Where(x => x.Id == ObjectId.Parse(userId))
             .SelectMany(x => x.GeneralTestResults)
             .SelectMany(testResult => testResult.PotentialProblems,
                 (testResult, problem) => new {TestResult = testResult, Problem = problem})
-            .Join(context.Advice.AsQueryable(),
+            .Join(context.AdviceLists.AsQueryable(),
                 testResult => testResult.Problem,
-                pieceOfAdvice => pieceOfAdvice.Problem,
-                (testResult, pieceOfAdvice) => new {TestResult = testResult, PieceOfAdvice = pieceOfAdvice})
-            .GroupBy(testResultWithAdvice => testResultWithAdvice.TestResult.TestResult,
-                testResult => testResult.PieceOfAdvice)
+                adviceList => adviceList.Problem,
+                (testResult, adviceList) => new {TestResult = testResult, AdviceList = adviceList})
+            .GroupBy(testResultWithAdvices => testResultWithAdvices.TestResult.TestResult,
+                testResult => testResult.AdviceList)
             .Select(testResultGroup =>
                 new Common.Models.GeneralTestResult
                 {
                     Id = testResultGroup.Key.Id,
                     CompletionDate = testResultGroup.Key.CompletionDate,
                     PotentialProblems = testResultGroup.Key.PotentialProblems,
-                    Advice = testResultGroup.Select(advice =>
-                            new Advice
+                    AdviceLists = testResultGroup.Select(adviceList =>
+                            new AdviceList
                             {
-                                Problem = advice.Problem,
-                                Text = advice.Translations[languageCode].Text
+                                Problem = adviceList.Problem,
+                                Advices = adviceList.Translations[languageCode].Advices
                             })
                         .ToList()
                 });
 
-        return Task.FromResult(testResultsWithAdvice);
+        return Task.FromResult(testResultsWithAdvices);
     }
 
     public async Task<Common.Models.GeneralTestResult?> GetGeneralTestResult(Guid resultId, string userId,
