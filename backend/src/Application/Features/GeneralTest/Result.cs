@@ -41,16 +41,16 @@ public class GeneralTestResultQuery
             return new GeneralTestResultPayload(null, validationResult.UnionErrors<IGeneralTestResultErrorUnion>());
         }
 
-        var testResultWithAdvice =
+        var testResultWithAdvices =
             await userRepository.GetGeneralTestResult(input.ResultId, currentUser.Id, input.LanguageCode,
                 cancellationToken);
 
-        if (testResultWithAdvice is null)
+        if (testResultWithAdvices is null)
         {
             return new GeneralTestResultPayload(null, [new TestResultNotFoundError(input.ResultId)]);
         }
 
-        return new GeneralTestResultPayload(testResultWithAdvice, null);
+        return new GeneralTestResultPayload(testResultWithAdvices, null);
     }
 }
 

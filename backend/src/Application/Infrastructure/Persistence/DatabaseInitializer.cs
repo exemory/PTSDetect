@@ -12,7 +12,7 @@ public class DatabaseInitializer(
     IOptions<AssetOptions> assetOptions,
     ILogger<DatabaseInitializer> logger,
     ITestRepository testRepository,
-    IAdviceRepository adviceRepository) : IDatabaseInitializer
+    IAdviceListRepository adviceListRepository) : IDatabaseInitializer
 {
     private readonly AssetOptions _assetOptions = assetOptions.Value;
 
@@ -37,22 +37,27 @@ public class DatabaseInitializer(
             }
 
             await testRepository.SaveGeneralTest(generalTest, cancellationToken);
+
+            logger.LogInformation("General test has been saved during initialization");
         }
 
-        if (!await adviceRepository.CheckAdviceExistence(cancellationToken))
+        if (!await adviceListRepository.CheckAdviceListsExistence(cancellationToken))
         {
-            await using var fileStream = File.OpenRead(_assetOptions.AdviceFilePath);
+            await using var fileStream = File.OpenRead(_assetOptions.AdviceListsFilePath);
 
-            var advice = await JsonSerializer.DeserializeAsync<IEnumerable<Advice>>(fileStream, _jsonSerializerOptions,
+            var adviceLists = await JsonSerializer.DeserializeAsync<IEnumerable<AdviceList>>(fileStream,
+                _jsonSerializerOptions,
                 cancellationToken);
 
-            if (advice == null)
+            if (adviceLists == null)
             {
-                logger.LogError("Failed to deserialize advice");
-                throw new InvalidOperationException("Failed to deserialize advice.");
+                logger.LogError("Failed to deserialize advice lists");
+                throw new InvalidOperationException("Failed to deserialize advice lists.");
             }
 
-            await adviceRepository.SaveAdviceAsync(advice, cancellationToken);
+            await adviceListRepository.SaveAdviceListsAsync(adviceLists, cancellationToken);
+
+            logger.LogInformation("Advice lists have been saved during initialization");
         }
     }
 }

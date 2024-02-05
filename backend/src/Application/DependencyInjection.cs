@@ -50,7 +50,7 @@ public static class DependencyInjection
         services.AddSingleton<ITokenService, JwtTokenService>();
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<ITestRepository, TestRepository>();
-        services.AddSingleton<IAdviceRepository, AdviceRepository>();
+        services.AddSingleton<IAdviceListRepository, AdviceListRepository>();
         services.AddSingleton<IAppDbContext, AppDbContext>();
 
         services.AddIdentity(configuration);

@@ -10,5 +10,5 @@ public interface IAppDbContext
 
     public IMongoCollection<ApplicationUser> Users { get; }
     public IMongoCollection<T> Tests<T>();
-    public IMongoCollection<Advice> Advice { get; set; }
+    public IMongoCollection<AdviceList> AdviceLists { get; set; }
 }

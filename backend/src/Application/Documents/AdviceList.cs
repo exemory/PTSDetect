@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Application.Documents;
 
-public class Advice : IDocument<string>
+public class AdviceList : IDocument<string>
 {
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
@@ -13,11 +13,11 @@ public class Advice : IDocument<string>
     public required string Problem { get; set; }
     public IList<string> AvailableTranslations { get; set; } = [];
 
-    public IDictionary<string, AdviceTranslation> Translations { get; set; } =
-        new Dictionary<string, AdviceTranslation>();
+    public IDictionary<string, AdviceListTranslation> Translations { get; set; } =
+        new Dictionary<string, AdviceListTranslation>();
 }
 
-public class AdviceTranslation
+public class AdviceListTranslation
 {
-    public required string Text { get; set; }
+    public required string[] Advices { get; set; }
 }

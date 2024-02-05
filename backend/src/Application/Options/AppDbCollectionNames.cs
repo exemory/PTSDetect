@@ -6,5 +6,5 @@ public class AppDbCollectionNames
 
     public required string Users { get; set; }
     public required string Tests { get; set; }
-    public required string Advice { get; set; }
+    public required string AdviceLists { get; set; }
 }

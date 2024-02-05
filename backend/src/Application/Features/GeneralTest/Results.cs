@@ -37,10 +37,10 @@ public class GeneralTestResultsQuery
             return new GeneralTestResultsPayload(null, validationResult.UnionErrors<IGeneralTestResultsErrorUnion>());
         }
 
-        var testResultsWithAdvice =
+        var testResultsWithAdvices =
             await userRepository.GetGeneralTestResults(currentUser.Id, input.LanguageCode, cancellationToken);
 
-        return new GeneralTestResultsPayload(testResultsWithAdvice, null);
+        return new GeneralTestResultsPayload(testResultsWithAdvices, null);
     }
 }
 
