@@ -3,7 +3,9 @@
     "id": "658c5b3183e2fbb93fd6a006",
     "problem": "SS",
     "availableTranslations": [
-      "uk"
+      "uk",
+      "en",
+      "ru"
     ],
     "translations": {
       "uk": {
@@ -17,6 +19,30 @@
           "Ця інформація не заміняє консультацію з професійним фахівцем. Терміново зверніться до медичних фахівців або служб кризової допомоги у Вашій місцевості, оскільки вони нададуть найкращу підтримку та консультацію для конкретної ситуації.",
           "Запам'ятайте, що звернення за допомогою — це прояв сили, а не слабкості. Пам'ятайте, що існують фахівці, які готові Вас підтримати та допомогти подолати будь-які труднощі."
         ]
+      },
+      "en": {
+        "advices": [
+          "Immediately seek the help of mental health professionals, such as a psychiatrist, psychotherapist or psychologist. They can provide the necessary assessment and treatment.",
+          "If you or someone else is having suicidal thoughts or is in immediate danger of death, seek help immediately from your local emergency medical service or doctor.",
+          "Stay in touch, do not be alone.",
+          "Eliminate all means that could be used to commit suicide, such as medications or self-drilling objects.",
+          "Reach out to family and close friends who can provide support and help in times of need.",
+          "Contact a crisis service that provides emergency assistance and counseling. Crisis hotline numbers are often available online or in a telephone directory.",
+          "This information is not a substitute for consulting a professional. Please contact medical professionals or crisis services in your area as soon as possible, as they will provide the best support and advice for your specific situation.",
+          "Remember that seeking help is a sign of strength, not weakness. Remember that there are professionals who are ready to support you and help you overcome any difficulties."
+        ]
+      },
+      "ru": {
+        "advices": [
+          "Срочно обратитесь за помощью профессионалов в сфере психического здоровья, таких как психиатр, психотерапевт или психолог. Они смогут предоставить необходимую оценку и лечение.",
+          "Если у Вас или у кого-то другого возникли мысли о самоубийстве или немедленная угроза жизни, немедленно обратитесь за помощью в местную службу экстренной медицинской помощи или к врачу.",
+          "Оставайтесь на связи, не оставайтесь наедине.",
+          "Устраните все средства, которые могут быть использованы для самоубийства, такие как лекарства или предметы для самореза.",
+          "Обратитесь к семье и близким друзьям, которые могут оказать поддержку и помощь в сложный момент.",
+          "Обратитесь в службу кризисной помощи, которые оказывают неотложную помощь и консультации. Номера горячих линий службы кризисной помощи часто доступны онлайн или в телефонном справочнике.",
+          "Эта информация не заменяет консультацию с профессиональным специалистом. Срочно обратитесь к медицинским специалистам или службам кризисной помощи в Вашей местности, поскольку они предоставят наилучшую поддержку и консультацию для конкретной ситуации.",
+          "Запомните, что обращение за помощью - это проявление силы, а не слабости. Помните, что существуют специалисты, которые готовы Вас поддержать и помочь преодолеть любые трудности."
+        ]
       }
     }
   },
@@ -24,7 +50,9 @@
     "id": "658c5bf6e79ece5b35f2fdaf",
     "problem": "MT",
     "availableTranslations": [
-      "uk"
+      "uk",
+      "en",
+      "ru"
     ],
     "translations": {
       "uk": {
@@ -45,6 +73,44 @@
           "Ця інформація не заміняє консультацію з професійним фахівцем. Терміново зверніться до медичних фахівців або служб кризової допомоги у Вашій місцевості, оскільки вони нададуть найкращу підтримку та консультацію для конкретної ситуації.",
           "Запам'ятайте, що звернення за допомогою — це прояв сили, а не слабкості. Пам'ятайте, що існують фахівці, які готові Вас підтримати та допомогти подолати будь-які труднощі."
         ]
+      },
+      "en": {
+        "advices": [
+          "Seek immediate help from a mental health professional, such as a psychiatrist, psychotherapist or psychologist. These professionals can provide you with the support and help you need. Psychotherapy can help you understand and work through your own experiences.",
+          "If you or anyone else is having suicidal thoughts or an immediate threat to life, get immediate help from your local emergency medical service or a doctor.",
+          "Practice relaxation strategies. Try different relaxation techniques such as meditation, deep breathing, yoga to reduce stress and anxiety.",
+          "Follow a healthy lifestyle and daily routine. Physical activity and a balanced diet can support your physical and mental health. Avoid alcohol or drug abuse.",
+          "Keep a journal. Keeping a journal in which you can express your thoughts and feelings can be a useful way to deal with emotions and feelings.",
+          "Develop stress management strategies. Learn stress management techniques such as planning, structuring tasks, and prioritizing to reduce feelings of disorganization and insecurity. Try to bring organization into your life by setting goals and plans. This can help you feel more in control and easier to manage stress.",
+          "Focus on self-relaxation. Learn to relax in stressful situations, for example, using deep breathing techniques and meditation.",
+          "Talk to your allies. If you are a member of military or civilian teams, talk to other people who may share your experiences. Sometimes it can be helpful to discuss shared experiences.",
+          "Remember that recovery usually takes time. Setting your own expectations and demands for recovery can be stressful. Be patient and allow yourself time to recover. Don't push yourself and allow yourself to rest and recover.",
+          "Pay attention to your mental and physical health and don't hesitate to seek help when needed. Each person's individual needs are different, so it's important to consider your own feelings and respond to them in a way that suits your situation.",
+          "Carefully monitor your mental state and emotions. If you feel that an event or situation has caused you anxiety, stress or negative emotions, do not ignore it.",
+          "Talk to loved ones. Share your thoughts and feelings with friends or family. Sometimes open discussion can help you feel less alone and more supported.",
+          "If you or anyone else is having suicidal thoughts or an immediate threat to life, get immediate help from your local emergency medical service or a doctor.",
+          "This information is not a substitute for professional advice. Please contact your local health care professionals or crisis services as a matter of urgency as they will provide the best support and advice for your particular situation.",
+          "Remember that asking for help is a sign of strength, not weakness. Remember that there are professionals who are ready to support you and help you overcome any difficulties."
+        ]
+      },
+      "ru": {
+        "advices": [
+          "Срочно обратитесь за помощью профессионалов в области психического здоровья, таких как психиатр, психотерапевт или психолог. Эти специалисты могут предоставить Вам необходимую поддержку и помощь. Психотерапия может помочь Вам понять и прорабатывать собственные переживания.",
+          "Если у Вас или у кого-то другого возникли мысли о самоубийстве или немедленной угрозе жизни, немедленно обратитесь за помощью в местную службу экстренной медицинской помощи или врача.",
+          "Упражняйте стратегии релаксации. Попробуйте различные техники релаксации, такие как медитация, глубокое дыхание, йога, чтобы уменьшить уровень стресса и тревожности.",
+          "Соблюдайте здоровый образ жизни и режим дня. Физическая активность и сбалансированная диета могут поддерживать Ваше физическое и психическое здоровье. Избегайте злоупотребления алкоголем или наркотиками.",
+          "Ведите дневник. Ведение дневника, в котором Вы можете выражать свои мысли и чувства, может быть полезным способом справиться с эмоциями и переживаниями.",
+          "Развивайте стратегии управления стрессом. Изучайте методы управления стрессом, такие как планирование, структурирование задач и установление приоритетов, чтобы уменьшить чувство беспорядков и незащищенности. Попробуйте внедрить организованность в свою жизнь, устанавливая цели и планы. Это может помочь вам почувствовать большую контролируемость и упростить управление стрессом.",
+          "Обратите внимание на саморасслабление. Учитесь расслабляться в ситуациях повышенного стресса, например, с помощью методов глубокого дыхания и медитации.",
+          "Общайтесь с соратниками. Если Вы являетесь членом военных или гражданских команд, общайтесь с другими людьми, которые могут разделять Ваши опыты. Иногда обсуждение общих переживаний может быть полезным.",
+          "Помните, что восстановление обычно длится время. Возложение собственных ожиданий на себя и требований к выздоровлению может быть стрессовым. Будьте терпеливы и позвольте себе время для восстановления. Не жмите на себя и позвольте себе отдыхать и восстанавливать силы.",
+          "Обратите внимание на свое психическое и физическое здоровье и не стесняйтесь искать помощь, когда это необходимо. Индивидуальные потребности каждого человека отличаются, поэтому важно учитывать собственные ощущения и реагировать на них с учетом своей ситуации.",
+          "Внимательно следите за своим психическим состоянием и эмоциями. Если Вы чувствуете, что событие или ситуация вызвала у вас тревогу, стресс или негативные эмоции, не игнорируйте это.",
+          "Разговаривайте с близкими. Поделитесь своими мыслями и чувствами с друзьями или семьей. Иногда открытое обсуждение может помочь Вам почувствовать себя менее одиноким и более поддержанным.",
+          "Если у Вас или у кого-то другого возникли мысли о самоубийстве или немедленной угрозе жизни, немедленно обратитесь за помощью в местную службу экстренной медицинской помощи или врача.",
+          "Эта информация не заменяет консультацию с профессиональным специалистом. Срочно обратитесь к медицинским специалистам или службам кризисной помощи в Вашей местности, поскольку они окажут лучшую поддержку и консультацию для конкретной ситуации.",
+          "Запомните, что обращение за помощью - это проявление силы, а не слабости. Помните, что существуют специалисты, которые готовы Вас поддержать и помочь преодолеть любые трудности." 
+        ]
       }
     }
   },
@@ -52,7 +118,9 @@
     "id": "658c5bfa93faece92fc4d815",
     "problem": "PCS",
     "availableTranslations": [
-      "uk"
+      "uk",
+      "en",
+      "ru"
     ],
     "translations": {
       "uk": {
@@ -70,6 +138,38 @@
           "Ця інформація не заміняє консультацію з професійним фахівцем. Терміново зверніться до медичних фахівців або служб кризової допомоги у Вашій місцевості, оскільки вони нададуть найкращу підтримку та консультацію для конкретної ситуації.",
           "Запам'ятайте, що звернення за допомогою — це прояв сили, а не слабкості. Пам'ятайте, що існують фахівці, які готові Вас підтримати та допомогти подолати будь-які труднощі."
         ]
+      },
+      "en": {
+        "advices": [
+          "See a medical specialist immediately. At the first sign of a head injury or possible AKS, contact a doctor or medical service immediately. A thorough examination and diagnosis will help determine the extent of the injury and establish a further treatment plan.",
+          "If you or anyone else is having suicidal thoughts or an immediate threat to life, get immediate help from your local emergency medical service or a doctor.",
+          "Strong psychological support. A potentially traumatic experience can cause stress and anxiety. Psychological support from a psychologist or psychotherapist can help you manage your emotions and fears.",
+          "Constantly watch for symptoms of AKS, such as headache, dizziness, vomiting, difficulty concentrating, etc. If symptoms increase or persist, notify medical personnel.",
+          "Watch your sleep and rest schedule. It is recommended to give your body enough time to recover and heal through regular sleep and rest. Follow your sleep schedule and avoid physical and mental overload.",
+          "Follow your doctor's advice. If your doctor has prescribed treatment, such as medication or physical therapy, follow these instructions and prescriptions. The treatment may help you recover faster.",
+          "A healthy and balanced diet can support overall health and recovery. Eat foods that are rich in vitamins and minerals that promote healing.",
+          "It is important to avoid alcohol and drugs as they can worsen the condition and delay the recovery process.",
+          "Family and friends can provide important support during trauma recovery. Discuss your feelings and experiences with loved ones.",
+          "In general, remember that timely diagnosis, treatment and support can help you successfully overcome AKS and regain health. Do not hesitate to contact medical professionals and seek support from psychologists or psychotherapists.",
+          "This information is not a substitute for professional advice. Please contact your local health care professionals or crisis services as a matter of urgency as they will provide the best support and advice for your particular situation.",
+          "Remember that asking for help is a sign of strength, not weakness. Remember that there are professionals who are ready to support you and help you overcome any difficulties."
+        ]
+      },
+      "ru": {
+        "advices": [
+          "Срочно обратитесь к медицинскому специалисту. При первом признаке травмы головы или возможного ПКС немедленно обращайтесь к врачу или медицинской службе. Тщательный осмотр и диагностика помогут определить степень травмы и установить дальнейший план лечения.",
+          "Если у Вас или у кого-то другого возникли мысли о самоубийстве или немедленной угрозе жизни, немедленно обратитесь за помощью в местную службу экстренной медицинской помощи или врача.",
+          "Посильная психологическая поддержка. Потенциально травматический опыт может вызвать стресс и тревожность. Психологическая поддержка психолога или психотерапевта может помочь Вам управлять эмоциями и страхами.",
+          "Постоянно наблюдайте за симптомами ПКС, такими как головная боль, головокружение, рвота, трудности с концентрацией и т.д. Если симптомы возрастают или не исчезают, сообщите об этом медицинскому персоналу.",
+          "Следите за режимом сна и отдыха. Рекомендуется уделить организму достаточно времени для восстановления и лечения путем регулярного сна и отдыха. Соблюдайте режим сна и избегайте физической и психической перегрузки.",
+          "Придерживайтесь врачебных рекомендаций. Если врач назначил лечение, такое как прием лекарств или физиотерапия, соблюдайте эти рекомендации и рецепты. Лечение может способствовать более быстрому восстановлению.",
+          "Здоровое и сбалансированное питание может поддерживать общее здоровье и восстановление организма. Потребляйте продукты, богатые витаминами и минералами, способствующими исцелению.",
+          "Важно избегать алкоголя и наркотиков, поскольку они могут ухудшить состояние и затянуть процесс выздоровления.",
+          "Семья и друзья могут оказать важную поддержку во время восстановления после травмы. Обсуждайте свои чувства и опыт с близкими.",
+          "В общем, помните, что своевременная диагностика, лечение и поддержка могут помочь Вам успешно преодолеть ПКС и восстановить здоровье. Не стесняйтесь обращаться к медицинским специалистам и искать поддержку психологов или психотерапевтов.",
+          "Эта информация не заменяет консультацию с профессиональным специалистом. Срочно обратитесь к медицинским специалистам или службам кризисной помощи в Вашей местности, поскольку они окажут лучшую поддержку и консультацию для конкретной ситуации.",
+          "Запомните, что обращение за помощью - это проявление силы, а не слабости. Помните, что существуют специалисты, которые готовы Вас поддержать и помочь преодолеть любые трудности."
+        ]
       }
     }
   },
@@ -77,7 +177,9 @@
     "id": "658c5bfdc2f0564f6c00ec77",
     "problem": "PTSD",
     "availableTranslations": [
-      "uk"
+      "uk",
+      "en",
+      "ru"
     ],
     "translations": {
       "uk": {
@@ -101,6 +203,50 @@
           "Ця інформація не заміняє консультацію з професійним фахівцем. Терміново зверніться до медичних фахівців або служб кризової допомоги у Вашій місцевості, оскільки вони нададуть найкращу підтримку та консультацію для конкретної ситуації.",
           "Запам'ятайте, що звернення за допомогою — це прояв сили, а не слабкості. Пам'ятайте, що існують фахівці, які готові Вас підтримати та допомогти подолати будь-які труднощі."
         ]
+      },
+      "en": {
+        "advices": [
+          "Seek immediate help from a mental health professional, such as a psychiatrist, psychotherapist or psychologist. These professionals can provide you with the support and help you need. Psychotherapy can help you understand and process your own experiences.",
+          "If you or anyone else is having suicidal thoughts or an immediate threat to life, get immediate help from your local emergency medical service or a doctor.",
+          "Avoid self-medication. Do not take any medication without consulting a doctor. Self-medication can be dangerous.",
+          "Take care of your physical health. Regular physical activity, a balanced diet and a normal sleep pattern can improve your mental state.",
+          "Take care of your emotional health. Practice relaxation and meditation, try yoga or deep breathing. These techniques can help reduce stress.",
+          "Talk about your feelings. Talk to a trusted person about your feelings and emotions. This can lighten your load and give you inner support.",
+          "Follow your doctor's recommendations. If your doctor has prescribed treatment or therapy for you, follow all of his recommendations and take the medicine as directed.",
+          "Avoid triggers. If you know that certain situations or events cause you stress, try to avoid or minimize them.",
+          "Join a support group. Joining a group with similar issues can help you feel supported and understood by other people who are going through similar difficulties.",
+          "Treating PTSD can take time. Be patient with yourself and don't lose hope.",
+          "Learn stress management skills. Learning relaxation techniques such as deep breathing or meditation can help reduce stress and improve well-being.",
+          "Regular physical activity. Physical activity can help reduce stress levels and improve mood. Even short daily walks can have a positive effect on mental health.",
+          "Creativity and hobbies. Indulging in creativity or a hobby such as painting, writing, music or gardening can be an effective way to de-stress and focus on the positive aspects of life.",
+          "Support from loved ones. Keep in touch with family and friends. Communicating with loved ones can be an important source of support and understanding.",
+          "Adherence to sleep patterns. Adequate sleep is important to restore physical and mental energy. Try to sleep at least 7-8 hours a night.",
+          "Avoiding alcohol and drugs. Avoid alcohol and drugs, as these can worsen stress symptoms and cause other health problems.",
+          "This information is not a substitute for professional advice. Please contact your local health care professionals or crisis services as a matter of urgency as they will provide the best support and advice for your particular situation.",
+          "Remember that asking for help is a sign of strength, not weakness. Remember that there are professionals who are ready to support you and help you overcome any difficulties."
+        ]
+      },
+      "ru": {
+        "advices": [
+          "Срочно обратитесь с помощью профессионалов в области психического здоровья, таких как психиатр, психотерапевт или психолог. Эти специалисты могут предоставить вам необходимую поддержку и помощь. Психотерапия может помочь вам понять и прорабатывать собственные переживания.",
+          "Если у Вас или у кого-то другого возникли мысли о самоубийстве или немедленной угрозе жизни, немедленно обратитесь за помощью в местную службу экстренной медицинской помощи или врача.",
+          "Избегайте самолечения. Не принимайте никаких препаратов без консультации врача. Самолечение может быть опасным.",
+          "Позаботьтесь о физическом здоровье. Регулярная физическая активность, сбалансированная диета и нормальный режим сна могут улучшить ваше психическое положение.",
+          "Позаботьтесь об эмоциональном здоровье. Займитесь релаксацией и медитацией, попробуйте йогу или глубокое дыхание. Эти техники могут помочь снизить уровень стресса.",
+          "Обсудите свои ощущения. Разговаривайте с доверенным лицом о Ваших ощущениях и эмоциях. Это может облегчить Вашу нагрузку и оказать Вам внутреннюю поддержку.",
+          "Соблюдайте рекомендации врача. Если врач назначил Вам лечение или терапию, соблюдайте все его рекомендации и принимайте лекарства по его указаниям.",
+          "Избегайте триггеров. Если Вы знаете, что определенные ситуации или события вызывают у вас стресс, старайтесь их избегать или минимизировать.",
+          "Присоединитесь к поддерживающей группе. Принятие участия в группе с подобными проблемами может помочь Вам почувствовать поддержку и понимание со стороны других людей, которые испытывают схожие трудности.",
+          "Лечение ПТСР может занять время. Будьте терпеливы с собой и не теряйте надежду.",
+          "Изучение стрессовых управленческих навыков. Обучение методам релаксации, таких как глубокое дыхание или медитация, может помочь снизить стресс и улучшить самочувствие.",
+          "Регулярная физическая активность. Физическая активность может помочь снизить уровень стресса и улучшить настроение. Даже короткие ежедневные прогулки могут оказать положительное влияние на психическое здоровье.",
+          "Творчество и хобби. Возгорание творчеством или увлечением, такими как рисование, письмо, музыка или садоводство, может быть эффективным способом отвлечься от стресса и сосредоточиться на положительных аспектах жизни.",
+          "Поддержка от близких. Сохраняйте связь с семьей и друзьями. Общение с близкими может стать важным источником поддержки и понимания.",
+          "Соблюдение режима сна. Достаточный сон важен для восстановления физической и психической энергии. Старайтесь спать по крайней мере 7-8 часов в ночь.",
+          "Избегание алкоголя и наркотиков. Избегайте употребления алкоголя и наркотиков, поскольку это может обострить симптомы стресса и привести к другим проблемам со здоровьем.",
+          "Эта информация не заменяет консультацию с профессиональным специалистом. Срочно обратитесь к медицинским специалистам или службам кризисной помощи в Вашей местности, поскольку они окажут лучшую поддержку и консультацию для конкретной ситуации.",
+          "Запомните, что обращение за помощью - это проявление силы, а не слабости. Помните, что существуют специалисты, которые готовы Вас поддержать и помочь преодолеть любые трудности."
+        ]
       }
     }
   },
@@ -108,7 +254,9 @@
     "id": "658c5c02b61d7de8eefcdb0d",
     "problem": "CTSD",
     "availableTranslations": [
-      "uk"
+      "uk",
+      "en",
+      "ru"
     ],
     "translations": {
       "uk": {
@@ -134,6 +282,54 @@
           "Ця інформація не заміняє консультацію з професійним фахівцем. Терміново зверніться до медичних фахівців або служб кризової допомоги у Вашій місцевості, оскільки вони нададуть найкращу підтримку та консультацію для конкретної ситуації.",
           "Запам'ятайте, що звернення за допомогою — це прояв сили, а не слабкості. Пам'ятайте, що існують фахівці, які готові Вас підтримати та допомогти подолати будь-які труднощі."
         ]
+      },
+      "en": {
+        "advices": [
+          "Seek immediate help from a mental health professional, such as a psychiatrist, psychotherapist or psychologist. These professionals can provide you with the support and help you need. Psychotherapy can help you understand and process your own experiences.",
+          "If you or anyone else is having suicidal thoughts or an immediate threat to life, get immediate help from your local emergency medical service or a doctor.",
+          "Support from family and loved ones. Talk to loved ones about your feelings and emotions. Understanding and support from those around you can make the recovery process much easier.",
+          "Avoiding toxic exposures. Avoid situations, people or environments that can cause additional stress and worsen your mental state.",
+          "Regular physical activity. Physical activity can help reduce stress levels and support mental health. Regular exercise or yoga can be beneficial.",
+          "Healthy nutrition and sleep. A healthy lifestyle, including a balanced diet and regular sleep, can improve your physical and mental well-being.",
+          "Meditation and relaxation exercises. Meditation and relaxation techniques can help reduce stress, improve sleep and focus.",
+          "Avoiding alcohol and drugs. Avoid alcohol and drugs, as these can worsen symptoms and lead to other health problems.",
+          "Remember that it's important to accept yourself as you are and try not to blame yourself for your feelings and reactions to stress.",
+          "Support from a group of peers or colleagues. Joining support groups for veterans, military or other survivors of similar traumatic situations can be very helpful. You can share your experiences and learn from others.",
+          "Planning your day and establishing a routine. Try to create a structured daily schedule that includes time for work, rest, physical activity, social connections and creative activities. A routine can help reduce feelings of helplessness and chaos.",
+          "Journaling. Writing down your feelings and thoughts in a journal can be a useful way to express your emotions and organize your thoughts. It can help you understand your own feelings and find ways to deal with them.",
+          "Learning coping strategies. Learning healthy coping strategies, such as deep breathing, meditation, and other techniques, can help manage stress.",
+          "Seek support from a community. Joining groups or communities that have shared experiences can provide you with mutual understanding and support.",
+          "Maintaining positive connections. Avoid isolation and try to maintain positive connections with family and friends. This can improve your emotional well-being and reduce feelings of loneliness.",
+          "Try to develop new skills or take up a hobby that interests you. Developing your own interests can give you meaning and satisfaction.",
+          "Physical health care. Regular checkups and a healthy lifestyle, including a balanced diet and physical activity, can improve your physical and mental health.",
+          "Help from organizations. Contact veteran or volunteer organizations and groups that provide support for veterans, military, and people experiencing war. These organizations can provide important resources and information.",
+          "This information is not a substitute for professional advice. Please contact your local health care professionals or crisis services as a matter of urgency as they will provide the best support and advice for your specific situation.",
+          "Remember that asking for help is a sign of strength, not weakness. Remember that there are professionals who are ready to support you and help you overcome any difficulties."
+        ]
+      },
+      "ru": {
+        "advices": [
+          "Срочно обратитесь с помощью профессионалов в области психического здоровья, таких как психиатр, психотерапевт или психолог. Эти специалисты могут предоставить вам необходимую поддержку и помощь. Психотерапия может помогать Вам понимать и прорабатывать собственные переживания.",
+          "Если у Вас или у кого-то другого возникли мысли о самоубийстве или немедленной угрозе жизни, немедленно обратитесь за помощью в местную службу экстренной медицинской помощи или врача.",
+          "Поддержка от семьи и близких. Разговаривайте с близкими людьми о своих чувствах и эмоциях. Понимание и поддержка окружающих могут значительно облегчить процесс выздоровления.",
+          "Избегание токсических воздействий. Избегайте ситуаций, людей или сред, которые могут вызвать дополнительный стресс и ухудшить Ваше психическое положение.",
+          "Регулярная физическая активность. Физическая активность может помочь снизить уровень стресса и поддержать психическое здоровье. Регулярные занятия спортом или йогой могут быть полезны.",
+          "Здоровое рациональное кормление и сон. Здоровый образ жизни, включая сбалансированное питание и регулярный сон, может улучшить Ваше физическое и психическое самочувствие.",
+          "Упражнения по медитации и релаксации. Техники медитации и релаксации могут помочь снизить стресс, улучшить сон и сосредоточение.",
+          "Избегание алкоголя и наркотиков. Избегайте употребления алкоголя и наркотиков, поскольку это может обострить симптомы и привести к другим проблемам со здоровьем.",
+          "Помните, что важно принимать себя таким, какой Вы есть, и стараться не винить себя за свои чувства и реакции на стресс.",
+          "Поддержка от группы ровесников или коллег. Участие в группах поддержки для ветеранов, военных или других лиц, переживших подобные травматические ситуации, может быть очень полезным. Вы сможете делиться своим опытом и учиться от других.",
+          "Планирование дня и установка режима. Попробуйте создать структурированное расписание дня, которое включает время для работы, отдыха, физической активности, социальных связей и творческих занятий. Режим может помочь уменьшить чувство беспомощности и хаоса.",
+          "Ведение дневника. Записывание своих чувств и мыслей в дневнике может быть полезным способом выражения эмоций и упорядочения мыслей. Это может помочь понять собственные чувства и найти способы их решения.",
+          "Обучение стратегиям копинга. Изучение здоровых стратегий копинга, таких как глубокое дыхание, медитация и другие техники, может помочь справиться со стрессом.",
+          "Поиск поддержки сообщества. Присоединение к группам или сообществам, которые совместно пережили трудности, может обеспечить вас взаимопониманием и поддержкой.",
+          "Сохранение положительных связей. Избегайте изоляции и старайтесь поддерживать положительные связи с семьей и друзьями. Это может улучшить Ваше эмоциональное положение и снизить чувство одиночества.",
+          "Попробуйте развивать новые навыки или заниматься интересующим Вас хобби. Развитие собственных интересов может придать Вам смысл и удовольствие.",
+          "Уход за физическим здоровьем. Регулярные медицинские осмотры и здоровый образ жизни, включая сбалансированное питание и физическую активность, могут улучшить Ваше физическое и психическое здоровье.",
+          "Помощь от организаций. Обратитесь к ветеранским или волонтерским организациям и группам, которые оказывают поддержку ветеранам, военным и людям, переживающим войну. Эти организации могут предоставить важные ресурсы и информацию.",
+          "Эта информация не заменяет консультацию с профессиональным специалистом. Срочно обратитесь к медицинским специалистам или службам кризисной помощи в Вашей местности, поскольку они окажут лучшую поддержку и консультацию для конкретной ситуации.",
+          "Запомните, что обращение за помощью - это проявление силы, а не слабости. Помните, что существуют специалисты, которые готовы Вас поддержать и помочь преодолеть любые трудности."
+        ]
       }
     }
   },
@@ -141,7 +337,9 @@
     "id": "658c5c0587c0879687773f8b",
     "problem": "PTS",
     "availableTranslations": [
-      "uk"
+      "uk",
+      "en",
+      "ru"
     ],
     "translations": {
       "uk": {
@@ -165,6 +363,50 @@
           "Ця інформація не заміняє консультацію з професійним фахівцем. Терміново зверніться до медичних фахівців або служб кризової допомоги у Вашій місцевості, оскільки вони нададуть найкращу підтримку та консультацію для конкретної ситуації.",
           "Запам'ятайте, що звернення за допомогою — це прояв сили, а не слабкості. Пам'ятайте, що існують фахівці, які готові Вас підтримати та допомогти подолати будь-які труднощі."
         ]
+      },
+      "en": {
+        "advices": [
+          "Seek help immediately or seek help from a mental health professional such as a psychiatrist, psychotherapist or psychologist. These professionals can provide you with the support and help you need. Psychotherapy can help you understand and process your own experiences.",
+          "If you or anyone else is having suicidal thoughts or an immediate threat to life, get immediate help from your local emergency medical service or a doctor.",
+          "Avoid self-medication. Do not take any medication without consulting a doctor. Self-medication can be dangerous.",
+          "Take care of your physical health. Regular physical activity, a balanced diet and a normal sleep pattern can improve your mental state.",
+          "Take care of your emotional health. Practice relaxation and meditation, try yoga or deep breathing. These techniques can help reduce stress.",
+          "Talk about your feelings. Talk to a trusted person about your feelings and emotions. This can lighten your load and give you inner support.",
+          "Follow the recommendations of specialists. If the doctor has prescribed you treatment or therapy, follow all his recommendations and take the medicine according to his instructions.",
+          "Avoid triggers. If you know that certain situations or events cause you stress, try to avoid or minimize them.",
+          "Join a support group. Joining a group with similar issues can help you feel supported and understood by other people who are going through similar difficulties.",
+          "Recovery can take time. Be patient with yourself and don't lose hope.",
+          "Learn stress management skills. Learning relaxation techniques such as deep breathing or meditation can help reduce stress and improve well-being.",
+          "Regular physical activity. Physical activity can help reduce stress levels and improve mood. Even short daily walks can have a positive effect on mental health.",
+          "Creativity and hobbies. Indulging in creativity or a hobby such as painting, writing, music or gardening can be an effective way to de-stress and focus on the positive aspects of life.",
+          "Support from loved ones. Keep in touch with family and friends. Communicating with loved ones can be an important source of support and understanding.",
+          "Adherence to sleep patterns. Adequate sleep is important to restore physical and mental energy. Try to sleep at least 7-8 hours a night.",
+          "Avoiding alcohol and drugs. Avoid alcohol and drugs, as these can worsen stress symptoms and cause other health problems.",
+          "This information is not a substitute for professional advice. Please contact your local health care professionals or crisis services as a matter of urgency as they will provide the best support and advice for your particular situation.",
+          "Remember that asking for help is a sign of strength, not weakness. Remember that there are professionals who are ready to support you and help you overcome any difficulties."
+        ]
+      },
+      "ru": {
+        "advices": [
+          "Срочно обратитесь в службу поддержки или за помощью к профессионалам в области психического здоровья, таких как психиатр, психотерапевт или психолог. Эти специалисты могут предоставить вам необходимую поддержку и помощь. Психотерапия может помочь вам понять и прорабатывать собственные переживания.",
+          "Если у Вас или у кого-то другого возникли мысли о самоубийстве или немедленной угрозе жизни, немедленно обратитесь за помощью в местную службу экстренной медицинской помощи или врача.",
+          "Избегайте самолечения. Не принимайте никаких препаратов без консультации врача. Самолечение может быть опасным.",
+          "Позаботьтесь о физическом здоровье. Регулярная физическая активность, сбалансированная диета и нормальный режим сна могут улучшить ваше психическое положение.",
+          "Позаботьтесь об эмоциональном здоровье. Займитесь релаксацией и медитацией, попробуйте йогу или глубокое дыхание. Эти техники могут помочь снизить уровень стресса.",
+          "Обсудите свои ощущения. Разговаривайте с доверенным лицом о ваших ощущениях и эмоциях. Это может облегчить Вашу нагрузку и оказать Вам внутреннюю поддержку.",
+          "Соблюдайте рекомендации специалистов. Если врач назначил Вам лечение или терапию, соблюдайте все его рекомендации и принимайте лекарства по его указаниям.",
+          "Избегайте триггеров. Если Вы знаете, что определенные ситуации или события вызывают у Вас стресс, старайтесь их избегать или минимизировать.",
+          "Присоединитесь к поддерживающей группе. Принятие участия в группе с подобными проблемами может помочь Вам почувствовать поддержку и понимание со стороны других людей, которые испытывают схожие трудности.",
+          "Восстановление может занять время. Будьте терпеливы с собой и не теряйте надежду.",
+          "Изучение стрессовых управленческих навыков. Обучение методам релаксации, таких как глубокое дыхание или медитация, может помочь снизить стресс и улучшить самочувствие.",
+          "Регулярная физическая активность. Физическая активность может помочь снизить уровень стресса и улучшить настроение. Даже короткие ежедневные прогулки могут оказать положительное влияние на психическое здоровье.",
+          "Творчество и хобби. Возгорание творчеством или увлечением, такими как рисование, письмо, музыка или садоводство, может быть эффективным способом отвлечься от стресса и сосредоточиться на положительных аспектах жизни.",
+          "Поддержка от близких. Сохраняйте связь с семьей и друзьями. Общение с близкими может стать важным источником поддержки и понимания.",
+          "Соблюдение режима сна. Достаточный сон важен для восстановления физической и психической энергии. Старайтесь спать по крайней мере 7-8 часов в ночь.",
+          "Избегание алкоголя и наркотиков. Избегайте употребления алкоголя и наркотиков, поскольку это может обострить симптомы стресса и привести к другим проблемам со здоровьем.",
+          "Эта информация не заменяет консультацию с профессиональным специалистом. Срочно обратитесь к медицинским специалистам или службам кризисной помощи в Вашей местности, поскольку они окажут лучшую поддержку и консультацию для конкретной ситуации.",
+          "Запомните, что обращение за помощью - это проявление силы, а не слабости. Помните, что существуют специалисты, которые готовы Вас поддержать и помочь преодолеть любые трудности."
+        ]
       }
     }
   },
@@ -172,7 +414,9 @@
     "id": "658c5c09ea2cbb14f1fcb3ec",
     "problem": "A",
     "availableTranslations": [
-      "uk"
+      "uk",
+      "en",
+      "ru"
     ],
     "translations": {
       "uk": {
@@ -197,6 +441,52 @@
           "Ця інформація не заміняє консультацію з професійним фахівцем. Терміново зверніться до медичних фахівців або служб кризової допомоги у Вашій місцевості, оскільки вони нададуть найкращу підтримку та консультацію для конкретної ситуації.",
           "Запам'ятайте, що звернення за допомогою — це прояв сили, а не слабкості. Пам'ятайте, що існують фахівці, які готові Вас підтримати та допомогти подолати будь-які труднощі."
         ]
+      },
+      "en": {
+        "advices": [
+          "Seeking help. If wartime anxiety becomes severe and interferes with your daily functioning, it is important to seek professional help. Do not hesitate to seek help from a psychotherapist, psychiatrist, or counselor. If access to professional help is limited, try reaching out to support groups or assistance from civil society organizations.",
+          "If you or anyone else is having suicidal thoughts or an immediate threat to life, get immediate help from your local emergency medical service or a doctor.",
+          "Learning relaxation strategies. Meditation, deep breathing, yoga, or other relaxation techniques can help reduce anxiety.",
+          "Physical activity. Regular physical activity can improve mood and contribute to a general sense of well-being. Walking in the fresh air can also be beneficial.",
+          "Restoration of sleep. Try to stick to a regular sleep schedule. If you have problems sleeping, consult a specialist for advice.",
+          "Limit time spent on mass media. Watching news about war events can increase anxiety. Try to limit the time you spend watching the news or social media.",
+          "Social support. Keep in touch with friends and family. Talk about your feelings and memories with those you trust.",
+          "Nutrition. Eat a healthy and balanced diet. Avoid excessive caffeine and alcohol.",
+          "Art and creativity. Spend time on hobbies and activities that interest you, which can help distract you from anxiety. Express yourself through drawing, writing, music, or other artistic forms of expression. This can help release emotions.",
+          "Try to better understand your anxious feelings. Writing down your thoughts and emotions in a journal can help.",
+          "Overcoming anxiety can take time. Try to be patient with yourself and seek support when needed.",
+          "Religious or spiritual support. If you believe in religious or spiritual values, turning to them can be a source of strength and hope.",
+          "Volunteer work and social activism. Helping others can provide a sense of meaning and satisfaction while reducing one's own anxiety.",
+          "Try to create a stable schedule that includes time for entertainment, rest and communication with relatives.",
+          "Try to be mindful of your thoughts and beliefs. Practice positive thinking and gratitude for the positive aspects of your life.",
+          "Talking to professionals. Seeing a psychologist, psychiatrist or counselor can provide individualized strategies for managing anxiety and provide support in difficult situations.",
+          "Community support. Find support in your community, professional circle, or peer groups who are also going through tough times.",
+          "This information is not a substitute for professional advice. Please contact your local health care professionals or crisis services as a matter of urgency as they will provide the best support and advice for your particular situation.",
+          "Remember that asking for help is a sign of strength, not weakness. Remember that there are professionals who are ready to support you and help you overcome any difficulties."
+        ]
+      },
+      "ru": {
+        "advices": [
+          "Поиск помощи. Если тревога во время войны становится тяжелой и препятствует вашему ежедневному функционированию, важно обратиться за помощью к профессиональному специалисту. Не стесняйтесь обратиться за помощью к психотерапевту, психиатру или консультанту. Если доступ к профессиональной помощи ограничен, попробуйте обратиться в группы поддержки или помощи от организаций гражданского общества.",
+          "Если у Вас или у кого-то другого возникли мысли о самоубийстве или немедленной угрозе жизни, немедленно обратитесь за помощью в местную службу экстренной медицинской помощи или врача.",
+          "Изучение стратегий релаксации. Медитация, глубокое дыхание, йога или другие техники релаксации могут помочь снизить уровень тревожности.",
+          "Физическая активность. Регулярная физическая активность может улучшить настроение и способствовать общему ощущению благосостояния. Прогулки на свежем воздухе также могут быть полезны.",
+          "Восстановление сна. Попытайтесь соблюдать регулярный режим сна. Если у Вас возникают проблемы со сном, обратитесь к специалисту за советом.",
+          "Ограничьте время на средства массовой информации. Наблюдение за новостями о событиях войны может повысить тревожность. Попробуйте ограничить время, которое Вы тратите на просмотр новостей или социальных сетей.",
+          "Социальная поддержка. Сохраняйте связь с друзьями и семьей. Разговаривайте о своих чувствах и воспоминаниях с теми, кому Вы доверяете.",
+          "Правильное питание. Соблюдайте здоровую и сбалансированную диету. Избегайте чрезмерного употребления кофеина и алкоголя.",
+          "Искусство и творчество. Тратите время на интересующие Вас хобби и занятия, что может помочь Вам отвлечься от тревоги. Употребляйте выразительность через рисование, письмо, музыку или другие художественные формы выразительности. Это может помочь высвободить эмоции.",
+          "Пытайтесь лучше понять свои тревожные чувства. Письменное выражение своих мыслей и эмоций в дневнике может помочь.",
+          "Устранение тревоги может занять время. Старайтесь быть терпеливыми с собой и искать поддержку, когда это необходимо.",
+          "Религиозная или духовная поддержка. Если Вы верите в религиозные или духовные ценности, обращение к ним может стать источником силы и надежды.",
+          "Волонтерская работа и социальная активность. Помощь другим может обеспечить чувство смысла и удовлетворения, уменьшая собственную тревогу.",
+          "Попробуйте создать стабильное расписание, которое включает время для развлечений, отдыха и общения с родными.",
+          "Пытайтесь быть внимательными к своим мыслям и убеждениям. Практикуйте позитивное мышление и благодарность за положительные аспекты вашей жизни.",
+          "Общение с профессионалами. Обращение к психологу, психиатру или консультанту может предоставить индивидуальные стратегии управления тревогой и обеспечить поддержку в сложных ситуациях.",
+          "Поддержка сообщества. Находите поддержку в сообществе, профессиональном кругу или группах ровесников, которые также переживают трудные времена.",
+          "Эта информация не заменяет консультацию с профессиональным специалистом. Срочно обратитесь к медицинским специалистам или службам кризисной помощи в Вашей местности, поскольку они окажут лучшую поддержку и консультацию для конкретной ситуации.",
+          "Запомните, что обращение за помощью - это проявление силы, а не слабости. Помните, что существуют специалисты, которые готовы Вас поддержать и помочь преодолеть любые трудности."
+        ]
       }
     }
   },
@@ -204,7 +494,9 @@
     "id": "65bfe5539fd6e2439b2548c9",
     "problem": "D",
     "availableTranslations": [
-      "uk"
+      "uk",
+      "en",
+      "ru"
     ],
     "translations": {
       "uk": {
@@ -229,6 +521,54 @@
           "Якщо у Вас або у когось іншого виникли думки про самогубство чи негайна загроза життю, негайно зверніться за допомогою до місцевої служби екстреної медичної допомоги чи лікаря.",
           "Ця інформація не заміняє консультацію з професійним фахівцем. Терміново зверніться до медичних фахівців або служб кризової допомоги у Вашій місцевості, оскільки вони нададуть найкращу підтримку та консультацію для конкретної ситуації.",
           "Запам'ятайте, що звернення за допомогою — це прояв сили, а не слабкості. Пам'ятайте, що існують фахівці, які готові Вас підтримати та допомогти подолати будь-які труднощі."
+        ]
+      },
+      "en": {
+        "advices": [
+          "If you feel that you cannot cope with stress or negative emotions on your own, consider contacting a psychologist or psychotherapist for support and advice.",
+          "Keep calm. Try to stay calm and focused even in stressful situations. Practice deep breathing and relaxation techniques.",
+          "Maintain social connections. Talk to family, friends or others who are experiencing similar discomfort. Support from others can be very helpful. Join groups or communities that provide support and understanding. A sense of community can reduce feelings of isolation.",
+          "Try to limit your access to news, especially if it causes fear or anxiety. Too much information can be overwhelming.",
+          "Use relaxation techniques. Massage, yoga, and meditation can help relax your body and mind. Learn different relaxation techniques, such as meditation, deep breathing, or yoga. They can help reduce anxiety and stress.",
+          "Maintain physical health. Regular physical activity can help reduce stress levels. Try incorporating light exercise or walking into your daily routine.",
+          "Work on your mental strength. Develop positive beliefs that can strengthen your inner state during difficult times.",
+          "Rest. Make sure you have enough time to rest and sleep. Try to maintain a healthy sleep pattern.",
+          "Seek support. If you are experiencing excessive discomfort, do not hesitate to seek psychological or psychiatric support. Professional help can be extremely helpful in managing difficult emotions.",
+          "Pay attention to your needs. Try to listen to your body and understand your emotions. Allow yourself to rest if necessary and follow a healthy lifestyle.",
+          "Seek professional help. If discomfort and anxiety interfere with your daily life, if you feel that you cannot cope on your own, seek professional psychological support. A professional psychotherapist can provide you with effective strategies for managing discomfort and stress.",
+          "Work on planning. Try to bring organization into your life by setting goals and plans. This can help you feel more in control and make managing stress easier.",
+          "If possible, arrange short breaks from the surrounding situation in a safe place where you can relax and find inner balance.",
+          "Keep your sense of humor. It's important to find moments of joy and humor even in the toughest of times. Laughter can be a powerful relaxant.",
+          "Keep hope. Try to focus on the positive moments in life and believe that better times will come.",
+          "Develop creativity. Engage in a hobby or activity that interests you. It can be drawing, writing, music or any other creative activity that helps you express your emotions.",
+          "Help others. Volunteering or helping others can give you a sense of purpose and control.",
+          "If you or anyone else is having suicidal thoughts or an immediate threat to life, get immediate help from your local emergency medical service or a doctor.",
+          "This information is not a substitute for professional advice. Please contact your local health care professionals or crisis services as a matter of urgency as they will provide the best support and advice for your particular situation.",
+          "Remember that asking for help is a sign of strength, not weakness. Remember that there are professionals who are ready to support you and help you overcome any difficulties."
+        ]
+      },
+      "ru": {
+        "advices": [
+          "Если Вы чувствуете, что не можете справиться со стрессом или негативными эмоциями самостоятельно, рассмотрите возможность обратиться к психологу или психотерапевту для поддержки и консультаций.",
+          "Сохраняйте спокойствие. Старайтесь оставаться спокойными и сосредоточенными даже в стрессовых ситуациях. Упражняйте глубокое дыхание и релаксационные техники.",
+          "Сохраняйте социальные связи. Разговаривайте с родственниками, друзьями или другими людьми, которые переживают подобный дискомфорт. Поддержка от других может быть очень полезна. Присоединяйтесь к группам или сообществам, оказывающим поддержку и понимание. Ощущение общности может уменьшить чувство изоляции.",
+          "Пытайтесь ограничить свой доступ к новостям, особенно если они вызывают страх или тревогу. Большое количество информации может быть перегрузочным.",
+          "Используйте средства релаксации. Массаж, йога и медитация могут способствовать расслаблению тела и ума. Изучите различные техники успокоения, такие как медитация, глубокое дыхание или йога. Они могут помочь снизить тревогу и стресс.",
+          "Поддерживайте физическое здоровье. Регулярная физическая активность может помочь снизить уровень стресса. Попробуйте включить легкие упражнения или прогулки в свою ежедневную рутину.",
+          "Работайте над своей ментальной силой. Развивайте положительные убеждения, которые могут укрепить Ваше внутреннее состояние во время трудностей.",
+          "Отдыхайте. Обеспечьте себе достаточно времени для отдыха и сна. Старайтесь вести здоровый режим сна.",
+          "Ищите поддержки. Если Вы испытываете чрезмерный дискомфорт, не стесняйтесь обратиться за психологической или психиатрической поддержкой. Профессиональная помощь может быть очень полезна в управлении тяжелыми эмоциями.",
+          "Обратите внимание на свои потребности. Старайтесь слушать свое тело и понимать свои эмоции. Позвольте себе отдохнуть, если это необходимо, и соблюдайте здоровый образ жизни.",
+          "Обратитесь за профессиональной помощью. Если дискомфорт и тревога препятствуют Вашей повседневной жизни, если Вы чувствуете, что не можете справиться самостоятельно, обратитесь за профессиональной психологической поддержкой. Профессиональный психотерапевт может предоставить Вам эффективные стратегии управления дискомфортом и стрессом.",
+          "Работайте над планированием. Попытайтесь внедрить организованность в свою жизнь, устанавливая цели и планы. Это может помочь Вам почувствовать большую контролируемость и упростить управление стрессом.",
+          "Если возможно, устраивайте короткие перерывы от окружающей ситуации в безопасном месте, где Вы можете расслабиться и обрести внутреннее равновесие.",
+          "Сохраняйте юмор. Важно найти моменты радости и юмора даже в самые трудные времена. Смех может быть мощным средством расслабления.",
+          "Сохраняйте надежду. Попробуйте фокусироваться на положительных моментах в жизни и вере в то, что лучшие времена наступят.",
+          "Развивайте творчество. Занимайтесь интересующей Вас хобби или деятельностью. Это может быть рисование, письмо, музыка или любая другая творческая деятельность, которая поможет Вам выразить свои эмоции.",
+          "Помогайте другим. Волонтерство или оказание помощи другим может дать Вам чувство назначения и контроля над ситуацией.",
+          "Если у Вас или у кого-то другого возникли мысли о самоубийстве или немедленной угрозе жизни, немедленно обратитесь за помощью в местную службу экстренной медицинской помощи или врача.",
+          "Эта информация не заменяет консультацию с профессиональным специалистом. Срочно обратитесь к медицинским специалистам или службам кризисной помощи в Вашей местности, поскольку они окажут лучшую поддержку и консультацию для конкретной ситуации.",
+          "Помните, что обращение за помощью - это проявление силы, а не слабости. Помните, что существуют специалисты, которые готовы Вас поддержать и помочь преодолеть любые трудности."
         ]
       }
     }
