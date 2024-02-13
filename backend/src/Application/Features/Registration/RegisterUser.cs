@@ -47,7 +47,7 @@ public class RegisterUserMutation
         [Service] IIdentityService identityService,
         [Service] IValidator<RegisterUserInput> inputValidator,
         RegisterUserInput input,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var validationResult = inputValidator.ValidateToResult(input);
 

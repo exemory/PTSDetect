@@ -11,7 +11,7 @@ namespace Application.Infrastructure.Persistence.Repositories;
 
 public class UserRepository(IAppDbContext context) : IUserRepository
 {
-    public async Task AddRefreshToken(string userId, Guid refreshTokenId, CancellationToken cancellationToken)
+    public async Task AddRefreshToken(string userId, Guid refreshTokenId, CancellationToken cancellationToken = default)
     {
         var filter = Builders<ApplicationUser>.Filter
             .Eq(x => x.Id, ObjectId.Parse(userId));
@@ -22,7 +22,8 @@ public class UserRepository(IAppDbContext context) : IUserRepository
         await context.Users.UpdateOneAsync(filter, updateDefinition, cancellationToken: cancellationToken);
     }
 
-    public async Task RemoveRefreshToken(string userId, Guid refreshTokenId, CancellationToken cancellationToken)
+    public async Task RemoveRefreshToken(string userId, Guid refreshTokenId,
+        CancellationToken cancellationToken = default)
     {
         var filter = Builders<ApplicationUser>.Filter
             .Eq(x => x.Id, ObjectId.Parse(userId));
@@ -33,7 +34,8 @@ public class UserRepository(IAppDbContext context) : IUserRepository
         await context.Users.UpdateOneAsync(filter, updateDefinition, cancellationToken: cancellationToken);
     }
 
-    public async Task<bool> CheckTokenExistence(string userId, Guid refreshTokenId, CancellationToken cancellationToken)
+    public async Task<bool> CheckTokenExistence(string userId, Guid refreshTokenId,
+        CancellationToken cancellationToken = default)
     {
         var filter = Builders<ApplicationUser>.Filter.And(
             Builders<ApplicationUser>.Filter
@@ -42,14 +44,14 @@ public class UserRepository(IAppDbContext context) : IUserRepository
                 .AnyIn(x => x.RefreshTokens, [refreshTokenId])
         );
 
-        var count = await context.Users.CountDocumentsAsync(filter, new CountOptions {Limit = 1},
+        var count = await context.Users.CountDocumentsAsync(filter, new CountOptions { Limit = 1 },
             cancellationToken: cancellationToken);
 
         return count > 0;
     }
 
     public async Task SaveGeneralTestResult(string userId, GeneralTestResult testResult,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var updateDefinition = Builders<ApplicationUser>.Update
             .Push(user => user.GeneralTestResults, testResult);
@@ -59,18 +61,18 @@ public class UserRepository(IAppDbContext context) : IUserRepository
     }
 
     public Task<IQueryable<Common.Models.GeneralTestResult>> GetGeneralTestResults(string userId, string languageCode,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var testResultsWithAdvices = context.Users
             .AsQueryable()
             .Where(x => x.Id == ObjectId.Parse(userId))
             .SelectMany(x => x.GeneralTestResults)
             .SelectMany(testResult => testResult.PotentialProblems,
-                (testResult, problem) => new {TestResult = testResult, Problem = problem})
+                (testResult, problem) => new { TestResult = testResult, Problem = problem })
             .Join(context.AdviceLists.AsQueryable(),
                 testResult => testResult.Problem,
                 adviceList => adviceList.Problem,
-                (testResult, adviceList) => new {TestResult = testResult, AdviceList = adviceList})
+                (testResult, adviceList) => new { TestResult = testResult, AdviceList = adviceList })
             .GroupBy(testResultWithAdvices => testResultWithAdvices.TestResult.TestResult,
                 testResult => testResult.AdviceList)
             .Select(testResultGroup =>
@@ -92,10 +94,10 @@ public class UserRepository(IAppDbContext context) : IUserRepository
     }
 
     public async Task<Common.Models.GeneralTestResult?> GetGeneralTestResult(Guid resultId, string userId,
-        string languageCode, CancellationToken cancellationToken)
+        string languageCode, CancellationToken cancellationToken = default)
     {
         var queryableResults =
-            (IMongoQueryable<Common.Models.GeneralTestResult>) await GetGeneralTestResults(userId, languageCode,
+            (IMongoQueryable<Common.Models.GeneralTestResult>)await GetGeneralTestResults(userId, languageCode,
                 cancellationToken);
 
         return await queryableResults

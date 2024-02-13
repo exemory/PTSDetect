@@ -29,7 +29,7 @@ public class GeneralTestResultsQuery
         [Service] IUserRepository userRepository,
         [Service] ICurrentUser currentUser,
         GeneralTestQuestionsInput input,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var validationResult = inputValidator.ValidateToResult(input);
         if (validationResult.IsFailure)

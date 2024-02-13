@@ -33,7 +33,7 @@ public class LoginMutation
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IValidator<LoginInput> inputValidator,
         LoginInput input,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var httpContext = httpContextAccessor.HttpContext!;
 

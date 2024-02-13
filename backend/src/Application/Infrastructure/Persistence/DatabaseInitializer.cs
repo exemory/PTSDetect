@@ -21,7 +21,7 @@ public class DatabaseInitializer(
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    public async Task InitializeDatabase(CancellationToken cancellationToken)
+    public async Task InitializeDatabase(CancellationToken cancellationToken = default)
     {
         if (!await testRepository.CheckGeneralTestExistence(cancellationToken))
         {

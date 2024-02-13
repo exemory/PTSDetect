@@ -24,7 +24,7 @@ public class IsEmailTakenQuery
         [Service] IIdentityService identityService,
         [Service] IValidator<IsEmailTakenInput> inputValidator,
         IsEmailTakenInput input,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var validationResult = inputValidator.ValidateToResult(input);
         if (validationResult.IsFailure)

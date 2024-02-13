@@ -30,6 +30,6 @@ public static class WebApplicationExtensions
     {
         await using var scope = app.ApplicationServices.CreateAsyncScope();
         var dbInitializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();
-        await dbInitializer.InitializeDatabase(default);
+        await dbInitializer.InitializeDatabase();
     }
 }

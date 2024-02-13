@@ -27,7 +27,7 @@ public class GeneralTestQuestionsQuery
         [Service] IValidator<GeneralTestQuestionsInput> inputValidator,
         [Service] ITestRepository testRepository,
         GeneralTestQuestionsInput input,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var validationResult = inputValidator.ValidateToResult(input);
 

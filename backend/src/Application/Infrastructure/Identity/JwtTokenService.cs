@@ -23,7 +23,7 @@ public class JwtTokenService(
     private readonly JwtOptions _refreshJwtOptions = options.Get(JwtOptions.Refresh);
 
     public async Task<Result.Result<TokenPair>> GenerateTokenPairAsync(string userId, IEnumerable<string> userRoles,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var accessToken = GenerateAccessToken(userId, userRoles);
 
@@ -36,7 +36,7 @@ public class JwtTokenService(
     }
 
     public async Task<Result.Result<TokenPair>> RefreshAccessTokenAsync(string refreshToken,
-        IEnumerable<string> userRoles, CancellationToken cancellationToken)
+        IEnumerable<string> userRoles, CancellationToken cancellationToken = default)
     {
         var readTokenResult = ReadRefreshToken(refreshToken);
         if (readTokenResult.IsFailure)
@@ -72,7 +72,7 @@ public class JwtTokenService(
         return newTokenPair;
     }
 
-    public Task<Result.Result<string>> GetTokenOwnerIdAsync(string refreshToken, CancellationToken cancellationToken)
+    public Task<Result.Result<string>> GetTokenOwnerIdAsync(string refreshToken, CancellationToken cancellationToken = default)
     {
         var readTokenResult = ReadRefreshToken(refreshToken);
         if (readTokenResult.IsFailure)

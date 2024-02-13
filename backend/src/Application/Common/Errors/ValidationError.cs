@@ -1,5 +1,6 @@
 ﻿using Application.Features.GeneralTest;
 using Application.Features.Registration;
+using Application.Features.ResetPassword;
 using Error = Application.Primitives.Error;
 
 namespace Application.Common.Errors;
@@ -14,7 +15,8 @@ public class ValidationError : Error,
     IGeneralTestResultsErrorUnion,
     IGeneralTestResultErrorUnion,
     IGeneralTestQuestionsErrorUnion,
-    IIsEmailTakenErrorUnion
+    IIsEmailTakenErrorUnion,
+    IResetPasswordTokenVerificationErrorUnion
 {
     public int ErrorsCount { get; }
     public IList<PropertyValidationError> Errors { get; }
