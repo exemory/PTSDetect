@@ -17,7 +17,7 @@ public class RefreshTokenMutation
         [Service] ITokenService tokenService,
         [Service] IIdentityService identityService,
         [Service] IHttpContextAccessor httpContextAccessor,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var httpContext = httpContextAccessor.HttpContext!;
 

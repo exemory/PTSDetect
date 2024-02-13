@@ -6,13 +6,10 @@ using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Application.Extensions;
-using Application.Features.Auth;
-using Application.Features.GeneralTest;
 using Application.Features.GeneralTest.ResultsAnalysis;
 using Application.Features.GeneralTest.ResultsAnalysis.Interfaces;
 using Application.Features.GeneralTest.ResultsAnalysis.Strategies;
-using Application.Features.Registration;
-using Application.Features.User;
+using Application.Infrastructure.Email;
 using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;
@@ -20,11 +17,17 @@ using Application.Infrastructure.Persistence.Repositories;
 using Application.Options;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using SendGrid.Extensions.DependencyInjection;
 using RefreshTokenRequirement = Application.AuthRequirements.RefreshTokenRequirement;
 using Void = Application.ScalarTypes.Void;
+using IdentityOptions = Application.Options.IdentityOptions;
 
 namespace Application;
 
@@ -33,14 +36,17 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services,
         IConfiguration configuration)
     {
+        ConfigureBsonGuidRepresentation();
+
         services.AddJwtOptions(configuration, out var authJwtOptions, out _);
         services.Configure<AssetOptions>(configuration.GetRequiredSection(AssetOptions.SectionName));
         services.Configure<MongoDbOptions>(configuration.GetRequiredSection(MongoDbOptions.SectionName));
         services.Configure<AppDbCollectionNames>(configuration.GetRequiredSection(AppDbCollectionNames.SectionName));
+        services.Configure<EmailOptions>(configuration.GetRequiredSection(EmailOptions.SectionName));
+        services.Configure<SendGridOptions>(configuration.GetRequiredSection(SendGridOptions.SectionName));
+        services.Configure<FrontendOptions>(configuration.GetRequiredSection(FrontendOptions.SectionName));
 
-        services.AddHttpContextAccessor();
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddGeneralTestProcessor();
+        services.AddTransient<IMailService, SendGridMailService>();
 
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IIdentityService, IdentityService>();
@@ -53,13 +59,25 @@ public static class DependencyInjection
         services.AddSingleton<IAdviceListRepository, AdviceListRepository>();
         services.AddSingleton<IAppDbContext, AppDbContext>();
 
+        services.AddHttpContextAccessor();
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddGeneralTestProcessor();
         services.AddIdentity(configuration);
         services.AddCors(configuration);
         services.AddAuthentication(authJwtOptions);
+        services.AddSendGrid(configuration);
         services.AddAuthorization();
         services.AddHotChocolate();
 
         return services;
+    }
+
+    private static void ConfigureBsonGuidRepresentation()
+    {
+#pragma warning disable CS0618 // Type or member is obsolete
+        BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
+#pragma warning restore CS0618 // Type or member is obsolete
+        BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
     }
 
     private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
@@ -80,7 +98,8 @@ public static class DependencyInjection
                 config.Password.RequiredLength = identityOptions.RequiredPasswordLength;
             })
             .AddRoles<Role>()
-            .AddMongoDbStores();
+            .AddMongoDbStores()
+            .AddDefaultTokenProviders();
 
         return services;
     }
@@ -196,19 +215,10 @@ public static class DependencyInjection
 
     private static IServiceCollection AddHotChocolate(this IServiceCollection services)
     {
-        services.AddGraphQLServer()
+        var gqlBuilder = services.AddGraphQLServer()
             .AddAuthorization()
             .AddQueryType(x => x.Name(GraphQlTypes.Query))
-            .AddTypeExtension<GeneralTestQuestionsQuery>()
-            .AddTypeExtension<GeneralTestResultsQuery>()
-            .AddTypeExtension<GeneralTestResultQuery>()
-            .AddTypeExtension<IsEmailTakenQuery>()
-            .AddTypeExtension<UserInfoQuery>()
             .AddMutationType(x => x.Name(GraphQlTypes.Mutation))
-            .AddTypeExtension<RegisterUserMutation>()
-            .AddTypeExtension<LoginMutation>()
-            .AddTypeExtension<RefreshTokenMutation>()
-            .AddTypeExtension<SubmitGeneralTestAnswersMutation>()
             .AddMutationConventions()
             .AddType<Void>()
             .AddType<RegistrationError>()
@@ -216,6 +226,28 @@ public static class DependencyInjection
             .AddFiltering()
             .AddSorting()
             .AddProjections();
+
+        Assembly.GetExecutingAssembly()
+            .GetTypes()
+            .Where(x => x.GetCustomAttribute<ExtendObjectTypeAttribute>() is not null)
+            .ToList()
+            .ForEach(x => gqlBuilder.AddTypeExtension(x));
+
+        return services;
+    }
+
+    private static IServiceCollection AddSendGrid(this IServiceCollection services, IConfiguration configuration)
+    {
+        var sendGridOptions = configuration
+            .GetRequiredSection(SendGridOptions.SectionName)
+            .Get<SendGridOptions>();
+
+        if (sendGridOptions is null)
+        {
+            throw new InvalidOperationException("Failed to obtain SendGrid options from configuration.");
+        }
+
+        services.AddSendGrid(x => { x.ApiKey = sendGridOptions.ApiKey; });
 
         return services;
     }

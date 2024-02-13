@@ -33,7 +33,7 @@ public class GeneralTestResultQuery
         [Service] IUserRepository userRepository,
         [Service] ICurrentUser currentUser,
         GeneralTestResultInput input,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var validationResult = inputValidator.ValidateToResult(input);
         if (validationResult.IsFailure)

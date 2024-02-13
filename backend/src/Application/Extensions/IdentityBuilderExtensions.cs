@@ -1,4 +1,5 @@
 ﻿using Application.Infrastructure.Identity;
+using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;
 using AspNetCore.Identity.MongoDbCore;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
@@ -17,7 +18,7 @@ public static class IdentityBuilderExtensions
         builder.Services.TryAddSingleton<IMongoDbContext>(x =>
         {
             var appDbContext = x.GetRequiredService<IAppDbContext>();
-            return new MongoDbContext(appDbContext.AppDb);
+            return new CustomMongoDbContext(appDbContext.AppDb);
         });
 
         builder.Services.TryAddSingleton<IMongoRepository>(x =>

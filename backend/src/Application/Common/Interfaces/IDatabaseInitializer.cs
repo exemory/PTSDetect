@@ -2,5 +2,5 @@
 
 public interface IDatabaseInitializer
 {
-    public Task InitializeDatabase(CancellationToken cancellationToken);
+    public Task InitializeDatabase(CancellationToken cancellationToken = default);
 }

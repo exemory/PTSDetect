@@ -8,7 +8,8 @@ namespace Application.Infrastructure.Persistence.Repositories;
 
 public class AdviceListRepository(IAppDbContext context) : IAdviceListRepository
 {
-    public Task<IQueryable<Common.Models.AdviceList>> GetAdviceLists(string languageCode, CancellationToken cancellationToken)
+    public Task<IQueryable<Common.Models.AdviceList>> GetAdviceLists(string languageCode,
+        CancellationToken cancellationToken = default)
     {
         var adviceLists = context.AdviceLists
             .AsQueryable()
@@ -19,19 +20,19 @@ public class AdviceListRepository(IAppDbContext context) : IAdviceListRepository
                     Advices = x.Translations[languageCode].Advices
                 });
 
-        return Task.FromResult((IQueryable<Common.Models.AdviceList>) adviceLists);
+        return Task.FromResult((IQueryable<Common.Models.AdviceList>)adviceLists);
     }
 
-    public async Task<bool> CheckAdviceListsExistence(CancellationToken cancellationToken)
+    public async Task<bool> CheckAdviceListsExistence(CancellationToken cancellationToken = default)
     {
         var adviceListsCount = await context.AdviceLists.CountDocumentsAsync(Builders<AdviceList>.Filter.Empty,
-            new CountOptions {Limit = 1},
+            new CountOptions { Limit = 1 },
             cancellationToken: cancellationToken);
 
         return adviceListsCount > 0;
     }
 
-    public Task SaveAdviceListsAsync(IEnumerable<AdviceList> adviceLists, CancellationToken cancellationToken)
+    public Task SaveAdviceListsAsync(IEnumerable<AdviceList> adviceLists, CancellationToken cancellationToken = default)
     {
         return context.AdviceLists.InsertManyAsync(adviceLists, cancellationToken: cancellationToken);
     }

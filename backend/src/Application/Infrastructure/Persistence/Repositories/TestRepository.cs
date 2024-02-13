@@ -11,20 +11,20 @@ namespace Application.Infrastructure.Persistence.Repositories;
 
 public class TestRepository(IAppDbContext context) : ITestRepository
 {
-    public async Task<bool> CheckGeneralTestExistence(CancellationToken cancellationToken)
+    public async Task<bool> CheckGeneralTestExistence(CancellationToken cancellationToken = default)
     {
         var filter = Builders<GeneralTest>.Filter
             .Eq(x => x.Id, GeneralTestIdentifiers.TestId);
 
         var count = await context
             .Tests<GeneralTest>()
-            .CountDocumentsAsync(filter, new CountOptions {Limit = 1},
+            .CountDocumentsAsync(filter, new CountOptions { Limit = 1 },
                 cancellationToken: cancellationToken);
 
         return count > 0;
     }
 
-    public Task<GeneralTest> GetGeneralTest(CancellationToken cancellationToken)
+    public Task<GeneralTest> GetGeneralTest(CancellationToken cancellationToken = default)
     {
         var filterDefinition = Builders<GeneralTest>.Filter
             .Eq(x => x.Id, GeneralTestIdentifiers.TestId);
@@ -36,7 +36,7 @@ public class TestRepository(IAppDbContext context) : ITestRepository
     }
 
     public async Task<IQueryable<Question>> GetGeneralTestQuestions(string languageCode,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         var test = await context
             .Tests<GeneralTest>()
@@ -61,7 +61,7 @@ public class TestRepository(IAppDbContext context) : ITestRepository
             });
     }
 
-    public Task SaveGeneralTest(GeneralTest test, CancellationToken cancellationToken)
+    public Task SaveGeneralTest(GeneralTest test, CancellationToken cancellationToken = default)
     {
         var filterDefinition = Builders<GeneralTest>.Filter
             .Eq(x => x.Id, GeneralTestIdentifiers.TestId);
@@ -69,6 +69,6 @@ public class TestRepository(IAppDbContext context) : ITestRepository
         return context
             .Tests<GeneralTest>()
             .ReplaceOneAsync(filterDefinition, test, cancellationToken: cancellationToken,
-                options: new ReplaceOptions {IsUpsert = true});
+                options: new ReplaceOptions { IsUpsert = true });
     }
 }
