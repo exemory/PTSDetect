@@ -2,20 +2,17 @@
 using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Extensions;
-using Application.Infrastructure.Identity;
+using Application.Options;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Void = Application.ScalarTypes.Void;
 
 namespace Application.Features.Registration;
 
 public record RegisterUserInput(
     string Email,
-    string Password,
-    string? Firstname,
-    string? Lastname,
-    DateOnly Birthdate,
-    Sex Sex,
-    bool IsMarried);
+    string Password);
 
 public class RegisterUserInputValidator : AbstractValidator<RegisterUserInput>
 {
@@ -26,15 +23,6 @@ public class RegisterUserInputValidator : AbstractValidator<RegisterUserInput>
             .EmailAddress();
         RuleFor(x => x.Password)
             .NotEmpty();
-        RuleFor(x => x.Firstname)
-            .Length(1, 100);
-        RuleFor(x => x.Lastname)
-            .Length(1, 100);
-        RuleFor(x => x.Birthdate)
-            .NotEmpty()
-            .InclusiveBetween(new DateOnly(1900, 1, 1), DateOnly.FromDateTime(DateTime.Today));
-        RuleFor(x => x.Sex)
-            .IsInEnum();
     }
 }
 
@@ -43,9 +31,13 @@ public class RegisterUserMutation
 {
     [Error<ValidationError>]
     [Error<RegistrationFailedError>]
+    [Error<InternalServerError>]
     public async Task<MutationResult<Void>> RegisterUser(
         [Service] IIdentityService identityService,
         [Service] IValidator<RegisterUserInput> inputValidator,
+        [Service] IOptions<FrontendOptions> frontendOptions,
+        [Service] IMailService mailService,
+        [Service] ILogger<RegisterUserMutation> logger,
         RegisterUserInput input,
         CancellationToken cancellationToken = default)
     {
@@ -56,7 +48,41 @@ public class RegisterUserMutation
             return validationResult.ToMutationResult();
         }
 
-        var registrationResult = await identityService.RegisterUserAsync(input, cancellationToken);
-        return registrationResult.ToMutationResult();
+        var registrationResult = await identityService
+            .RegisterUserAsync(input.Email, input.Password, cancellationToken);
+
+        if (registrationResult.IsFailure)
+        {
+            return registrationResult.Errors.ToMutationResult();
+        }
+
+        var emailVerificationTokenResult = await identityService
+            .GenerateEmailVerificationTokenAsync(input.Email, cancellationToken);
+
+        if (emailVerificationTokenResult.IsFailure)
+        {
+            if (emailVerificationTokenResult.Errors.OfType<UserNotFoundError>().Any())
+            {
+                logger.LogError(
+                    "Registered user is not found, failed to send verification email. " +
+                    "User id: {UserId}, email: {UserEmail}", registrationResult.Value.UserId,
+                    registrationResult.Value.UserEmail);
+                return new InternalServerError().ToMutationResult();
+            }
+
+            return emailVerificationTokenResult.Errors.ToMutationResult();
+        }
+
+        var emailVerificationLink = $"{frontendOptions.Value.ResetPasswordUrl}" +
+                                    $"?userId={registrationResult.Value.UserId}" +
+                                    $"&token={emailVerificationTokenResult.Value}";
+
+        var sendMailResult = await mailService.SendVerificationEmailAsync(
+            registrationResult.Value.UserEmail,
+            null,
+            emailVerificationLink,
+            cancellationToken);
+
+        return sendMailResult.ToMutationResult();
     }
 }

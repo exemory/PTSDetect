@@ -1,12 +1,17 @@
 ﻿using Application.Common.Models;
-using Application.Features.Registration;
 using Result = Application.Primitives.Result;
 
 namespace Application.Common.Interfaces;
 
 public interface IIdentityService
 {
-    public Task<Result.Result> RegisterUserAsync(RegisterUserInput data,
+    public Task<Result.Result<(string UserId, string UserEmail)>> RegisterUserAsync(string email, string password,
+        CancellationToken cancellationToken = default);
+
+    public Task<Result.Result<string>> GenerateEmailVerificationTokenAsync(string email,
+        CancellationToken cancellationToken = default);
+
+    public Task<Result.Result> VerifyEmailAsync(string userId, string token,
         CancellationToken cancellationToken = default);
 
     public Task<Result.Result<LoggedInUserInfo>> LoginByPasswordAsync(string login, string password,

@@ -27,6 +27,7 @@ public class LoginMutation
 {
     [Error<ValidationError>]
     [Error<InvalidCredentialsError>]
+    [Error<EmailIsNotVerifiedError>]
     public async Task<MutationResult<Token>> Login(
         [Service] IIdentityService identityService,
         [Service] ITokenService tokenService,

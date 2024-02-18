@@ -92,10 +92,11 @@ public static class DependencyInjection
         }
 
         services
-            .AddIdentityCore<ApplicationUser>(config =>
+            .AddIdentityCore<ApplicationUser>(x =>
             {
-                config.User.RequireUniqueEmail = identityOptions.RequireUniqueEmail;
-                config.Password.RequiredLength = identityOptions.RequiredPasswordLength;
+                x.User.RequireUniqueEmail = identityOptions.RequireUniqueEmail;
+                x.Password.RequiredLength = identityOptions.RequiredPasswordLength;
+                x.SignIn.RequireConfirmedEmail = true;
             })
             .AddRoles<Role>()
             .AddMongoDbStores()
@@ -221,7 +222,6 @@ public static class DependencyInjection
             .AddMutationType(x => x.Name(GraphQlTypes.Mutation))
             .AddMutationConventions()
             .AddType<Void>()
-            .AddType<RegistrationError>()
             .AddType<PropertyValidationError>()
             .AddFiltering()
             .AddSorting()
