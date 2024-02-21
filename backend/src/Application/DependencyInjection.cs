@@ -14,6 +14,7 @@ using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;
 using Application.Infrastructure.Persistence.Repositories;
+using Application.Infrastructure.User;
 using Application.Options;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -51,6 +52,7 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
+        services.AddScoped<IUserService, UserService>();
 
         services.AddSingleton(TimeProvider.System);
         services.AddSingleton<ITokenService, JwtTokenService>();

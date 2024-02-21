@@ -23,12 +23,6 @@ public interface IIdentityService
     public Task<Result.Result<bool>> IsEmailTakenAsync(string email,
         CancellationToken cancellationToken = default);
 
-    public Task<Result.Result<UserInfo>> GetUserInfoByIdAsync(string userId,
-        CancellationToken cancellationToken = default);
-
-    public Task<Result.Result<UserInfo>> GetUserInfoByEmailAsync(string userId,
-        CancellationToken cancellationToken = default);
-
     public Task<Result.Result<string>> GeneratePasswordResetTokenAsync(string userEmail,
         CancellationToken cancellationToken = default);
 

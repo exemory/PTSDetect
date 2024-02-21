@@ -107,30 +107,6 @@ public class IdentityService(
         return await userManager.FindByEmailAsync(email) is not null;
     }
 
-    public async Task<Result.Result<Common.Models.UserInfo>> GetUserInfoByIdAsync(string userId,
-        CancellationToken cancellationToken = default)
-    {
-        var user = await userManager.FindByIdAsync(userId);
-        if (user is null)
-        {
-            return UserNotFoundError.ById(userId);
-        }
-
-        return GetUserInfo(user);
-    }
-
-    public async Task<Result.Result<Common.Models.UserInfo>> GetUserInfoByEmailAsync(string userEmail,
-        CancellationToken cancellationToken = default)
-    {
-        var user = await userManager.FindByEmailAsync(userEmail);
-        if (user is null)
-        {
-            return UserNotFoundError.ByEmail(userEmail);
-        }
-
-        return GetUserInfo(user);
-    }
-
     public async Task<Result.Result<string>> GeneratePasswordResetTokenAsync(string userEmail,
         CancellationToken cancellationToken = default)
     {
@@ -191,26 +167,5 @@ public class IdentityService(
     private Task<IList<string>> GetUserRolesAsync(ApplicationUser user)
     {
         return userManager.GetRolesAsync(user);
-    }
-
-    private Common.Models.UserInfo GetUserInfo(ApplicationUser user)
-    {
-        PersonalInfo? personalUserInfo = null;
-
-        if (user.UserInfo is not null)
-        {
-            personalUserInfo = new PersonalInfo(
-                user.UserInfo.FirstName,
-                user.UserInfo.LastName,
-                user.UserInfo.Birthdate,
-                user.UserInfo.Sex,
-                user.UserInfo.IsMarried);
-        }
-
-        return new Common.Models.UserInfo(
-            user.Id.ToString(),
-            user.Email!,
-            personalUserInfo
-        );
     }
 }
