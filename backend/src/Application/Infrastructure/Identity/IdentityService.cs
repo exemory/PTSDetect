@@ -2,35 +2,55 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Extensions;
-using Application.Features.Registration;
 using Microsoft.AspNetCore.Identity;
 using Result = Application.Primitives.Result;
 
 namespace Application.Infrastructure.Identity;
 
-public class IdentityService(UserManager<ApplicationUser> userManager) : IIdentityService
+public class IdentityService(
+    UserManager<ApplicationUser> userManager) : IIdentityService
 {
-    public async Task<Result.Result> RegisterUserAsync(
-        RegisterUserInput data,
+    public async Task<Result.Result<(string UserId, string UserEmail)>> RegisterUserAsync(
+        string email,
+        string password,
         CancellationToken cancellationToken = default)
     {
-        var user = new ApplicationUser(data.Email)
-        {
-            UserInfo = new UserInfo
-            {
-                FirstName = data.Firstname,
-                LastName = data.Lastname,
-                Birthdate = data.Birthdate,
-                Sex = data.Sex,
-                IsMarried = data.IsMarried
-            }
-        };
+        var user = new ApplicationUser(email);
 
-        var result = await userManager.CreateAsync(user, data.Password);
-
+        var result = await userManager.CreateAsync(user, password);
         if (!result.Succeeded)
         {
             return result.Errors.ToRegistrationFailedError();
+        }
+
+        return (user.Id.ToString(), user.Email!);
+    }
+
+    public async Task<Result.Result<string>> GenerateEmailVerificationTokenAsync(string email,
+        CancellationToken cancellationToken = default)
+    {
+        var user = await userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            return UserNotFoundError.ByEmail(email);
+        }
+
+        return await userManager.GenerateEmailConfirmationTokenAsync(user);
+    }
+
+    public async Task<Result.Result> VerifyEmailAsync(string userId, string token,
+        CancellationToken cancellationToken = default)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user is null)
+        {
+            return UserNotFoundError.ById(userId);
+        }
+
+        var result = await userManager.ConfirmEmailAsync(user, token);
+        if (!result.Succeeded)
+        {
+            return result.Errors.ToEmailVerificationFailedError();
         }
 
         return Result.Result.Success();
@@ -42,14 +62,18 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByEmailAsync(login);
-
         if (user is null)
         {
             return new InvalidCredentialsError();
         }
 
-        var isPasswordCorrect = await userManager.CheckPasswordAsync(user, password);
+        var isAbleToSignInResult = await IsAbleToSignIn(user);
+        if (isAbleToSignInResult.IsFailure)
+        {
+            return isAbleToSignInResult.Errors;
+        }
 
+        var isPasswordCorrect = await userManager.CheckPasswordAsync(user, password);
         if (!isPasswordCorrect)
         {
             return new InvalidCredentialsError();
@@ -69,7 +93,6 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
-
         if (user is null)
         {
             return UserNotFoundError.ById(userId);
@@ -84,37 +107,10 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         return await userManager.FindByEmailAsync(email) is not null;
     }
 
-    public async Task<Result.Result<Common.Models.UserInfo>> GetUserInfoByIdAsync(string userId,
-        CancellationToken cancellationToken = default)
-    {
-        var user = await userManager.FindByIdAsync(userId);
-
-        if (user is null)
-        {
-            return UserNotFoundError.ById(userId);
-        }
-
-        return GetUserInfo(user);
-    }
-
-    public async Task<Result.Result<Common.Models.UserInfo>> GetUserInfoByEmailAsync(string userEmail,
-        CancellationToken cancellationToken = default)
-    {
-        var user = await userManager.FindByEmailAsync(userEmail);
-
-        if (user is null)
-        {
-            return UserNotFoundError.ByEmail(userEmail);
-        }
-
-        return GetUserInfo(user);
-    }
-
     public async Task<Result.Result<string>> GeneratePasswordResetTokenAsync(string userEmail,
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByEmailAsync(userEmail);
-
         if (user is null)
         {
             return UserNotFoundError.ByEmail(userEmail);
@@ -127,7 +123,6 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
-
         if (user is null)
         {
             return UserNotFoundError.ById(userId);
@@ -144,7 +139,6 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         string newPassword, CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
-
         if (user is null)
         {
             return UserNotFoundError.ById(userId);
@@ -153,7 +147,18 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
         var result = await userManager.ResetPasswordAsync(user, token, newPassword);
         if (!result.Succeeded)
         {
-            return result.Errors.ToResetPasswordError();
+            return result.Errors.ToResetPasswordFailedError();
+        }
+
+        return Result.Result.Success();
+    }
+
+    private async Task<Result.Result> IsAbleToSignIn(ApplicationUser user)
+    {
+        var isEmailVerified = await userManager.IsEmailConfirmedAsync(user);
+        if (!isEmailVerified)
+        {
+            return new EmailIsNotVerifiedError();
         }
 
         return Result.Result.Success();
@@ -162,26 +167,5 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
     private Task<IList<string>> GetUserRolesAsync(ApplicationUser user)
     {
         return userManager.GetRolesAsync(user);
-    }
-
-    private Common.Models.UserInfo GetUserInfo(ApplicationUser user)
-    {
-        PersonalInfo? personalUserInfo = null;
-
-        if (user.UserInfo is not null)
-        {
-            personalUserInfo = new PersonalInfo(
-                user.UserInfo.FirstName,
-                user.UserInfo.LastName,
-                user.UserInfo.Birthdate,
-                user.UserInfo.Sex,
-                user.UserInfo.IsMarried);
-        }
-
-        return new Common.Models.UserInfo(
-            user.Id.ToString(),
-            user.Email!,
-            personalUserInfo
-        );
     }
 }

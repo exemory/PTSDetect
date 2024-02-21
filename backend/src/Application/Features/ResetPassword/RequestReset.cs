@@ -28,6 +28,7 @@ public class RequestPasswordResetMutation
     [Error<UserNotFoundError>]
     [Error<InternalServerError>]
     public async Task<MutationResult<Void>> RequestPasswordReset(
+        [Service] IUserService userService,
         [Service] IIdentityService identityService,
         [Service] IMailService mailService,
         [Service] IValidator<RequestPasswordResetInput> inputValidator,
@@ -41,7 +42,7 @@ public class RequestPasswordResetMutation
             return validationResult.Errors.ToMutationResult();
         }
 
-        var userInfoResult = await identityService.GetUserInfoByEmailAsync(input.Email, cancellationToken);
+        var userInfoResult = await userService.GetUserInfoByEmailAsync(input.Email, cancellationToken);
         if (userInfoResult.IsFailure)
         {
             return userInfoResult.Errors.ToMutationResult();

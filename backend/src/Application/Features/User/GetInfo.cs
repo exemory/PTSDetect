@@ -12,9 +12,10 @@ public class UserInfoQuery
     public async Task<UserInfo> UserInfo(
         [Service] ICurrentUser currentUser,
         [Service] IIdentityService identityService,
+        [Service] IUserService userService,
         CancellationToken cancellationToken = default)
     {
-        var result = await identityService.GetUserInfoByIdAsync(currentUser.Id, cancellationToken);
+        var result = await userService.GetUserInfoByIdAsync(currentUser.Id, cancellationToken);
         return result.Value;
     }
 }

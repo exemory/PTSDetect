@@ -29,9 +29,9 @@ public sealed class UserInfo
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public required DateOnly Birthdate { get; set; }
-    public required Sex Sex { get; set; }
-    public required bool IsMarried { get; set; }
+    public required DateOnly? Birthdate { get; set; }
+    public required Sex? Sex { get; set; }
+    public required bool? IsMarried { get; set; }
 }
 
 public enum Sex : byte

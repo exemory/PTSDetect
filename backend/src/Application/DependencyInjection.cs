@@ -14,6 +14,7 @@ using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;
 using Application.Infrastructure.Persistence.Repositories;
+using Application.Infrastructure.User;
 using Application.Options;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -51,6 +52,7 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
+        services.AddScoped<IUserService, UserService>();
 
         services.AddSingleton(TimeProvider.System);
         services.AddSingleton<ITokenService, JwtTokenService>();
@@ -92,10 +94,11 @@ public static class DependencyInjection
         }
 
         services
-            .AddIdentityCore<ApplicationUser>(config =>
+            .AddIdentityCore<ApplicationUser>(x =>
             {
-                config.User.RequireUniqueEmail = identityOptions.RequireUniqueEmail;
-                config.Password.RequiredLength = identityOptions.RequiredPasswordLength;
+                x.User.RequireUniqueEmail = identityOptions.RequireUniqueEmail;
+                x.Password.RequiredLength = identityOptions.RequiredPasswordLength;
+                x.SignIn.RequireConfirmedEmail = true;
             })
             .AddRoles<Role>()
             .AddMongoDbStores()
@@ -221,7 +224,6 @@ public static class DependencyInjection
             .AddMutationType(x => x.Name(GraphQlTypes.Mutation))
             .AddMutationConventions()
             .AddType<Void>()
-            .AddType<RegistrationError>()
             .AddType<PropertyValidationError>()
             .AddFiltering()
             .AddSorting()

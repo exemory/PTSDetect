@@ -5,35 +5,32 @@ using Application.Extensions;
 using FluentValidation;
 using Void = Application.ScalarTypes.Void;
 
-namespace Application.Features.ResetPassword;
+namespace Application.Features.Registration;
 
-public record ResetPasswordInput(string UserId, string Token, string NewPassword);
+public record VerifyEmailInput(string UserId, string Token);
 
-public class ResetPasswordInputValidator : AbstractValidator<ResetPasswordInput>
+public class EmailVerificationInputValidator : AbstractValidator<VerifyEmailInput>
 {
-    public ResetPasswordInputValidator()
+    public EmailVerificationInputValidator()
     {
         RuleFor(x => x.UserId)
             .NotEmpty();
 
         RuleFor(x => x.Token)
             .NotEmpty();
-
-        RuleFor(x => x.NewPassword)
-            .NotEmpty();
     }
 }
 
 [ExtendObjectType(GraphQlTypes.Mutation)]
-public class ResetPasswordMutation
+public class VerifyEmailMutation
 {
     [Error<ValidationError>]
     [Error<UserNotFoundError>]
-    [Error<ResetPasswordFailedError>]
-    public async Task<MutationResult<Void>> ResetPassword(
+    [Error<EmailVerificationFailedError>]
+    public async Task<MutationResult<Void>> VerifyEmail(
         [Service] IIdentityService identityService,
-        [Service] IValidator<ResetPasswordInput> inputValidator,
-        ResetPasswordInput input,
+        [Service] IValidator<VerifyEmailInput> inputValidator,
+        VerifyEmailInput input,
         CancellationToken cancellationToken = default)
     {
         var validationResult = inputValidator.ValidateToResult(input);
@@ -42,12 +39,11 @@ public class ResetPasswordMutation
             return validationResult.Errors.ToMutationResult();
         }
 
-        var passwordResetResult = await identityService.ResetPasswordAsync(
+        var verifyEmailResult = await identityService.VerifyEmailAsync(
             input.UserId,
             input.Token,
-            input.NewPassword,
             cancellationToken);
 
-        return passwordResetResult.ToMutationResult();
+        return verifyEmailResult.ToMutationResult();
     }
 }
