@@ -4,6 +4,8 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Extensions;
 using FluentValidation;
+using HotChocolate;
+using HotChocolate.Types;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.Auth;

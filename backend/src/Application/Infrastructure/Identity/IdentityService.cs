@@ -2,15 +2,15 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Extensions;
+using Application.Primitives;
 using Microsoft.AspNetCore.Identity;
-using Result = Application.Primitives.Result;
 
 namespace Application.Infrastructure.Identity;
 
 public class IdentityService(
     UserManager<ApplicationUser> userManager) : IIdentityService
 {
-    public async Task<Result.Result<(string UserId, string UserEmail)>> RegisterUserAsync(
+    public async Task<Result<(string UserId, string UserEmail)>> RegisterUserAsync(
         string email,
         string password,
         CancellationToken cancellationToken = default)
@@ -26,7 +26,7 @@ public class IdentityService(
         return (user.Id.ToString(), user.Email!);
     }
 
-    public async Task<Result.Result<string>> GenerateEmailVerificationTokenAsync(string email,
+    public async Task<Result<string>> GenerateEmailVerificationTokenAsync(string email,
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByEmailAsync(email);
@@ -38,7 +38,7 @@ public class IdentityService(
         return await userManager.GenerateEmailConfirmationTokenAsync(user);
     }
 
-    public async Task<Result.Result> VerifyEmailAsync(string userId, string token,
+    public async Task<Result> VerifyEmailAsync(string userId, string token,
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
@@ -53,10 +53,10 @@ public class IdentityService(
             return result.Errors.ToEmailVerificationFailedError();
         }
 
-        return Result.Result.Success();
+        return Result.Success();
     }
 
-    public async Task<Result.Result<LoggedInUserInfo>> LoginByPasswordAsync(
+    public async Task<Result<LoggedInUserInfo>> LoginByPasswordAsync(
         string login,
         string password,
         CancellationToken cancellationToken = default)
@@ -88,7 +88,7 @@ public class IdentityService(
         );
     }
 
-    public async Task<Result.Result<IList<string>>> GetUserRolesAsync(
+    public async Task<Result<IList<string>>> GetUserRolesAsync(
         string userId,
         CancellationToken cancellationToken = default)
     {
@@ -98,16 +98,16 @@ public class IdentityService(
             return UserNotFoundError.ById(userId);
         }
 
-        return Result.Result.Success(await GetUserRolesAsync(user));
+        return Result.Success(await GetUserRolesAsync(user));
     }
 
-    public async Task<Result.Result<bool>> IsEmailTakenAsync(string email,
+    public async Task<Result<bool>> IsEmailTakenAsync(string email,
         CancellationToken cancellationToken = default)
     {
         return await userManager.FindByEmailAsync(email) is not null;
     }
 
-    public async Task<Result.Result<string>> GeneratePasswordResetTokenAsync(string userEmail,
+    public async Task<Result<string>> GeneratePasswordResetTokenAsync(string userEmail,
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByEmailAsync(userEmail);
@@ -119,7 +119,7 @@ public class IdentityService(
         return await userManager.GeneratePasswordResetTokenAsync(user);
     }
 
-    public async Task<Result.Result<bool>> ValidateResetPasswordTokenAsync(string userId, string token,
+    public async Task<Result<bool>> ValidateResetPasswordTokenAsync(string userId, string token,
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
@@ -135,7 +135,7 @@ public class IdentityService(
             token);
     }
 
-    public async Task<Result.Result> ResetPasswordAsync(string userId, string token,
+    public async Task<Result> ResetPasswordAsync(string userId, string token,
         string newPassword, CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
@@ -150,10 +150,10 @@ public class IdentityService(
             return result.Errors.ToResetPasswordFailedError();
         }
 
-        return Result.Result.Success();
+        return Result.Success();
     }
 
-    private async Task<Result.Result> IsAbleToSignIn(ApplicationUser user)
+    private async Task<Result> IsAbleToSignIn(ApplicationUser user)
     {
         var isEmailVerified = await userManager.IsEmailConfirmedAsync(user);
         if (!isEmailVerified)
@@ -161,7 +161,7 @@ public class IdentityService(
             return new EmailIsNotVerifiedError();
         }
 
-        return Result.Result.Success();
+        return Result.Success();
     }
 
     private Task<IList<string>> GetUserRolesAsync(ApplicationUser user)

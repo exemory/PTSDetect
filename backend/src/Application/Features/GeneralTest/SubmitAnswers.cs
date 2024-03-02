@@ -5,9 +5,11 @@ using Application.Common.Interfaces.Repositories;
 using Application.Common.Models;
 using Application.Extensions;
 using Application.Features.GeneralTest.ResultsAnalysis.Interfaces;
-using Application.Primitives.Result;
+using Application.Primitives;
 using FluentValidation;
+using HotChocolate;
 using HotChocolate.Authorization;
+using HotChocolate.Types;
 using GeneralTestResult = Application.Infrastructure.Identity.GeneralTestResult;
 
 namespace Application.Features.GeneralTest;

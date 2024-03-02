@@ -3,6 +3,8 @@ using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Extensions;
 using FluentValidation;
+using HotChocolate;
+using HotChocolate.Types;
 using Void = Application.ScalarTypes.Void;
 
 namespace Application.Features.Registration;

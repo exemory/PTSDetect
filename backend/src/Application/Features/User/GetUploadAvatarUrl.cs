@@ -1,6 +1,8 @@
 ﻿using Application.Common.Constants;
 using Application.Common.Interfaces;
+using HotChocolate;
 using HotChocolate.Authorization;
+using HotChocolate.Types;
 
 namespace Application.Features.User;
 

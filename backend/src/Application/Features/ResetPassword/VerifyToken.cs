@@ -2,6 +2,8 @@
 using Application.Common.Interfaces;
 using Application.Extensions;
 using FluentValidation;
+using HotChocolate;
+using HotChocolate.Types;
 
 namespace Application.Features.ResetPassword;
 

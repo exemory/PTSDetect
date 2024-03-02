@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Application.Primitives.Result;
+namespace Application.Primitives;
 
 public sealed class Result<T> : Result
 {

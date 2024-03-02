@@ -3,9 +3,9 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Infrastructure.Identity;
 using Application.Options;
+using Application.Primitives;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using Result = Application.Primitives.Result;
 using UserInfo = Application.Common.Models.UserInfo;
 
 namespace Application.Infrastructure.User;
@@ -17,7 +17,7 @@ public class UserService(
 {
     private readonly FileContainerNames _fileContainerNames = fileContainerNamesOptions.Value;
 
-    public async Task<Result.Result<UserInfo>> GetUserInfoByIdAsync(string userId,
+    public async Task<Result<UserInfo>> GetUserInfoByIdAsync(string userId,
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
@@ -29,7 +29,7 @@ public class UserService(
         return GetUserInfo(user);
     }
 
-    public async Task<Result.Result<UserInfo>> GetUserInfoByEmailAsync(string userEmail,
+    public async Task<Result<UserInfo>> GetUserInfoByEmailAsync(string userEmail,
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByEmailAsync(userEmail);
@@ -41,7 +41,7 @@ public class UserService(
         return GetUserInfo(user);
     }
 
-    public async Task<Result.Result<PersonalInfo>> UpdateUserPersonalInfoAsync(string userId,
+    public async Task<Result<PersonalInfo>> UpdateUserPersonalInfoAsync(string userId,
         PersonalInfo personalInfo, CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
@@ -63,7 +63,7 @@ public class UserService(
         return personalInfo;
     }
 
-    public async Task<Result.Result<Uri>> GetAvatarUrlAsync(string userId,
+    public async Task<Result<Uri>> GetAvatarUrlAsync(string userId,
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
@@ -85,16 +85,16 @@ public class UserService(
         return fileService.GeneratePreviewUrl(_fileContainerNames.UserAvatars, user.AvatarId);
     }
 
-    public Task<Result.Result<(string AvatarId, Uri Url)>> GetUploadAvatarUrlAsync(string userId,
+    public Task<Result<(string AvatarId, Uri Url)>> GetUploadAvatarUrlAsync(string userId,
         CancellationToken cancellationToken = default)
     {
         var avatarId = Guid.NewGuid().ToString();
         var url = fileService.GenerateUploadUrl(_fileContainerNames.UserAvatars, avatarId);
 
-        return Task.FromResult(Result.Result.Success((avatarId.ToString(), url)));
+        return Task.FromResult(Result.Success((avatarId, url)));
     }
 
-    public async Task<Result.Result> UpdateAvatarAsync(string userId, string avatarId,
+    public async Task<Result> UpdateAvatarAsync(string userId, string avatarId,
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId);
@@ -105,7 +105,7 @@ public class UserService(
 
         if (user.AvatarId == avatarId)
         {
-            return Result.Result.Success();
+            return Result.Success();
         }
 
         if (!await fileService.ExistsAsync(_fileContainerNames.UserAvatars, avatarId, cancellationToken))
@@ -121,7 +121,7 @@ public class UserService(
         user.AvatarId = avatarId;
         await userManager.UpdateAsync(user);
 
-        return Result.Result.Success();
+        return Result.Success();
     }
 
     private UserInfo GetUserInfo(ApplicationUser user)

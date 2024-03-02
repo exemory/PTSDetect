@@ -1,4 +1,4 @@
-﻿using Application.Primitives.Result;
+﻿using Application.Primitives;
 
 namespace Application.Common.Interfaces;
 

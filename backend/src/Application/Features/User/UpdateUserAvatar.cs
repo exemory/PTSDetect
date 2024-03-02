@@ -3,7 +3,9 @@ using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Extensions;
 using FluentValidation;
+using HotChocolate;
 using HotChocolate.Authorization;
+using HotChocolate.Types;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Features.User;

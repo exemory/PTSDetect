@@ -5,7 +5,9 @@ using Application.Common.Models;
 using Application.Extensions;
 using Application.Infrastructure.Identity;
 using FluentValidation;
+using HotChocolate;
 using HotChocolate.Authorization;
+using HotChocolate.Types;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Features.User;

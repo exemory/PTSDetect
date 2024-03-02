@@ -1,4 +1,5 @@
 ﻿using HotChocolate.Language;
+using HotChocolate.Types;
 
 namespace Application.ScalarTypes;
 

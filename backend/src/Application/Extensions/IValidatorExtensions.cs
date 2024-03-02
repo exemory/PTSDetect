@@ -1,5 +1,5 @@
 ﻿using Application.Common.Errors;
-using Application.Primitives.Result;
+using Application.Primitives;
 using FluentValidation;
 
 namespace Application.Extensions;
