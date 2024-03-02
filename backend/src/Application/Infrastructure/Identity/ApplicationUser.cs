@@ -21,6 +21,7 @@ public sealed class ApplicationUser : MongoIdentityUser<ObjectId>, IDocument<Obj
     #endregion
 
     public UserInfo? UserInfo { get; set; }
+    public string? AvatarId { get; set; }
     public IList<Guid> RefreshTokens { get; set; } = [];
     public IList<GeneralTestResult> GeneralTestResults { get; set; } = [];
 }

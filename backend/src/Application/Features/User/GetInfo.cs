@@ -11,7 +11,6 @@ public class UserInfoQuery
     [Authorize]
     public async Task<UserInfo> UserInfo(
         [Service] ICurrentUser currentUser,
-        [Service] IIdentityService identityService,
         [Service] IUserService userService,
         CancellationToken cancellationToken = default)
     {
