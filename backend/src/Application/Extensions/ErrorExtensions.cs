@@ -1,4 +1,5 @@
-﻿using Error = Application.Primitives.Error;
+﻿using HotChocolate;
+using Error = Application.Primitives.Error;
 using Void = Application.ScalarTypes.Void;
 
 namespace Application.Extensions;

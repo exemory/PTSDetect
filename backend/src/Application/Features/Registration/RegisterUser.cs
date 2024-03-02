@@ -4,6 +4,8 @@ using Application.Common.Interfaces;
 using Application.Extensions;
 using Application.Options;
 using FluentValidation;
+using HotChocolate;
+using HotChocolate.Types;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Void = Application.ScalarTypes.Void;

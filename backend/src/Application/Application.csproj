@@ -30,4 +30,8 @@
       <PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1" />
     </ItemGroup>
     
+    <PropertyGroup>
+        <HotChocolateImplicitUsings>disable</HotChocolateImplicitUsings>
+    </PropertyGroup>
+    
 </Project>

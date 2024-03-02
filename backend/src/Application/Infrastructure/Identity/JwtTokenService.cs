@@ -6,10 +6,10 @@ using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Application.Common.Models;
 using Application.Options;
+using Application.Primitives;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Result = Application.Primitives.Result;
 
 namespace Application.Infrastructure.Identity;
 
@@ -22,7 +22,7 @@ public class JwtTokenService(
     private readonly JwtOptions _accessJwtOptions = options.Get(JwtOptions.Auth);
     private readonly JwtOptions _refreshJwtOptions = options.Get(JwtOptions.Refresh);
 
-    public async Task<Result.Result<TokenPair>> GenerateTokenPairAsync(string userId, IEnumerable<string> userRoles,
+    public async Task<Result<TokenPair>> GenerateTokenPairAsync(string userId, IEnumerable<string> userRoles,
         CancellationToken cancellationToken = default)
     {
         var accessToken = GenerateAccessToken(userId, userRoles);
@@ -35,7 +35,7 @@ public class JwtTokenService(
         return new TokenPair(accessToken, refreshToken);
     }
 
-    public async Task<Result.Result<TokenPair>> RefreshAccessTokenAsync(string refreshToken,
+    public async Task<Result<TokenPair>> RefreshAccessTokenAsync(string refreshToken,
         IEnumerable<string> userRoles, CancellationToken cancellationToken = default)
     {
         var readTokenResult = ReadRefreshToken(refreshToken);
@@ -72,12 +72,12 @@ public class JwtTokenService(
         return newTokenPair;
     }
 
-    public Task<Result.Result<string>> GetTokenOwnerIdAsync(string refreshToken, CancellationToken cancellationToken = default)
+    public Task<Result<string>> GetTokenOwnerIdAsync(string refreshToken, CancellationToken cancellationToken = default)
     {
         var readTokenResult = ReadRefreshToken(refreshToken);
         if (readTokenResult.IsFailure)
         {
-            return Task.FromResult<Result.Result<string>>(readTokenResult.Errors);
+            return Task.FromResult<Result<string>>(readTokenResult.Errors);
         }
 
         var jwtRefreshToken = readTokenResult.Value;
@@ -89,10 +89,10 @@ public class JwtTokenService(
         if (userId is null)
         {
             logger.LogWarning("User provided refresh token doesn't have name identifier claim");
-            return Task.FromResult<Result.Result<string>>(new InvalidRefreshTokenError());
+            return Task.FromResult<Result<string>>(new InvalidRefreshTokenError());
         }
 
-        return Task.FromResult<Result.Result<string>>(userId);
+        return Task.FromResult<Result<string>>(userId);
     }
 
     private Token GenerateAccessToken(string userId, IEnumerable<string> userRoles)
@@ -143,7 +143,7 @@ public class JwtTokenService(
         return new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
     }
 
-    private Result.Result<JwtSecurityToken> ReadRefreshToken(string refreshToken)
+    private Result<JwtSecurityToken> ReadRefreshToken(string refreshToken)
     {
         JwtSecurityToken validatedJwt;
         var tokenHandler = new JwtSecurityTokenHandler();

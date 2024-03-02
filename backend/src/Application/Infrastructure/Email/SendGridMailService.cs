@@ -1,7 +1,7 @@
 ﻿using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Options;
-using Application.Primitives.Result;
+using Application.Primitives;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SendGrid;

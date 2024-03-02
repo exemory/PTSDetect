@@ -3,7 +3,9 @@ using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Extensions;
+using HotChocolate;
 using HotChocolate.Authorization;
+using HotChocolate.Types;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.Auth;
