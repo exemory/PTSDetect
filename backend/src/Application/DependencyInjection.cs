@@ -9,7 +9,9 @@ using Application.Extensions;
 using Application.Features.GeneralTest.ResultsAnalysis;
 using Application.Features.GeneralTest.ResultsAnalysis.Interfaces;
 using Application.Features.GeneralTest.ResultsAnalysis.Strategies;
+using Application.Features.User;
 using Application.Infrastructure.Email;
+using Application.Infrastructure.FileStorage;
 using Application.Infrastructure.Identity;
 using Application.Infrastructure.Persistence;
 using Application.Infrastructure.Persistence.Interfaces;
@@ -19,6 +21,7 @@ using Application.Options;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -46,6 +49,8 @@ public static class DependencyInjection
         services.Configure<EmailOptions>(configuration.GetRequiredSection(EmailOptions.SectionName));
         services.Configure<SendGridOptions>(configuration.GetRequiredSection(SendGridOptions.SectionName));
         services.Configure<FrontendOptions>(configuration.GetRequiredSection(FrontendOptions.SectionName));
+        services.Configure<FileContainerNames>(configuration.GetRequiredSection(FileContainerNames.SectionName));
+        services.Configure<AzureStorageOptions>(configuration.GetRequiredSection(AzureStorageOptions.SectionName));
 
         services.AddTransient<IMailService, SendGridMailService>();
 
@@ -60,6 +65,7 @@ public static class DependencyInjection
         services.AddSingleton<ITestRepository, TestRepository>();
         services.AddSingleton<IAdviceListRepository, AdviceListRepository>();
         services.AddSingleton<IAppDbContext, AppDbContext>();
+        services.AddSingleton<IFileService, AzureBlobStorageService>();
 
         services.AddHttpContextAccessor();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -70,6 +76,7 @@ public static class DependencyInjection
         services.AddSendGrid(configuration);
         services.AddAuthorization();
         services.AddHotChocolate();
+        services.AddAzureServices(configuration);
 
         return services;
     }
@@ -229,11 +236,20 @@ public static class DependencyInjection
             .AddSorting()
             .AddProjections();
 
-        Assembly.GetExecutingAssembly()
+        var executingAssembly = Assembly.GetExecutingAssembly();
+
+        executingAssembly
             .GetTypes()
             .Where(x => x.GetCustomAttribute<ExtendObjectTypeAttribute>() is not null)
             .ToList()
             .ForEach(x => gqlBuilder.AddTypeExtension(x));
+
+        var errorTypes = executingAssembly
+            .GetTypes()
+            .Where(x => x.Namespace == typeof(ValidationError).Namespace)
+            .ToArray();
+
+        gqlBuilder.AddTypes(errorTypes);
 
         return services;
     }
@@ -250,6 +266,22 @@ public static class DependencyInjection
         }
 
         services.AddSendGrid(x => { x.ApiKey = sendGridOptions.ApiKey; });
+
+        return services;
+    }
+
+    private static IServiceCollection AddAzureServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        var azureBlobStorageOptions = configuration
+            .GetRequiredSection(AzureStorageOptions.SectionName)
+            .Get<AzureStorageOptions>();
+
+        if (azureBlobStorageOptions is null)
+        {
+            throw new InvalidOperationException("Failed to obtain AzureBlobStorageOptions options from configuration.");
+        }
+
+        services.AddAzureClients(x => { x.AddBlobServiceClient(azureBlobStorageOptions.ConnectionString); });
 
         return services;
     }

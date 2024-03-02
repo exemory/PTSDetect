@@ -2,14 +2,21 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Infrastructure.Identity;
+using Application.Options;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Result = Application.Primitives.Result;
 using UserInfo = Application.Common.Models.UserInfo;
 
 namespace Application.Infrastructure.User;
 
-public class UserService(UserManager<ApplicationUser> userManager) : IUserService
+public class UserService(
+    UserManager<ApplicationUser> userManager,
+    IFileService fileService,
+    IOptions<FileContainerNames> fileContainerNamesOptions) : IUserService
 {
+    private readonly FileContainerNames _fileContainerNames = fileContainerNamesOptions.Value;
+
     public async Task<Result.Result<UserInfo>> GetUserInfoByIdAsync(string userId,
         CancellationToken cancellationToken = default)
     {
@@ -40,7 +47,7 @@ public class UserService(UserManager<ApplicationUser> userManager) : IUserServic
         var user = await userManager.FindByIdAsync(userId);
         if (user is null)
         {
-            return UserNotFoundError.ByEmail(userId);
+            return UserNotFoundError.ById(userId);
         }
 
         user.UserInfo = new Identity.UserInfo
@@ -54,6 +61,67 @@ public class UserService(UserManager<ApplicationUser> userManager) : IUserServic
 
         await userManager.UpdateAsync(user);
         return personalInfo;
+    }
+
+    public async Task<Result.Result<Uri>> GetAvatarUrlAsync(string userId,
+        CancellationToken cancellationToken = default)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user is null)
+        {
+            return UserNotFoundError.ById(userId);
+        }
+
+        if (user.AvatarId is null)
+        {
+            return new UserDoesNotHaveAvatarError(userId);
+        }
+
+        if (!await fileService.ExistsAsync(_fileContainerNames.UserAvatars, user.AvatarId, cancellationToken))
+        {
+            return new AvatarNotFoundError(user.AvatarId);
+        }
+
+        return fileService.GeneratePreviewUrl(_fileContainerNames.UserAvatars, user.AvatarId);
+    }
+
+    public Task<Result.Result<(string AvatarId, Uri Url)>> GetUploadAvatarUrlAsync(string userId,
+        CancellationToken cancellationToken = default)
+    {
+        var avatarId = Guid.NewGuid().ToString();
+        var url = fileService.GenerateUploadUrl(_fileContainerNames.UserAvatars, avatarId);
+
+        return Task.FromResult(Result.Result.Success((avatarId.ToString(), url)));
+    }
+
+    public async Task<Result.Result> UpdateAvatarAsync(string userId, string avatarId,
+        CancellationToken cancellationToken = default)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user is null)
+        {
+            return UserNotFoundError.ByEmail(userId);
+        }
+
+        if (user.AvatarId == avatarId)
+        {
+            return Result.Result.Success();
+        }
+
+        if (!await fileService.ExistsAsync(_fileContainerNames.UserAvatars, avatarId, cancellationToken))
+        {
+            return new AvatarNotFoundError(avatarId);
+        }
+
+        if (user.AvatarId is not null)
+        {
+            await fileService.DeleteAsync(_fileContainerNames.UserAvatars, user.AvatarId, cancellationToken);
+        }
+
+        user.AvatarId = avatarId;
+        await userManager.UpdateAsync(user);
+
+        return Result.Result.Success();
     }
 
     private UserInfo GetUserInfo(ApplicationUser user)
