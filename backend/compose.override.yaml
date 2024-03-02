@@ -6,7 +6,6 @@ services:
       ASPNETCORE_ENVIRONMENT: "Development"
       JwtOptions__Auth__Secret: "qWIkxVOV0AQNXbjfHbG6a4DPY5pydKIxolxft12fDzwz746P7w"
       JwtOptions__Refresh__Secret: "SLRvpalnIrK8e7S8lG31yIZibnxP1Jk9gQNfBe2jhxeaN5ZQRa"
-      AzureStorageOptions__ConnectionString: ${AZURE_STORAGE_CONNECTION_STRING}
     ports:
       - "5000:5000"
   
