@@ -7,16 +7,22 @@ services:
       dockerfile: src/WebAPI/Dockerfile
     image: ptsdetect/backend
     environment:
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:5000"
       MongoDbOptions__ConnectionString: "mongodb://root:9BjFZXmE2d@mongo"
       MongoDbOptions__AppDatabaseName: "AppDB"
       JwtOptions__Issuer: "http://localhost:5000"
       JwtOptions__Audience: "http://localhost"
+      FrontendOptions__BaseUrl: "http://localhost:5173"
+      AzureStorageOptions__ConnectionString: ${AzureStorageOptions__ConnectionString}
+      SendGridOptions__ApiKey: ${SendGridOptions__ApiKey}
+      SendGridOptions__VerifyEmailTemplateId: ${SendGridOptions__VerifyEmailTemplateId}
+      SendGridOptions__ResetPasswordTemplateId: ${SendGridOptions__ResetPasswordTemplateId}
+      EmailOptions__ServiceEmail: ${EmailOptions__ServiceEmail}
     depends_on:
       mongo:
         condition: service_healthy
     healthcheck:
-      test: curl --fail http://localhost/healthz || exit
+      test: curl --fail http://localhost:5000/healthz || exit
       interval: 10s
       timeout: 10s
       retries: 5

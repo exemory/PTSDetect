@@ -7,11 +7,11 @@ services:
       JwtOptions__Auth__Secret: "GSgtKr0RBXa2DLWWnffgm423ljVB5ymkO563961puma7PeOxFb"
       JwtOptions__Refresh__Secret: "jllfauKoHKPWzRDgT51wpbjkc9HpuU9ljdC0ZJKBASYtFXSDQB"
     ports:
-      - "5000:80"
+      - "5000:5000"
   
   mongo:
     volumes:
       - ptsdetect-mongodb-prod:/data/db
-        
+
 volumes:
   ptsdetect-mongodb-prod:
