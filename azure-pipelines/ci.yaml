@@ -1,9 +1,22 @@
 pr:
-  - main
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - backend/*
 
 pool:
   vmImage: 'ubuntu-latest'
-  
+
 steps:
   - script: echo Hello, world!
     displayName: 'Run a one-line script'
+
+  - checkout: self
+
+  - script: dotnet restore
+    displayName: 'Restore NuGet packages'
+  
+  - script: dotnet build --configuration Release
+    displayName: 'Build PTSDetect API'
