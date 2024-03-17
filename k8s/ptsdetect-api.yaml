@@ -1,0 +1,51 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: ptsdetect-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: ptsdetect-api
+  ports:
+    - port: 5000
+      targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ptsdetect-api-deployment
+  labels:
+    app: ptsdetect-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ptsdetect-api
+  template:
+    metadata:
+      labels:
+        app: ptsdetect-api
+    spec:
+      containers:
+        - name: ptsdetect-api
+          image: exemory/ptsdetect-api:latest
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: ptsdetect-api-config
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 5000
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 5000
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 5000
+            failureThreshold: 30
+            periodSeconds: 1
+            timeoutSeconds: 3
