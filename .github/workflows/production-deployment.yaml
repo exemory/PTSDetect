@@ -1,0 +1,119 @@
+name: Production deployment
+
+on:
+  push:
+    tags:
+      - v*
+
+env:
+  IMAGE_TAG: ${{ github.ref_name }}
+
+jobs:
+  build-and-publish:
+    name: Build and publish PTSDetect API image
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        working-directory: backend
+        run: docker build -t ${{vars.PTSDETECT_API_IMAGE}}:latest -t ${{vars.PTSDETECT_API_IMAGE}}:${{env.IMAGE_TAG}} .
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{vars.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_TOKEN}}
+
+      - name: Push Docker image to Docker Hub
+        run: docker push -a ${{vars.PTSDETECT_API_IMAGE}}
+
+      - name: Logout from Docker Hub
+        run: docker logout
+
+  deploy-infrastructure:
+    name: Deploy infrastructure
+    runs-on: ubuntu-latest
+    environment: production
+    outputs:
+      AZURE_STORAGE_ACCOUNT_CONNECTION_STRING: ${{ steps.tf.outputs.AZURE_STORAGE_ACCOUNT_CONNECTION_STRING }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+          terraform_wrapper: false
+
+      - name: Terraform check formatting
+        working-directory: terraform
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init -input=false
+
+      - name: Terraform validate
+        working-directory: terraform
+        run: terraform validate
+
+      - name: Terraform Plan
+        working-directory: terraform
+        run: terraform plan -input=false
+
+      - name: Terraform Apply
+        id: tf-apply
+        working-directory: terraform
+        run: terraform apply -auto-approve -input=false
+
+      - name: Export terraform outputs
+        id: tf
+        working-directory: terraform
+        run: |
+          echo $(terraform output -raw azurerm_storage_account_connection_string | base64 -w0)
+          echo "AZURE_STORAGE_ACCOUNT_CONNECTION_STRING=$(terraform output -raw azurerm_storage_account_connection_string | base64 -w0)" >> "$GITHUB_OUTPUT"
+
+  deploy-to-aks:
+    name: Deploy PTSDetect API
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      AZURE_STORAGE_ACCOUNT_CONNECTION_STRING: ${{needs.deploy-infrastructure.outputs.AZURE_STORAGE_ACCOUNT_CONNECTION_STRING}}
+    needs:
+      - build-and-publish
+      - deploy-infrastructure
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to Azure
+        run: az login --service-principal -u ${{vars.AZURE_SERVICE_PRINCIPAL_ID}} -p ${{secrets.AZURE_SERVICE_PRINCIPAL_SECRET}} --tenant ${{vars.AZURE_TENANT_ID}}
+
+      - name: Get AKS credentials
+        run: az aks get-credentials --resource-group ${{vars.AZURE_RESOURCE_GROUP}} --name ${{vars.AZURE_AKS_NAME}}
+
+      - name: Create secrets
+        run: |
+          kubectl get secret ptsdetect-api-secrets && kubectl delete secret ptsdetect-api-secrets
+          kubectl create secret generic ptsdetect-api-secrets \
+            --from-literal=JwtOptions__Auth__Secret='${{secrets.JwtOptions__Auth__Secret}}' \
+            --from-literal=JwtOptions__Refresh__Secret='${{secrets.JwtOptions__Refresh__Secret}}' \
+            --from-literal=MongoDbOptions__ConnectionString='${{secrets.MongoDbOptions__ConnectionString}}' \
+            --from-literal=AzureStorageOptions__ConnectionString="$(echo $AZURE_STORAGE_ACCOUNT_CONNECTION_STRING | base64 -d)" \
+            --from-literal=SendGridOptions__ApiKey='${{secrets.SendGridOptions__ApiKey}}' \
+            --from-literal=SendGridOptions__VerifyEmailTemplateId='${{vars.SendGridOptions__VerifyEmailTemplateId}}' \
+            --from-literal=SendGridOptions__ResetPasswordTemplateId='${{vars.SendGridOptions__ResetPasswordTemplateId}}' \
+            --from-literal=EmailOptions__ServiceEmail='${{vars.EmailOptions__ServiceEmail}}'
+
+      - name: Deploy PTSDetect API to AKS
+        run: kubectl apply -f k8s
+
+      - name: Rollout restart of PTSDetect API deployment
+        run: kubectl rollout restart deployment/${{vars.PTSDETECT_API_DEPLOYMENT}}
+
+      - name: Get all pods
+        run: kubectl get pods
+
+      - name: Logout from Azure
+        run: az logout
