@@ -2,9 +2,6 @@
 
 services:
   backend:
-    build:
-      context: .
-      dockerfile: src/WebAPI/Dockerfile
     image: ptsdetect/backend
     environment:
       ASPNETCORE_URLS: "http://+:5000"

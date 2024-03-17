@@ -1,0 +1,11 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ptsdetect-api-config
+data:
+  ASPNETCORE_ENVIRONMENT: "Development"
+  ASPNETCORE_URLS: "http://+:5000"
+  JwtOptions__Issuer: "http://localhost:5000"
+  JwtOptions__Audience: "http://localhost"
+  MongoDbOptions__AppDatabaseName: "AppDB"
+  FrontendOptions__BaseUrl: "http://localhost:5173"
