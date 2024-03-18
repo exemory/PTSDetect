@@ -75,7 +75,7 @@ public class RegisterUserMutation
             return emailVerificationTokenResult.Errors.ToMutationResult();
         }
 
-        var emailVerificationLink = $"{frontendOptions.Value.ResetPasswordUrl}" +
+        var emailVerificationLink = $"{frontendOptions.Value.VerifyEmailUrl}" +
                                     $"?userId={registrationResult.Value.UserId}" +
                                     $"&token={emailVerificationTokenResult.Value}";
 
