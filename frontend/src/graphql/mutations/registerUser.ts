@@ -1,29 +1,17 @@
 import { gql } from '@/__generated__/gql';
 
 export const REGISTER_USER = gql(/* GraphQL */ `
-  mutation RegisterUser($input: RegisterUserInput!) {
-    registerUser(input: $input) {
+  mutation RegisterUser($email: String!, $password: String!) {
+    registerUser(input: { email: $email, password: $password }) {
       void
       errors {
         ... on ValidationError {
-          errorsCount
-          errors {
-            errorCode
-            errorMessage
-            propertyName
-            placeholders {
-              key
-              value
-            }
-          }
           message
         }
         ... on RegistrationFailedError {
-          errorsCount
-          errors {
-            code
-            message
-          }
+          message
+        }
+        ... on InternalServerError {
           message
         }
       }
