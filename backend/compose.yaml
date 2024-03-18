@@ -2,6 +2,7 @@
 
 services:
   backend:
+    build: .
     image: ptsdetect/backend
     environment:
       ASPNETCORE_URLS: "http://+:5000"
@@ -24,7 +25,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 20s
-  
+
   mongo:
     image: mongo:7.0.3
     environment:
