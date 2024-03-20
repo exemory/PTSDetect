@@ -64,8 +64,7 @@ export const SignUp = () => {
         return;
       }
 
-      toast.success('Account successfully created, please login');
-      navigate(routes.SIGN_IN);
+      navigate(routes.CONFIRM_EMAIL);
     } catch (error) {
       console.error('Sign up error:', error);
     }
