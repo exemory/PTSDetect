@@ -10,13 +10,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - script: echo Hello, world!
-    displayName: 'Run a one-line script'
-    
-  - script: echo Hello, world!
-    displayName: 'Run a one-line script'
-
   - checkout: self
+    displayName: 'Checkout repository'
 
   - script: dotnet restore
     displayName: 'Restore NuGet packages'

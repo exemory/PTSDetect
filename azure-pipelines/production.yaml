@@ -1,9 +1,39 @@
-﻿trigger:
-    branches:
-        include:
-        - master
-        - release/*
-        - hotfix/*
-        - feature/*
-        - bugfix/*
-        - support/*
+﻿pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  - group: docker-credentials
+  - name: dokcerImage
+  - value: ${{ variables.dockerRegistry }}/${{ variables.imageName }}
+
+stages:
+  - stage: Build backend and publish artifacts
+    jobs:
+      - job: Build backend
+        steps:
+          - checkout: self
+            displayName: "Checkout repository"
+
+          - script: dotnet restore
+            displayName: "Restore NuGet packages"
+
+          - script: dotnet build --configuration Release
+            displayName: "Build PTSDetect API"
+
+      - job: Build and publish docker image
+        steps:
+          - checkout: self
+            displayName: "Checkout repository"
+
+          - script: |
+              docker build -t ptsdetect-api .
+              docker tag ptsdetect-api $(dockerhub-username)/ptsdetect-api
+            displayName: "Build and publish Docker image"
+
+          - script: |
+              docker login -u $(dockerhub-username) -p $(dockerhub-password)
+            displayName: "Login to Docker Hub"
+
+          - script: |
+              docker push $(dockerhub-username)/ptsdetect-api
+            displayName: "Push Docker image to Docker Hub"
