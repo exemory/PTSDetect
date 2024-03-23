@@ -14,7 +14,7 @@ pool:
 variables:
   - group: docker-hub-credentials
   - group: azure-credentials
-  - group: azure-resoures
+  - group: azure-resources
   - group: ptsdetect-api
   - name: image-version
     value: test
