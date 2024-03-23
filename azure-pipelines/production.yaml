@@ -1,4 +1,4 @@
-# trigger:
+﻿# trigger:
 #   tags:
 #     include:
 #       - v*
@@ -20,9 +20,11 @@ variables:
     value: test
 
 stages:
-  - stage: Build and publish Docker image
+  - stage: build-AndPublish
+    displayName: "Build and publish Docker image"
     jobs:
-      - job: Build and publish docker image
+      - job: buildAndPublish
+        displayName: "Build and publish Docker image"
         steps:
           - checkout: self
             displayName: "Checkout repository"
@@ -44,9 +46,11 @@ stages:
               docker logout
             displayName: "Logout from Docker Hub"
 
-  - stage: Deploy to Azure
+  - stage: "deploy"
+    displayName: "Deploy to AKS"
     jobs:
-      - job: Deploy to AKS
+      - job: deploy
+        displayName: "Deploy to AKS"
         steps:
           - checkout: self
             displayName: "Checkout repository"
