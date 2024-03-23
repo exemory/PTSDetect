@@ -20,7 +20,7 @@ variables:
     value: test
 
 stages:
-  - stage: build-AndPublish
+  - stage: buildAndPublish
     displayName: "Build and publish Docker image"
     jobs:
       - job: buildAndPublish
