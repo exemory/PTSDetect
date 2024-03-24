@@ -16,7 +16,7 @@ variables:
   - group: azure-credentials
   - group: azure-resources
   - group: ptsdetect-api
-  - name: image-version
+  - name: image-tag
     value: test
 
 stages:
@@ -24,15 +24,15 @@ stages:
     displayName: "Build and publish Docker image"
     jobs:
       - job: buildAndPublish
-        displayName: "Build and publish Docker image"
+        displayName: "Build and publish $(ptsdetect-api-image) Docker image"
         steps:
           - checkout: self
             displayName: "Checkout repository"
 
           - script: |
-              docker build -t $(ptsdetectApiImageName):latest -t $(ptsdetectApiImageName):$(version) .
+              docker build -t $(ptsdetect-api-image):latest -t $(ptsdetect-api-image):$(image-tag) .
             workingDirectory: backend
-            displayName: "Build and publish Docker image"
+            displayName: "Build Docker image"
 
           - script: |
               docker login -u $(dockerhub-username) -p $(dockerhub-password)
