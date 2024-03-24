@@ -5,7 +5,7 @@ metadata:
 data:
   ASPNETCORE_ENVIRONMENT: "Development"
   ASPNETCORE_URLS: "http://+:5000"
-  JwtOptions__Issuer: "http://localhost:5000"
-  JwtOptions__Audience: "http://localhost"
+  JwtOptions__Issuer: "ptsdetect-api"
+  JwtOptions__Audience: "ptsdetect-client"
   MongoDbOptions__AppDatabaseName: "AppDB"
   FrontendOptions__BaseUrl: "http://localhost:5173"

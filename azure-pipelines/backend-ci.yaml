@@ -7,14 +7,14 @@ pr:
       - backend/*
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 steps:
   - checkout: self
-    displayName: 'Checkout repository'
+    displayName: "Checkout repository"
 
   - script: dotnet restore
-    displayName: 'Restore NuGet packages'
-  
+    displayName: "Restore NuGet packages"
+
   - script: dotnet build --configuration Release
-    displayName: 'Build PTSDetect API'
+    displayName: "Build PTSDetect API"
