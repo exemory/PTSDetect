@@ -3,7 +3,7 @@
 services:
   backend:
     build: .
-    image: ptsdetect/backend
+    image: ptsdetect-api
     environment:
       ASPNETCORE_URLS: "http://+:5000"
       MongoDbOptions__ConnectionString: "mongodb://root:9BjFZXmE2d@mongo"
