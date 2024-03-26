@@ -1,4 +1,5 @@
-﻿using Application.Common.Constants;
+﻿using System.Web;
+using Application.Common.Constants;
 using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Extensions;
@@ -59,8 +60,9 @@ public class RequestPasswordResetMutation
             return passwordResetTokenResult.Errors.ToMutationResult();
         }
 
+        var urlEncodedToken = HttpUtility.UrlEncode(passwordResetTokenResult.Value);
         var resetPasswordLink = $"{frontendOptions.Value.ResetPasswordUrl}?userId={userInfo.Id}" +
-                                $"&token={passwordResetTokenResult.Value}";
+                                $"&token={urlEncodedToken}";
 
         var sendMailResult = await mailService.SendResetPasswordEmailAsync(
             userInfo.Email,

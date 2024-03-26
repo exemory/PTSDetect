@@ -1,4 +1,5 @@
-﻿using Application.Common.Constants;
+﻿using System.Web;
+using Application.Common.Constants;
 using Application.Common.Errors;
 using Application.Common.Interfaces;
 using Application.Extensions;
@@ -75,9 +76,10 @@ public class RegisterUserMutation
             return emailVerificationTokenResult.Errors.ToMutationResult();
         }
 
+        var urlEncodedToken = HttpUtility.UrlEncode(emailVerificationTokenResult.Value);
         var emailVerificationLink = $"{frontendOptions.Value.VerifyEmailUrl}" +
                                     $"?userId={registrationResult.Value.UserId}" +
-                                    $"&token={emailVerificationTokenResult.Value}";
+                                    $"&token={urlEncodedToken}";
 
         var sendMailResult = await mailService.SendVerificationEmailAsync(
             registrationResult.Value.UserEmail,
