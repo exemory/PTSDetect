@@ -8,7 +8,6 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 const formSchema = yup
@@ -22,7 +21,7 @@ const formSchema = yup
       .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
       .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
       .matches(/[0-9]/, 'Password must contain at least one digit')
-      .matches(/[!@#$%^&*()-_=+[\]{};:'",.<>/?]/, 'Password must contain at least one non-alphanumeric character'),
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one non-alphanumeric character'),
     repeatPassword: yup
       .string()
       .oneOf([yup.ref('password')], 'Passwords must match')
@@ -40,6 +39,7 @@ export const SignUp = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(formSchema),
@@ -60,7 +60,22 @@ export const SignUp = () => {
       const { data: registerData } = await registerUser({ variables: formData });
 
       if (registerData?.registerUser.errors && registerData.registerUser.errors.length > 0) {
-        console.log(registerData?.registerUser.errors);
+        registerData.registerUser.errors.forEach((error) => {
+          switch (error.__typename) {
+            case 'RegistrationFailedError':
+              error.errors.forEach((error) => {
+                switch (error.key) {
+                  case 'DuplicateEmail':
+                    setError('email', { message: `Email already exists` });
+                    break;
+                }
+              });
+              break;
+            default:
+              console.error(`Unhandled error type: ${error.__typename}`);
+          }
+        });
+
         return;
       }
 

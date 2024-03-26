@@ -32,6 +32,7 @@ export const SignIn = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(formSchema),
@@ -56,7 +57,19 @@ export const SignIn = () => {
       }
 
       if (data?.login.errors && data.login.errors.length > 0) {
-        console.log(data?.login.errors);
+        data.login.errors.forEach((error) => {
+          switch (error.__typename) {
+            case 'EmailIsNotVerifiedError':
+              setError('email', { message: 'Email is not verified' });
+              break;
+            case 'InvalidCredentialsError':
+              setError('password', { message: 'Invalid password' });
+              break;
+            default:
+              console.error(`Unhandled error type: ${error.__typename}`);
+          }
+        });
+
         return;
       }
 
