@@ -1,0 +1,99 @@
+﻿# trigger:
+#   tags:
+#     include:
+#       - v*
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  - group: docker-hub-credentials
+  - group: azure-credentials
+  - group: azure-resources
+  - group: ptsdetect-api-config
+  - group: ptsdetect-api-secrets
+  - name: image-tag
+    value: test
+
+stages:
+  - stage: buildAndPublish
+    displayName: "Build and publish Docker image"
+    jobs:
+      - job: buildAndPublish
+        displayName: "Build and publish $(ptsdetect-api-image) Docker image"
+        steps:
+          - checkout: self
+            displayName: "Checkout repository"
+
+          - script: |
+              docker build -t $(ptsdetect-api-image):latest -t $(ptsdetect-api-image):$(image-tag) .
+            workingDirectory: backend
+            displayName: "Build Docker image"
+
+          - script: |
+              docker login -u $(dockerhub-username) -p $(dockerhub-password)
+            displayName: "Login to Docker Hub"
+
+          - script: |
+              docker push $(ptsdetectApiImageName)
+            displayName: "Push Docker image to Docker Hub"
+
+          - script: |
+              docker logout
+            displayName: "Logout from Docker Hub"
+
+  - stage: "deploy"
+    displayName: "Deploy to AKS"
+    jobs:
+      - job: deploy
+        displayName: "Deploy to AKS"
+        steps:
+          - checkout: self
+            displayName: "Checkout repository"
+
+          - script: |
+              az login --service-principal -u $(service-principal-id) -p $(service-principal-secret) --tenant $(tenant-id)
+            displayName: "Login to Azure"
+
+          - script: |
+              az aks get-credentials --resource-group $(resource-group) --name $(aks-name)
+            displayName: "Get AKS credentials"
+
+          - script: |
+              kubectl create secret generic ptsdetect-api-secrets \
+                --from-literal=JwtOptions__Auth__Secret='$(JwtOptions__Auth__Secret)' \
+                --from-literal=JwtOptions__Refresh__Secret='$(JwtOptions__Refresh__Secret)' \
+                --from-literal=MongoDbOptions__ConnectionString='$(MongoDbOptions__ConnectionString)' \
+                --from-literal=AzureStorageOptions__ConnectionString='$(AzureStorageOptions__ConnectionString)' \
+                --from-literal=SendGridOptions__ApiKey='$(SendGridOptions__ApiKey)' \
+                --from-literal=SendGridOptions__VerifyEmailTemplateId='$(SendGridOptions__VerifyEmailTemplateId)' \
+                --from-literal=SendGridOptions__ResetPasswordTemplateId='$(SendGridOptions__ResetPasswordTemplateId)' \
+                --from-literal=EmailOptions__ServiceEmail='$(EmailOptions__ServiceEmail)'
+            displayName: "Create secrets"
+
+          - script: |
+              kubectl apply -f k8s
+            displayName: "Deploy PTSDetect API to AKS"
+
+          - script: |
+              kubectl get pods
+            displayName: "Get all pods"
+
+          - script: |
+              kubectl config get-contexts
+            displayName: "Get all contexts"
+
+          #logout from kubectl
+          #think about it
+          # - script: |
+          #     kubectl config unset users.clusterUser_$(resource-group)_$(aks-name)
+          #   displayName: "Logout from AKS"
+
+          - script: |
+              az logout
+            displayName: "Logout from Azure"
