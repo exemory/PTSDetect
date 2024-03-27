@@ -1,4 +1,3 @@
-import { AuthLayout } from '@/pages/Auth/components';
 import { routes } from '@/routes';
 import {
   Button,
@@ -32,8 +31,10 @@ export const SignIn = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
+    mode: 'onTouched',
     resolver: yupResolver(formSchema),
   });
   const [login, { loading }] = useMutation(LOGIN);
@@ -56,7 +57,19 @@ export const SignIn = () => {
       }
 
       if (data?.login.errors && data.login.errors.length > 0) {
-        console.log(data?.login.errors);
+        data.login.errors.forEach((error) => {
+          switch (error.__typename) {
+            case 'EmailIsNotVerifiedError':
+              setError('email', { message: 'Email is not verified' });
+              break;
+            case 'InvalidCredentialsError':
+              setError('password', { message: 'Wrong password' });
+              break;
+            default:
+              console.error(`Unhandled error type: ${error.__typename}`);
+          }
+        });
+
         return;
       }
 
@@ -67,58 +80,56 @@ export const SignIn = () => {
   });
 
   return (
-    <AuthLayout>
-      <div className="flex flex-col w-[400px] gap-6">
-        <div className="flex flex-col gap-2">
-          <Typography level="h3">Sign in</Typography>
-          <Typography level="body-sm">
-            Don&apos;t have an account?{' '}
-            <NavLink to={routes.SIGN_UP}>
-              <Link level="title-sm">Sign up!</Link>
-            </NavLink>
-          </Typography>
-        </div>
-
-        <form onSubmit={onSubmit}>
-          <div className="flex flex-col gap-4">
-            <FormControl required error={!!errors.email}>
-              <FormLabel>Email</FormLabel>
-              <Input type="email" {...register('email')} />
-              <FormHelperText>{errors.email?.message}</FormHelperText>
-            </FormControl>
-
-            <FormControl required error={!!errors.password}>
-              <FormLabel>Password</FormLabel>
-              <Input
-                type={passwordInputType}
-                endDecorator={
-                  <IconButton
-                    onClick={() =>
-                      setPasswordInputType((currentState) => (currentState === 'password' ? 'text' : 'password'))
-                    }
-                  >
-                    {passwordInputType === 'password' ? <Eye color="gray" /> : <EyeOff color="gray" />}
-                  </IconButton>
-                }
-                {...register('password')}
-              />
-              <FormHelperText>{errors.password?.message}</FormHelperText>
-            </FormControl>
-
-            <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between">
-                <Checkbox size="sm" label="Remember me" name="persistent" />
-                <NavLink to={routes.SIGN_UP}>
-                  <Link level="title-sm">Forgot your password?</Link>
-                </NavLink>
-              </div>
-              <Button loading={loading} type="submit" fullWidth>
-                Sign in
-              </Button>
-            </div>
-          </div>
-        </form>
+    <div className="flex flex-col w-[400px] gap-6">
+      <div className="flex flex-col gap-2">
+        <Typography level="h3">Sign in</Typography>
+        <Typography level="body-sm">
+          Don&apos;t have an account?{' '}
+          <NavLink to={routes.SIGN_UP}>
+            <Link level="title-sm">Sign up!</Link>
+          </NavLink>
+        </Typography>
       </div>
-    </AuthLayout>
+
+      <form onSubmit={onSubmit}>
+        <div className="flex flex-col gap-4">
+          <FormControl required error={!!errors.email}>
+            <FormLabel>Email</FormLabel>
+            <Input type="email" {...register('email')} />
+            <FormHelperText>{errors.email?.message}</FormHelperText>
+          </FormControl>
+
+          <FormControl required error={!!errors.password}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type={passwordInputType}
+              endDecorator={
+                <IconButton
+                  onClick={() =>
+                    setPasswordInputType((currentState) => (currentState === 'password' ? 'text' : 'password'))
+                  }
+                >
+                  {passwordInputType === 'password' ? <Eye color="gray" /> : <EyeOff color="gray" />}
+                </IconButton>
+              }
+              {...register('password')}
+            />
+            <FormHelperText>{errors.password?.message}</FormHelperText>
+          </FormControl>
+
+          <div className="flex flex-col gap-6">
+            <div className="flex items-center justify-between">
+              <Checkbox size="sm" label="Remember me" name="persistent" />
+              <NavLink to={routes.FORGOT_PASSWORD}>
+                <Link level="title-sm">Forgot your password?</Link>
+              </NavLink>
+            </div>
+            <Button loading={loading} type="submit" fullWidth>
+              Sign in
+            </Button>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 };

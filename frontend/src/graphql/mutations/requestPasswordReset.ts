@@ -1,8 +1,8 @@
 import { gql } from '@/__generated__/gql';
 
-export const REGISTER_USER = gql(/* GraphQL */ `
-  mutation RegisterUser($email: String!, $password: String!) {
-    registerUser(input: { email: $email, password: $password }) {
+export const REQUEST_PASSWORD_RESET = gql(/* GraphQL */ `
+  mutation RequestPasswordReset($email: String!) {
+    requestPasswordReset(input: { email: $email }) {
       void
       errors {
         ... on ValidationError {
@@ -18,13 +18,12 @@ export const REGISTER_USER = gql(/* GraphQL */ `
             }
           }
         }
-        ... on RegistrationFailedError {
-          message
-          errorsCount
-          errors {
+        ... on UserNotFoundError {
+          data {
             key
             value
           }
+          message
         }
         ... on InternalServerError {
           message
