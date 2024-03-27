@@ -1,5 +1,4 @@
 import { REGISTER_USER } from '@/graphql';
-import { AuthLayout } from '@/pages/Auth/components';
 import { routes } from '@/routes';
 import { useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -43,6 +42,7 @@ export const SignUp = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(formSchema),
+    mode: 'onTouched',
     defaultValues: {
       email: '',
       password: '',
@@ -66,7 +66,7 @@ export const SignUp = () => {
               error.errors.forEach((error) => {
                 switch (error.key) {
                   case 'DuplicateEmail':
-                    setError('email', { message: `Email already exists` });
+                    setError('email', { message: `A user with this email already exists` });
                     break;
                 }
               });
@@ -86,70 +86,68 @@ export const SignUp = () => {
   });
 
   return (
-    <AuthLayout>
-      <div className="flex flex-col w-[400px] gap-6">
-        <div className="flex flex-col gap-2">
-          <Typography level="h3">Sign up</Typography>
-          <Typography level="body-sm">
-            Already have an account?{' '}
-            <NavLink to={routes.SIGN_IN}>
-              <Link level="title-sm">Sign in!</Link>
-            </NavLink>
-          </Typography>
-        </div>
-
-        <form onSubmit={onSubmit}>
-          <div className="flex flex-col gap-4">
-            <FormControl error={!!errors.email}>
-              <FormLabel>Email</FormLabel>
-              <Input type="email" {...register('email')} />
-              <FormHelperText>{errors.email?.message}</FormHelperText>
-            </FormControl>
-
-            <FormControl error={!!errors.password}>
-              <FormLabel>Password</FormLabel>
-              <Input
-                type={passwordInputType}
-                endDecorator={
-                  <IconButton
-                    onClick={() =>
-                      setPasswordInputType((currentState) => (currentState === 'password' ? 'text' : 'password'))
-                    }
-                  >
-                    {passwordInputType === 'password' ? <Eye color="gray" /> : <EyeOff color="gray" />}
-                  </IconButton>
-                }
-                {...register('password')}
-              />
-              <FormHelperText>{errors.password?.message}</FormHelperText>
-            </FormControl>
-
-            <FormControl error={!!errors.repeatPassword}>
-              <FormLabel>Repeat password</FormLabel>
-              <Input
-                type={repeatPasswordInputType}
-                endDecorator={
-                  <IconButton
-                    onClick={() =>
-                      setRepeatPasswordInputType((currentState) => (currentState === 'password' ? 'text' : 'password'))
-                    }
-                  >
-                    {repeatPasswordInputType === 'password' ? <Eye color="gray" /> : <EyeOff color="gray" />}
-                  </IconButton>
-                }
-                {...register('repeatPassword')}
-              />
-              <FormHelperText>{errors.repeatPassword?.message}</FormHelperText>
-            </FormControl>
-
-            <div className="flex flex-col mt-6">
-              <Button type="submit" fullWidth loading={loading}>
-                Next
-              </Button>
-            </div>
-          </div>
-        </form>
+    <div className="flex flex-col w-[400px] gap-6">
+      <div className="flex flex-col gap-2">
+        <Typography level="h3">Sign up</Typography>
+        <Typography level="body-sm">
+          Already have an account?{' '}
+          <NavLink to={routes.SIGN_IN}>
+            <Link level="title-sm">Sign in!</Link>
+          </NavLink>
+        </Typography>
       </div>
-    </AuthLayout>
+
+      <form onSubmit={onSubmit}>
+        <div className="flex flex-col gap-4">
+          <FormControl error={!!errors.email}>
+            <FormLabel>Email</FormLabel>
+            <Input type="email" {...register('email')} />
+            <FormHelperText>{errors.email?.message}</FormHelperText>
+          </FormControl>
+
+          <FormControl error={!!errors.password}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type={passwordInputType}
+              endDecorator={
+                <IconButton
+                  onClick={() =>
+                    setPasswordInputType((currentState) => (currentState === 'password' ? 'text' : 'password'))
+                  }
+                >
+                  {passwordInputType === 'password' ? <Eye color="gray" /> : <EyeOff color="gray" />}
+                </IconButton>
+              }
+              {...register('password')}
+            />
+            <FormHelperText>{errors.password?.message}</FormHelperText>
+          </FormControl>
+
+          <FormControl error={!!errors.repeatPassword}>
+            <FormLabel>Repeat password</FormLabel>
+            <Input
+              type={repeatPasswordInputType}
+              endDecorator={
+                <IconButton
+                  onClick={() =>
+                    setRepeatPasswordInputType((currentState) => (currentState === 'password' ? 'text' : 'password'))
+                  }
+                >
+                  {repeatPasswordInputType === 'password' ? <Eye color="gray" /> : <EyeOff color="gray" />}
+                </IconButton>
+              }
+              {...register('repeatPassword')}
+            />
+            <FormHelperText>{errors.repeatPassword?.message}</FormHelperText>
+          </FormControl>
+
+          <div className="flex flex-col mt-6">
+            <Button type="submit" fullWidth loading={loading}>
+              Next
+            </Button>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 };
