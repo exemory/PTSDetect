@@ -50,5 +50,5 @@ public class GeneralTestQuestionsQuery
 public interface IGeneralTestQuestionsErrorUnion;
 
 public record GeneralTestQuestionsPayload(
-    [property: UsePaging] IQueryable<Question>? Questions,
+    [property: UsePaging(IncludeTotalCount = true)] IQueryable<Question>? Questions,
     IEnumerable<IGeneralTestQuestionsErrorUnion>? Errors);
