@@ -51,7 +51,7 @@ public class GeneralTestResultsQuery
 public interface IGeneralTestResultsErrorUnion;
 
 public record GeneralTestResultsPayload(
-    [property: UsePaging]
+    [property: UsePaging(IncludeTotalCount = true)]
     [property: UseProjection]
     [property: UseFiltering]
     [property: UseSorting]
