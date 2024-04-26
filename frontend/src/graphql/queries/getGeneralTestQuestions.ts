@@ -16,6 +16,7 @@ export const GET_GENERAL_TEST_QUESTIONS = gql(/* GraphQL */ `
           }
           title
         }
+        totalCount
       }
       errors {
         __typename
