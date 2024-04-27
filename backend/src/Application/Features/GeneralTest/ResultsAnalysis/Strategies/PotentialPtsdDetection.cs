@@ -12,7 +12,7 @@ public class PotentialPtsdDetection : IPotentialProblemsDetection
             .QuestionGroups
             .All(x => x.Questions.Any(q =>
             {
-                var answer = q.Answers.First(a => a.Id == answers[a.Id]);
+                var answer = q.Answers.First(a => a.Id == answers[q.Id]);
                 return answer.Tags.Contains(ProblemTags.PostTraumaticStressDisorder);
             }));
 

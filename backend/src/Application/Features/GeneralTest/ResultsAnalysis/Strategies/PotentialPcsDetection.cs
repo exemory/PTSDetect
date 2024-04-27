@@ -19,7 +19,7 @@ public class PotentialPcsDetection : IPotentialProblemsDetection
         var firstPcsGroupQuestionsSignal = firstPcsGroupQuestions
             .Any(x =>
             {
-                var answer = x.Answers.First(a => a.Id == answers[a.Id]);
+                var answer = x.Answers.First(a => a.Id == answers[x.Id]);
                 return answer.Tags.Contains(ProblemTags.PostConcussionSyndrome);
             });
 
