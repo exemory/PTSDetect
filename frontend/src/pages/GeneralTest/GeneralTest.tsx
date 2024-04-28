@@ -1,10 +1,13 @@
 import { Question } from '@/__generated__/graphql';
-import { GET_GENERAL_TEST_QUESTIONS } from '@/graphql/queries/getGeneralTestQuestions';
-import { useLazyQuery } from '@apollo/client';
+import { SUBMIT_GENERAL_TEST_ANSWERS } from '@/graphql/mutations';
+import { GET_GENERAL_TEST_QUESTIONS } from '@/graphql/queries';
+import { routes } from '@/routes';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Button, CircularProgress, FormControl, List, ListItem, Radio, RadioGroup, Typography } from '@mui/joy';
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 export const GeneralTest = () => {
   const [questions, setQuestions] = useState<Question[] | undefined>([]);
@@ -13,9 +16,13 @@ export const GeneralTest = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
 
-  const { register, handleSubmit } = useForm({});
+  const { register, handleSubmit, watch } = useForm({});
+  const watchedValues = watch();
 
-  const [getQuestions, { loading, data }] = useLazyQuery(GET_GENERAL_TEST_QUESTIONS);
+  const navigate = useNavigate();
+
+  const [getQuestions, { loading: isQuestionsLoading, data: questionsData }] = useLazyQuery(GET_GENERAL_TEST_QUESTIONS);
+  const [submitAnswers, { loading: isSubmitLoading }] = useMutation(SUBMIT_GENERAL_TEST_ANSWERS);
 
   useEffect(() => {
     getQuestions({
@@ -29,20 +36,20 @@ export const GeneralTest = () => {
   }, []);
 
   useEffect(() => {
-    if (data) {
-      const newQuestions = data.generalTestQuestions.questions?.nodes || [];
+    if (questionsData) {
+      const newQuestions = questionsData.generalTestQuestions.questions?.nodes || [];
       const currentQuestions = questions || [];
 
       setQuestions([...currentQuestions, ...newQuestions]);
-      setEndCursor(data.generalTestQuestions.questions?.pageInfo.endCursor ?? '');
-      setHasNextPage(data.generalTestQuestions.questions?.pageInfo.hasNextPage ?? false);
-      setTotalQuestions(data.generalTestQuestions.questions?.totalCount || 0);
+      setEndCursor(questionsData.generalTestQuestions.questions?.pageInfo.endCursor ?? '');
+      setHasNextPage(questionsData.generalTestQuestions.questions?.pageInfo.hasNextPage ?? false);
+      setTotalQuestions(questionsData.generalTestQuestions.questions?.totalCount || 0);
 
       if (questions && questions?.length >= 1) {
         setCurrentQuestion((currState) => currState + 1);
       }
     }
-  }, [data]);
+  }, [questionsData]);
 
   const loadNextQuestion = () => {
     getQuestions({
@@ -57,10 +64,24 @@ export const GeneralTest = () => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
+    const answers = Object.entries(data).map(([questionId, answerId]) => ({
+      questionId,
+      answerId,
+    }));
+
+    submitAnswers({
+      variables: {
+        input: {
+          answers,
+        },
+      },
+    }).then((res) => {
+      const resultId = res.data?.submitGeneralTestAnswers.resultId;
+      navigate(`${routes.PTSD_TEST_RESULT.replace(':id', resultId)}`);
+    });
   });
 
-  if (loading && !questions?.length) {
+  if (isQuestionsLoading && !questions?.length) {
     return (
       <div className="flex flex-col items-center mx-auto gap-2 max-w-[660px]">
         <CircularProgress />
@@ -78,7 +99,7 @@ export const GeneralTest = () => {
         <div className="flex flex-col gap-4">
           {questions?.length && (
             <FormControl key={questions[currentQuestion].id}>
-              <Typography level="h2" marginBottom={2}>
+              <Typography level="h3" marginBottom={2}>
                 {questions[currentQuestion].title}
               </Typography>
 
@@ -128,11 +149,26 @@ export const GeneralTest = () => {
 
           <div className="flex flex-col items-end">
             {hasNextPage ? (
-              <Button loading={loading} onClick={loadNextQuestion} size="lg" fullWidth endDecorator={<ArrowRight />}>
+              <Button
+                loading={isQuestionsLoading}
+                onClick={loadNextQuestion}
+                size="lg"
+                fullWidth
+                endDecorator={<ArrowRight />}
+                disabled={!watchedValues[questions?.[currentQuestion]?.id ?? '']}
+              >
                 Next
               </Button>
             ) : (
-              <Button type="submit">Finish</Button>
+              <Button
+                type="submit"
+                size="lg"
+                fullWidth
+                loading={isSubmitLoading}
+                disabled={!watchedValues[questions?.[currentQuestion]?.id ?? '']}
+              >
+                Finish
+              </Button>
             )}
           </div>
         </div>

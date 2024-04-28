@@ -6,5 +6,6 @@ export const enum routes {
   CONFIRM_EMAIL = '/confirm-email',
   FORGOT_PASSWORD = '/forgot-password',
   RESET_PASSWORD = '/reset-password',
-  PTSD_TEST = '/ptsd',
+  PTSD_TEST = '/general',
+  PTSD_TEST_RESULT = '/general/result/:id',
 }

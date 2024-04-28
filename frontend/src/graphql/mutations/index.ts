@@ -4,3 +4,4 @@ export * from './refreshToken';
 export * from './verifyEmail';
 export * from './requestPasswordReset';
 export * from './resetPassword';
+export * from './submitGeneralTestAnswers';
