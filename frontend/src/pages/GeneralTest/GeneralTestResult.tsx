@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GET_GENERAL_TEST_RESULT } from '@/graphql/queries';
 import { useLazyQuery } from '@apollo/client';
 import { Box, CircularProgress, List, ListItem, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
@@ -58,7 +59,7 @@ const GeneralTestResult = () => {
               marginTop: 1,
             }}
           >
-            <Tabs value={index} onChange={(event, value) => setIndex(value as number)} sx={{ borderRadius: 'xl' }}>
+            <Tabs value={index} onChange={(_: any, value) => setIndex(value as number)} sx={{ borderRadius: 'xl' }}>
               <TabList
                 sx={{
                   pt: 1,
