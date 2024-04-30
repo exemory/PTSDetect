@@ -1,4 +1,5 @@
 FROM node:18-alpine
+ARG VITE_GRAPHQL_URI
 
 WORKDIR /app
 

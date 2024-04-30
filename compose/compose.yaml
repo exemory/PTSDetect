@@ -1,0 +1,7 @@
+﻿version: "3.8"
+
+include:
+  - path:
+    - ../backend/compose.yaml
+    - ../backend/compose.override.yaml
+  - ../frontend/compose.yaml

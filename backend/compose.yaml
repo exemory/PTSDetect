@@ -9,7 +9,7 @@ services:
       MongoDbOptions__ConnectionString: "mongodb://root:9BjFZXmE2d@mongo"
       MongoDbOptions__AppDatabaseName: "AppDB"
       JwtOptions__Issuer: "http://localhost:5000"
-      JwtOptions__Audience: "http://localhost"
+      JwtOptions__Audience: "http://localhost:5173"
       FrontendOptions__BaseUrl: "http://localhost:5173"
       AzureStorageOptions__ConnectionString: ${AzureStorageOptions__ConnectionString}
       SendGridOptions__ApiKey: ${SendGridOptions__ApiKey}
