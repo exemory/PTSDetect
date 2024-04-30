@@ -8,4 +8,6 @@ export const enum routes {
   RESET_PASSWORD = '/reset-password',
   PTSD_TEST = '/general',
   PTSD_TEST_RESULT = '/general/result/:id',
+  PROFILE = '/profile',
+  RESULTS = '/results',
 }
