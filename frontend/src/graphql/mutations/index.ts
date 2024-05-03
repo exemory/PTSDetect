@@ -5,3 +5,4 @@ export * from './verifyEmail';
 export * from './requestPasswordReset';
 export * from './resetPassword';
 export * from './submitGeneralTestAnswers';
+export * from './updateUserInfo';
