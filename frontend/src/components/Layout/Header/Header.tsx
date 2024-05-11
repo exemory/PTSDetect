@@ -57,7 +57,7 @@ export const Header = () => {
             '--ListItem-radius': '5px',
           }}
         >
-          <MenuItem>
+          <MenuItem onClick={() => navigate(routes.RESULTS)}>
             <div className="flex items-center">
               <Avatar src="https://i.pravatar.cc/40?img=2" srcSet="https://i.pravatar.cc/80?img=2" />
               <Box sx={{ ml: 1.5 }}>
@@ -73,7 +73,7 @@ export const Header = () => {
 
           <ListDivider />
 
-          <MenuItem>
+          <MenuItem onClick={() => navigate(routes.PROFILE)}>
             <Settings size={16} /> Settings
           </MenuItem>
 

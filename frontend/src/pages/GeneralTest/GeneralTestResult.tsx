@@ -14,7 +14,7 @@ interface Result {
   adviceLists: { __typename?: 'AdviceList' | undefined; problem: string; advices: string[] }[];
 }
 
-const GeneralTestResult = () => {
+export const GeneralTestResult = () => {
   const [result, setResult] = useState<null | undefined | Result>(null);
   const [index, setIndex] = useState(0);
 
@@ -112,5 +112,3 @@ const GeneralTestResult = () => {
     </>
   );
 };
-
-export default GeneralTestResult;
