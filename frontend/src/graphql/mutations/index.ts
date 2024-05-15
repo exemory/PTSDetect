@@ -6,3 +6,4 @@ export * from './requestPasswordReset';
 export * from './resetPassword';
 export * from './submitGeneralTestAnswers';
 export * from './updateUserInfo';
+export * from './updateUserAvatar';
