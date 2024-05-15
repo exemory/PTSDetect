@@ -46,7 +46,7 @@ export const Profile = () => {
     resolver: yupResolver(formSchema),
   });
 
-  useEffect(() => {
+  const setDefaultValues = () => {
     if (user) {
       setValue('firstName', user.personalInfo?.firstName || '');
       setValue('lastName', user.personalInfo?.lastName || '');
@@ -54,7 +54,15 @@ export const Profile = () => {
       setValue('sex', user.personalInfo?.sex || Sex.Male);
       setValue('isMarried', user.personalInfo?.isMarried || false);
     }
+  };
+
+  useEffect(() => {
+    setDefaultValues();
   }, [user, setValue]);
+
+  const onCansel = () => {
+    setDefaultValues();
+  };
 
   const onSubmit = handleSubmit((data) => {
     updateUserInfo({
@@ -205,7 +213,7 @@ export const Profile = () => {
 
             <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
               <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                <Button size="sm" variant="outlined" color="neutral">
+                <Button size="sm" variant="outlined" color="neutral" onClick={onCansel}>
                   Cancel
                 </Button>
                 <Button loading={loading} size="sm" variant="solid" type="submit">
