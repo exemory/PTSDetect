@@ -8,12 +8,12 @@ export const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="grid grid-cols-2 gap-8 mt-16 items-center">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 items-center">
       <div className="flex flex-col gap-8">
-        <Typography fontSize={48} level="h1">
+        <Typography fontSize={{ xs: 32, md: 48 }} level="h1">
           Comprehensive Post-Traumatic Stress Disorder Evaluation
         </Typography>
-        <Typography fontSize={21} level="body-lg">
+        <Typography fontSize={{ xs: 18, md: 21 }} level="body-lg">
           Welcome to your personal PTSD self-assessment tool. This test, designed by mental health professionals,
           provides a confidential space to help you understand potential PTSD symptoms. Remember, this isn&apos;t a
           substitute for professional advice. If you&apos;re struggling, seek immediate help from a healthcare provider.
@@ -26,7 +26,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="">
+      <div className="hidden md:block">
         <img className="rounded-lg " src={heroImage} alt="sad man" />
       </div>
     </div>

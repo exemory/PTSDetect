@@ -182,9 +182,9 @@ export const Profile = () => {
           <Divider />
 
           <form onSubmit={onSubmit}>
-            <Stack direction="row" spacing={3} sx={{ display: { sm: 'flex-column', md: 'flex-row' }, my: 1 }}>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ my: 1 }}>
               <Stack direction="column" spacing={1}>
-                <AspectRatio ratio="1" maxHeight={200} sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}>
+                <AspectRatio ratio="1" maxHeight={200} sx={{ flex: 1, width: 120, borderRadius: '100%' }}>
                   <img src={avatarPreview || avatarUrl || avatarImage} alt="avatar" />
                 </AspectRatio>
 
