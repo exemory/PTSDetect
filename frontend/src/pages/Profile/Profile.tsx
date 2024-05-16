@@ -17,10 +17,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Sex } from '@/__generated__/graphql';
-import { useMutation } from '@apollo/client';
-import { UPDATE_USER_INFO } from '@/graphql/mutations';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { UPDATE_USER_AVATAR, UPDATE_USER_INFO } from '@/graphql/mutations';
 import { useStore } from '@/store/useStore';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import avatarImage from '@/assets/images/avatar.jpg';
+import { GET_UPLOAD_AVATAR_URL } from '@/graphql/queries';
 
 const formSchema = yup
   .object({
@@ -33,8 +35,15 @@ const formSchema = yup
   .required();
 
 export const Profile = () => {
-  const { user, setUserInfo } = useStore((state) => state);
+  const { user, setUserInfo, setAvatarUrl, avatarUrl } = useStore((state) => state);
+
+  const [avatarPreview, setAvatarPreview] = useState<any>(null);
+  const [avatarFile, setAvatarFile] = useState<any>(null);
+  const inputFile = useRef<HTMLInputElement>(null);
+
   const [updateUserInfo, { loading }] = useMutation(UPDATE_USER_INFO);
+  const [updateUserAvatar] = useMutation(UPDATE_USER_AVATAR);
+  const [getUploadAvatarUrl] = useLazyQuery(GET_UPLOAD_AVATAR_URL);
 
   const {
     register,
@@ -46,7 +55,7 @@ export const Profile = () => {
     resolver: yupResolver(formSchema),
   });
 
-  useEffect(() => {
+  const setDefaultValues = () => {
     if (user) {
       setValue('firstName', user.personalInfo?.firstName || '');
       setValue('lastName', user.personalInfo?.lastName || '');
@@ -54,9 +63,63 @@ export const Profile = () => {
       setValue('sex', user.personalInfo?.sex || Sex.Male);
       setValue('isMarried', user.personalInfo?.isMarried || false);
     }
+  };
+
+  useEffect(() => {
+    setDefaultValues();
   }, [user, setValue]);
 
-  const onSubmit = handleSubmit((data) => {
+  const handleAvatarChange = (event: any) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setAvatarPreview(reader.result);
+      setAvatarFile(file);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleAvatarUpload = async () => {
+    if (avatarFile) {
+      const { data } = await getUploadAvatarUrl();
+
+      if (data) {
+        const { uploadUrl, avatarId } = data.uploadAvatarUrl;
+
+        await fetch(uploadUrl, {
+          method: 'PUT',
+          body: avatarFile,
+          headers: {
+            'x-ms-blob-type': 'BlockBlob',
+          },
+        });
+
+        await updateUserAvatar({
+          variables: {
+            input: {
+              avatarId,
+            },
+          },
+        }).then((res) => {
+          if (res.data?.updateUserAvatar.avatarUrl) {
+            setAvatarUrl(res.data.updateUserAvatar.avatarUrl);
+          }
+        });
+      }
+    }
+  };
+
+  const onAvatarEditClick = () => {
+    if (inputFile.current) {
+      inputFile.current.click();
+    }
+  };
+
+  const onSubmit = handleSubmit(async (data) => {
     updateUserInfo({
       variables: {
         input: {
@@ -69,6 +132,8 @@ export const Profile = () => {
       },
     });
 
+    await handleAvatarUpload();
+
     setUserInfo({
       ...user,
       personalInfo: {
@@ -76,6 +141,12 @@ export const Profile = () => {
       },
     });
   });
+
+  const onCansel = () => {
+    setDefaultValues();
+    setAvatarPreview(null);
+    setAvatarFile(null);
+  };
 
   return (
     <Box sx={{ flex: 1 }}>
@@ -114,14 +185,13 @@ export const Profile = () => {
             <Stack direction="row" spacing={3} sx={{ display: { sm: 'flex-column', md: 'flex-row' }, my: 1 }}>
               <Stack direction="column" spacing={1}>
                 <AspectRatio ratio="1" maxHeight={200} sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}>
-                  <img
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                    srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                    loading="lazy"
-                    alt=""
-                  />
+                  <img src={avatarPreview || avatarUrl || avatarImage} alt="avatar" />
                 </AspectRatio>
+
+                <input type="file" id="avatar" hidden onChange={handleAvatarChange} ref={inputFile} />
+
                 <IconButton
+                  onClick={onAvatarEditClick}
                   aria-label="upload new picture"
                   size="sm"
                   variant="outlined"
@@ -205,8 +275,8 @@ export const Profile = () => {
 
             <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
               <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                <Button size="sm" variant="outlined" color="neutral">
-                  Cancel
+                <Button size="sm" variant="outlined" color="neutral" onClick={onCansel}>
+                  Reset
                 </Button>
                 <Button loading={loading} size="sm" variant="solid" type="submit">
                   Save

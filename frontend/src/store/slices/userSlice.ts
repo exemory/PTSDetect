@@ -29,6 +29,8 @@ export interface UserSlice {
       isMarried?: boolean | null;
     } | null;
   };
+  avatarUrl: string | null;
+  setAvatarUrl: (avatarUrl: string | null) => void;
   setUserInfo: (user: User) => void;
   resetUser: () => void;
 }
@@ -50,6 +52,12 @@ export const createUserSlice: ImmerStateCreator<UserSlice> = (set) => {
   return {
     user: {
       ...initialState,
+    },
+    avatarUrl: null,
+    setAvatarUrl: (avatarUrl: string | null) => {
+      set((state) => {
+        state.avatarUrl = avatarUrl;
+      });
     },
     setUserInfo: (user: User) => {
       set((state) => {
