@@ -1,10 +1,13 @@
 import { routes } from '@/routes';
 import { Avatar, Box, Dropdown, ListDivider, Menu, MenuButton, MenuItem, Typography } from '@mui/joy';
-import { Fingerprint, LogOutIcon, Settings } from 'lucide-react';
+import { Fingerprint, LogOutIcon, ClipboardCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import avatarImage from '@/assets/images/avatar.jpg';
+import { useStore } from '@/store/useStore';
 
 export const Header = () => {
   const navigate = useNavigate();
+  const { user, avatarUrl } = useStore((state) => state);
 
   const onLogOut = () => {
     localStorage.removeItem('token');
@@ -42,8 +45,8 @@ export const Header = () => {
       <Dropdown>
         <MenuButton variant="plain" size="sm" sx={{ maxWidth: '32px', maxHeight: '32px', borderRadius: '100%' }}>
           <Avatar
-            src="https://i.pravatar.cc/40?img=2"
-            srcSet="https://i.pravatar.cc/80?img=2"
+            src={avatarUrl || avatarImage}
+            srcSet={avatarUrl || avatarImage}
             sx={{ maxWidth: '32px', maxHeight: '32px' }}
           />
         </MenuButton>
@@ -57,15 +60,15 @@ export const Header = () => {
             '--ListItem-radius': '5px',
           }}
         >
-          <MenuItem onClick={() => navigate(routes.RESULTS)}>
+          <MenuItem onClick={() => navigate(routes.PROFILE)}>
             <div className="flex items-center">
-              <Avatar src="https://i.pravatar.cc/40?img=2" srcSet="https://i.pravatar.cc/80?img=2" />
+              <Avatar src={avatarUrl || avatarImage} srcSet={avatarUrl || avatarImage} />
               <Box sx={{ ml: 1.5 }}>
                 <Typography level="title-sm" textColor="text.primary">
-                  Rick Sanchez
+                  {user.personalInfo?.firstName} {user.personalInfo?.lastName}
                 </Typography>
                 <Typography level="body-xs" textColor="text.tertiary">
-                  rick@email.com
+                  {user.email}
                 </Typography>
               </Box>
             </div>
@@ -73,8 +76,8 @@ export const Header = () => {
 
           <ListDivider />
 
-          <MenuItem onClick={() => navigate(routes.PROFILE)}>
-            <Settings size={16} /> Settings
+          <MenuItem onClick={() => navigate(routes.RESULTS)}>
+            <ClipboardCheck size={16} /> Completed evaluations
           </MenuItem>
 
           <ListDivider />

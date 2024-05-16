@@ -1,5 +1,5 @@
 import MainLayout from '@/components/Layout/MainLayout/MainLayout';
-import { GET_USER_INFO } from '@/graphql';
+import { GET_USER_AVATAR, GET_USER_INFO } from '@/graphql';
 import { routes } from '@/routes';
 import { useQuery } from '@apollo/client';
 import { useEffect } from 'react';
@@ -8,14 +8,19 @@ import { useStore } from '@/store/useStore';
 
 export const PrivateRoutes = () => {
   const { data } = useQuery(GET_USER_INFO);
+  const { data: avatarData } = useQuery(GET_USER_AVATAR);
   const token = localStorage.getItem('token');
-  const { setUserInfo } = useStore((state) => state);
+  const { setUserInfo, setAvatarUrl } = useStore((state) => state);
 
   useEffect(() => {
     if (data) {
       setUserInfo(data.userInfo);
     }
-  }, [data]);
+
+    if (avatarData?.userAvatar.avatarUrl) {
+      setAvatarUrl(avatarData.userAvatar.avatarUrl);
+    }
+  }, [data, avatarData]);
 
   return token ? (
     <MainLayout>

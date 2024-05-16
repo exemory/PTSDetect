@@ -6,18 +6,6 @@ export const GET_USER_AVATAR = gql(/* GraphQL */ `
       avatarUrl
       errors {
         __typename
-        ... on ValidationError {
-          errorsCount
-          errors {
-            errorCode
-            errorMessage
-            propertyName
-            placeholders {
-              key
-              value
-            }
-          }
-        }
         ... on InternalServerError {
           message
         }
