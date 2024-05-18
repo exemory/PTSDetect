@@ -7,6 +7,7 @@ export const LanguageSelect = () => {
 
   const onLanguageChange = (event: any, value: any) => {
     i18n.changeLanguage(value);
+    localStorage.setItem('lang', value);
   };
 
   return (
