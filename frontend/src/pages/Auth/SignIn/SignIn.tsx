@@ -18,15 +18,19 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { LOGIN } from '@/graphql/mutations';
 import { useMutation } from '@apollo/client';
+import { useTranslation } from 'react-i18next';
+import i18n from '@/i18n/i18n';
 
 const formSchema = yup
   .object({
-    email: yup.string().email().required(),
-    password: yup.string().required(),
+    email: yup.string().email(i18n.t('validations.valid-email')).required(i18n.t('validations.email-required')),
+    password: yup.string().required(i18n.t('validations.password-required')),
   })
   .required();
 
 export const SignIn = () => {
+  const { t } = useTranslation();
+
   const [passwordInputType, setPasswordInputType] = useState('password');
   const {
     register,
@@ -60,10 +64,10 @@ export const SignIn = () => {
         data.login.errors.forEach((error) => {
           switch (error.__typename) {
             case 'EmailIsNotVerifiedError':
-              setError('email', { message: 'Email is not verified' });
+              setError('email', { message: t('validations.email-not-verified') });
               break;
             case 'InvalidCredentialsError':
-              setError('password', { message: 'Wrong password' });
+              setError('password', { message: t('validations.wrong-password') });
               break;
             default:
               console.error(`Unhandled error type: ${error.__typename}`);
@@ -82,11 +86,11 @@ export const SignIn = () => {
   return (
     <div className="flex flex-col w-[400px] gap-6">
       <div className="flex flex-col gap-2">
-        <Typography level="h3">Sign in</Typography>
+        <Typography level="h3">{t('sign-in.title')}</Typography>
         <Typography level="body-sm">
-          Don&apos;t have an account?{' '}
+          {t('sign-in.sub-title-part-1')}{' '}
           <NavLink to={routes.SIGN_UP}>
-            <Link level="title-sm">Sign up!</Link>
+            <Link level="title-sm">{t('sign-in.sub-title-part-2')}</Link>
           </NavLink>
         </Typography>
       </div>
@@ -94,13 +98,13 @@ export const SignIn = () => {
       <form onSubmit={onSubmit}>
         <div className="flex flex-col gap-4">
           <FormControl required error={!!errors.email}>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>{t('general.email')}</FormLabel>
             <Input type="email" {...register('email')} />
             <FormHelperText>{errors.email?.message}</FormHelperText>
           </FormControl>
 
           <FormControl required error={!!errors.password}>
-            <FormLabel>Password</FormLabel>
+            <FormLabel>{t('general.password')}</FormLabel>
             <Input
               type={passwordInputType}
               endDecorator={
@@ -119,13 +123,13 @@ export const SignIn = () => {
 
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
-              <Checkbox size="sm" label="Remember me" name="persistent" />
+              <Checkbox size="sm" label={t('sign-in.remember-me')} name="persistent" />
               <NavLink to={routes.FORGOT_PASSWORD}>
-                <Link level="title-sm">Forgot your password?</Link>
+                <Link level="title-sm">{t('sign-in.forgot-password')}</Link>
               </NavLink>
             </div>
             <Button loading={loading} type="submit" fullWidth>
-              Sign in
+              {t('sign-in.action')}
             </Button>
           </div>
         </div>

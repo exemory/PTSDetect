@@ -1,3 +1,4 @@
+import { LanguageSelect } from '@/components/LanguageSelect';
 import { Typography } from '@mui/joy';
 import { Fingerprint } from 'lucide-react';
 
@@ -12,7 +13,12 @@ export const AuthLayout = ({ children }: { children: JSX.Element | JSX.Element[]
           </Typography>
         </div>
       </div>
-      <div className="w-full px-4 md:px-0 md:w-2/3 lg:w-1/2 flex items-center justify-center">{children}</div>
+      <div className="w-full px-4 md:px-0 md:w-2/3 lg:w-1/2 flex flex-col">
+        <div className="flex justify-end w-full p-8">
+          <LanguageSelect />
+        </div>
+        <div className="flex items-center justify-center h-3/4">{children}</div>
+      </div>
     </div>
   );
 };

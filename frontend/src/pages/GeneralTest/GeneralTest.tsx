@@ -7,9 +7,12 @@ import { Button, CircularProgress, FormControl, List, ListItem, Radio, RadioGrou
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 export const GeneralTest = () => {
+  const { t, i18n } = useTranslation();
+
   const [questions, setQuestions] = useState<Question[] | undefined>([]);
   const [endCursor, setEndCursor] = useState<string | undefined>(undefined);
   const [hasNextPage, setHasNextPage] = useState<boolean | undefined>(undefined);
@@ -28,7 +31,7 @@ export const GeneralTest = () => {
     getQuestions({
       variables: {
         input: {
-          languageCode: 'en',
+          languageCode: i18n.language,
         },
         first: 1,
       },
@@ -55,7 +58,7 @@ export const GeneralTest = () => {
     getQuestions({
       variables: {
         input: {
-          languageCode: 'en',
+          languageCode: i18n.language,
         },
         after: endCursor,
         first: 1,
@@ -92,7 +95,7 @@ export const GeneralTest = () => {
   return (
     <div className="flex flex-col mx-auto gap-2 max-w-[660px]">
       <Typography level="title-md" color="primary">
-        Question {currentQuestion + 1} of {totalQuestions}
+        {t('general-test.question')} {currentQuestion + 1} {t('general-test.of')} {totalQuestions}
       </Typography>
 
       <form onSubmit={onSubmit}>
@@ -157,7 +160,7 @@ export const GeneralTest = () => {
                 endDecorator={<ArrowRight />}
                 disabled={!watchedValues[questions?.[currentQuestion]?.id ?? '']}
               >
-                Next
+                {t('general-test.next')}
               </Button>
             ) : (
               <Button
@@ -167,7 +170,7 @@ export const GeneralTest = () => {
                 loading={isSubmitLoading}
                 disabled={!watchedValues[questions?.[currentQuestion]?.id ?? '']}
               >
-                Finish
+                {t('general-test.finish')}
               </Button>
             )}
           </div>

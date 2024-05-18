@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '@/routes';
 import { CircularProgress } from '@mui/joy';
+import { useTranslation } from 'react-i18next';
 
 interface IResults {
   __typename?: 'GeneralTestResult' | undefined;
@@ -19,12 +20,14 @@ interface IResults {
 }
 
 export const Results = () => {
+  const { t, i18n } = useTranslation();
+
   const [results, setResults] = useState<null | undefined | IResults[]>();
 
   const navigate = useNavigate();
 
   const { loading, data } = useQuery(GET_GENERAL_TEST_RESULTS, {
-    variables: { input: { languageCode: 'en' } },
+    variables: { input: { languageCode: i18n.language } },
   });
 
   useEffect(() => {
@@ -61,7 +64,7 @@ export const Results = () => {
   return (
     <div>
       <Typography level="h2" component="h1" mb={2}>
-        Completed evaluations
+        {t('results.title')}
       </Typography>
       <Divider />
       {results && (
@@ -79,7 +82,7 @@ export const Results = () => {
                 </AspectRatio>
               </CardOverflow>
               <CardContent>
-                <Typography level="title-md">Comprehensive Post-Traumatic Stress Disorder Evaluation</Typography>
+                <Typography level="title-md">{t('results.card-title')}</Typography>
               </CardContent>
               <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
                 <Divider inset="context" />

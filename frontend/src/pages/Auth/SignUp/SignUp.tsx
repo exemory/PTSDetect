@@ -8,27 +8,31 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import i18n from '@/i18n/i18n';
+import { useTranslation } from 'react-i18next';
 
 const formSchema = yup
   .object({
-    email: yup.string().email('Must be a valid email address').required('Email is required'),
+    email: yup.string().email(i18n.t('validations.valid-email')).required(i18n.t('validations.email-required')),
     password: yup
       .string()
-      .required('Password is required')
-      .min(8, 'Must be 8 or more characters long')
-      .matches(/[^\s]/, 'Password must contain at least one non-whitespace character')
-      .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .matches(/[0-9]/, 'Password must contain at least one digit')
-      .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one non-alphanumeric character'),
+      .required(i18n.t('validations.password-required'))
+      .min(8, i18n.t('validations.must-be-char-long'))
+      .matches(/[^\s]/, i18n.t('validations.must-contain-non-whitespace-char'))
+      .matches(/[a-z]/, i18n.t('validations.must-contain-one-lowercase-letter'))
+      .matches(/[A-Z]/, i18n.t('validations.must-contain-one-uppercase-letter'))
+      .matches(/[0-9]/, i18n.t('validations.must-contain-one-digit'))
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, i18n.t('validations.must-contain-one-non-alphanumeric')),
     repeatPassword: yup
       .string()
-      .oneOf([yup.ref('password')], 'Passwords must match')
-      .required('Repeat password is required'),
+      .oneOf([yup.ref('password')], i18n.t('validations.passwords-must-match'))
+      .required(i18n.t('validations.repeat-password-required')),
   })
   .required();
 
 export const SignUp = () => {
+  const { t } = useTranslation();
+
   const [passwordInputType, setPasswordInputType] = useState('password');
   const [repeatPasswordInputType, setRepeatPasswordInputType] = useState('password');
 
@@ -66,7 +70,7 @@ export const SignUp = () => {
               error.errors.forEach((error) => {
                 switch (error.key) {
                   case 'DuplicateEmail':
-                    setError('email', { message: `A user with this email already exists` });
+                    setError('email', { message: t('validations.user-with-email-exists') });
                     break;
                 }
               });
@@ -88,11 +92,11 @@ export const SignUp = () => {
   return (
     <div className="flex flex-col w-[400px] gap-6">
       <div className="flex flex-col gap-2">
-        <Typography level="h3">Sign up</Typography>
+        <Typography level="h3">{t('sign-up.title')}</Typography>
         <Typography level="body-sm">
-          Already have an account?{' '}
+          {t('sign-up.sub-title-part-1')}{' '}
           <NavLink to={routes.SIGN_IN}>
-            <Link level="title-sm">Sign in!</Link>
+            <Link level="title-sm">{t('sign-up.sub-title-part-2')}</Link>
           </NavLink>
         </Typography>
       </div>
@@ -100,13 +104,13 @@ export const SignUp = () => {
       <form onSubmit={onSubmit}>
         <div className="flex flex-col gap-4">
           <FormControl error={!!errors.email}>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>{t('general.email')}</FormLabel>
             <Input type="email" {...register('email')} />
             <FormHelperText>{errors.email?.message}</FormHelperText>
           </FormControl>
 
           <FormControl error={!!errors.password}>
-            <FormLabel>Password</FormLabel>
+            <FormLabel>{t('general.password')}</FormLabel>
             <Input
               type={passwordInputType}
               endDecorator={
@@ -124,7 +128,7 @@ export const SignUp = () => {
           </FormControl>
 
           <FormControl error={!!errors.repeatPassword}>
-            <FormLabel>Repeat password</FormLabel>
+            <FormLabel>{t('sign-up.repeat-password')}</FormLabel>
             <Input
               type={repeatPasswordInputType}
               endDecorator={
@@ -143,7 +147,7 @@ export const SignUp = () => {
 
           <div className="flex flex-col mt-6">
             <Button type="submit" fullWidth loading={loading}>
-              Next
+              {t('sign-up.action')}
             </Button>
           </div>
         </div>

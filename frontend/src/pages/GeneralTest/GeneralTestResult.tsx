@@ -4,6 +4,7 @@ import { useLazyQuery } from '@apollo/client';
 import { Box, CircularProgress, List, ListItem, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
 import { tabClasses } from '@mui/joy/Tab';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
 interface Result {
@@ -15,6 +16,8 @@ interface Result {
 }
 
 export const GeneralTestResult = () => {
+  const { t, i18n } = useTranslation();
+
   const [result, setResult] = useState<null | undefined | Result>(null);
   const [index, setIndex] = useState(0);
 
@@ -25,7 +28,7 @@ export const GeneralTestResult = () => {
     getResult({
       variables: {
         input: {
-          languageCode: 'en',
+          languageCode: i18n.language,
           resultId: id,
         },
       },
@@ -46,10 +49,11 @@ export const GeneralTestResult = () => {
     <>
       {result && (
         <div className="flex flex-col mx-auto gap-4 max-w-[960px]">
-          <Typography level="h2">Result of the Comprehensive PTSD evaluation</Typography>
+          <Typography level="h2">{t('general-test-result.title')}</Typography>
 
           <Typography level="h4">
-            Potential problems: <span className="inline-flex gap-1">{result.potentialProblems.join(', ')}</span>
+            {t('general-test-result.sub-title')}{' '}
+            <span className="inline-flex gap-1">{result.potentialProblems.join(', ')}</span>
           </Typography>
 
           <Box

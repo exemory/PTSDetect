@@ -23,18 +23,21 @@ import { useStore } from '@/store/useStore';
 import { useEffect, useRef, useState } from 'react';
 import avatarImage from '@/assets/images/avatar.jpg';
 import { GET_UPLOAD_AVATAR_URL } from '@/graphql/queries';
+import { useTranslation } from 'react-i18next';
+import i18n from '@/i18n/i18n';
 
 const formSchema = yup
   .object({
-    firstName: yup.string().required('First name is required'),
-    lastName: yup.string().required('Last name is required'),
-    birthdate: yup.string().required('Birthdate is required'),
-    sex: yup.mixed<Sex>().oneOf(Object.values(Sex)).required('Gender is required'),
-    isMarried: yup.boolean().required('Married is required'),
+    firstName: yup.string().required(i18n.t('validations.first-name-required')),
+    lastName: yup.string().required(i18n.t('validations.last-name-required')),
+    birthdate: yup.string().required(i18n.t('validations.birthdate-required')),
+    sex: yup.mixed<Sex>().oneOf(Object.values(Sex)).required(i18n.t('validations.gender-required')),
+    isMarried: yup.boolean().required(i18n.t('validations.married-required')),
   })
   .required();
 
 export const Profile = () => {
+  const { t } = useTranslation();
   const { user, setUserInfo, setAvatarUrl, avatarUrl } = useStore((state) => state);
 
   const [avatarPreview, setAvatarPreview] = useState<any>(null);
@@ -157,7 +160,7 @@ export const Profile = () => {
       >
         <Box mb={2}>
           <Typography level="h2" component="h1">
-            My profile
+            {t('profile.my-profile')}
           </Typography>
         </Box>
       </Box>
@@ -175,8 +178,8 @@ export const Profile = () => {
       >
         <Card>
           <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Personal info</Typography>
-            <Typography level="body-sm">Customize how your profile information will apper to the networks.</Typography>
+            <Typography level="title-md">{t('profile.title')}</Typography>
+            <Typography level="body-sm">{t('profile.sub-title')}</Typography>
           </Box>
 
           <Divider />
@@ -212,36 +215,36 @@ export const Profile = () => {
 
               <Stack direction="column" spacing={1} width="100%">
                 <FormControl error={!!errors.firstName}>
-                  <FormLabel>First name</FormLabel>
+                  <FormLabel>{t('profile.first-name')}</FormLabel>
                   <Input type="text" {...register('firstName')} />
                   <FormHelperText>{errors.firstName?.message}</FormHelperText>
                 </FormControl>
 
                 <FormControl error={!!errors.lastName}>
-                  <FormLabel>Last name</FormLabel>
+                  <FormLabel>{t('profile.last-name')}</FormLabel>
                   <Input type="text" {...register('lastName')} />
                   <FormHelperText>{errors.lastName?.message}</FormHelperText>
                 </FormControl>
 
                 <FormControl error={!!errors.birthdate}>
-                  <FormLabel>Birthdate</FormLabel>
+                  <FormLabel>{t('profile.birthdate')}</FormLabel>
                   <Input type="date" {...register('birthdate')} />
                   <FormHelperText>{errors.birthdate?.message}</FormHelperText>
                 </FormControl>
 
                 <FormControl error={!!errors.sex}>
-                  <FormLabel>Gender</FormLabel>
+                  <FormLabel>{t('profile.gender')}</FormLabel>
                   <RadioGroup>
                     <div className="flex gap-6">
                       <Radio
                         value={Sex.Male}
-                        label="Male"
+                        label={t('profile.male')}
                         checked={watch('sex') === Sex.Male}
                         onChange={() => setValue('sex', Sex.Male)}
                       />
                       <Radio
                         value={Sex.Female}
-                        label="Female"
+                        label={t('profile.female')}
                         checked={watch('sex') === Sex.Female}
                         onChange={() => setValue('sex', Sex.Female)}
                       />
@@ -252,7 +255,7 @@ export const Profile = () => {
                 </FormControl>
 
                 <FormControl error={!!errors.isMarried}>
-                  <FormLabel>Married</FormLabel>
+                  <FormLabel>{t('profile.married')}</FormLabel>
                   <Box
                     sx={{
                       '& > div': { p: 1.5, borderRadius: 'md', display: 'flex' },
@@ -260,7 +263,7 @@ export const Profile = () => {
                   >
                     <Sheet variant="outlined">
                       <Checkbox
-                        label="I am married"
+                        label={t('profile.i-am-married')}
                         overlay
                         {...register('isMarried')}
                         checked={watch('isMarried') === true}
@@ -276,10 +279,10 @@ export const Profile = () => {
             <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
               <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
                 <Button size="sm" variant="outlined" color="neutral" onClick={onCansel}>
-                  Reset
+                  {t('profile.reset')}
                 </Button>
                 <Button loading={loading} size="sm" variant="solid" type="submit">
-                  Save
+                  {t('profile.save')}
                 </Button>
               </CardActions>
             </CardOverflow>
