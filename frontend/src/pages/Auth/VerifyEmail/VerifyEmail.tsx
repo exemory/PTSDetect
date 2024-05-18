@@ -5,8 +5,11 @@ import { VERIFY_EMAIL } from '@/graphql/mutations';
 import { useMutation } from '@apollo/client';
 import { CheckCircle, XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const VerifyEmail = () => {
+  const { t } = useTranslation();
+
   const [verifyEmail, { loading }] = useMutation(VERIFY_EMAIL);
   const [isVerified, setIsVerified] = useState(false);
   const [searchParams] = useSearchParams();
@@ -45,13 +48,13 @@ export const VerifyEmail = () => {
       <div className="flex flex-col gap-2 items-center">
         <XCircle size={92} color="red" />
         <Typography level="h3" alignContent="center">
-          Error
+          {t('general.error')}
         </Typography>
-        <Typography level="body-sm">Your email address could not be verified</Typography>
+        <Typography level="body-sm">{t('verify-email.email-could-not-be-verified')}</Typography>
       </div>
 
       <Button onClick={() => navigate(routes.SIGN_UP)} loading={loading} fullWidth>
-        Sign up
+        {t('general.sign-up')}
       </Button>
     </div>;
   }
@@ -62,13 +65,13 @@ export const VerifyEmail = () => {
         <CheckCircle size={92} color="green" />
 
         <Typography level="h3" alignContent="center">
-          Email Verified
+          {t('verify-email.titile')}
         </Typography>
-        <Typography level="body-sm">Your email address was successfully verified.</Typography>
+        <Typography level="body-sm"> {t('verify-email.sub-title')}</Typography>
       </div>
 
       <Button onClick={() => navigate(routes.SIGN_IN)} loading={loading} fullWidth>
-        Sign in
+        {t('general.sign-in')}
       </Button>
     </div>
   );

@@ -4,8 +4,11 @@ import { Fingerprint, LogOutIcon, ClipboardCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import avatarImage from '@/assets/images/avatar.jpg';
 import { useStore } from '@/store/useStore';
+import { LanguageSelect } from '@/components/LanguageSelect';
+import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, avatarUrl } = useStore((state) => state);
 
@@ -42,51 +45,55 @@ export const Header = () => {
         <Typography level="h4">PTSDetect</Typography>
       </div>
 
-      <Dropdown>
-        <MenuButton variant="plain" size="sm" sx={{ maxWidth: '32px', maxHeight: '32px', borderRadius: '100%' }}>
-          <Avatar
-            src={avatarUrl || avatarImage}
-            srcSet={avatarUrl || avatarImage}
-            sx={{ maxWidth: '32px', maxHeight: '32px' }}
-          />
-        </MenuButton>
-        <Menu
-          placement="bottom-end"
-          size="sm"
-          sx={{
-            zIndex: 2,
-            p: 1,
-            gap: 1,
-            '--ListItem-radius': '5px',
-          }}
-        >
-          <MenuItem onClick={() => navigate(routes.PROFILE)}>
-            <div className="flex items-center">
-              <Avatar src={avatarUrl || avatarImage} srcSet={avatarUrl || avatarImage} />
-              <Box sx={{ ml: 1.5 }}>
-                <Typography level="title-sm" textColor="text.primary">
-                  {user.personalInfo?.firstName} {user.personalInfo?.lastName}
-                </Typography>
-                <Typography level="body-xs" textColor="text.tertiary">
-                  {user.email}
-                </Typography>
-              </Box>
-            </div>
-          </MenuItem>
+      <div className="flex gap-6">
+        <LanguageSelect />
 
-          <ListDivider />
+        <Dropdown>
+          <MenuButton variant="plain" size="sm" sx={{ maxWidth: '32px', maxHeight: '32px', borderRadius: '100%' }}>
+            <Avatar
+              src={avatarUrl || avatarImage}
+              srcSet={avatarUrl || avatarImage}
+              sx={{ maxWidth: '32px', maxHeight: '32px' }}
+            />
+          </MenuButton>
+          <Menu
+            placement="bottom-end"
+            size="sm"
+            sx={{
+              zIndex: 2,
+              p: 1,
+              gap: 1,
+              '--ListItem-radius': '5px',
+            }}
+          >
+            <MenuItem onClick={() => navigate(routes.PROFILE)}>
+              <div className="flex items-center">
+                <Avatar src={avatarUrl || avatarImage} srcSet={avatarUrl || avatarImage} />
+                <Box sx={{ ml: 1.5 }}>
+                  <Typography level="title-sm" textColor="text.primary">
+                    {user.personalInfo?.firstName} {user.personalInfo?.lastName}
+                  </Typography>
+                  <Typography level="body-xs" textColor="text.tertiary">
+                    {user.email}
+                  </Typography>
+                </Box>
+              </div>
+            </MenuItem>
 
-          <MenuItem onClick={() => navigate(routes.RESULTS)}>
-            <ClipboardCheck size={16} /> Completed evaluations
-          </MenuItem>
+            <ListDivider />
 
-          <ListDivider />
+            <MenuItem onClick={() => navigate(routes.RESULTS)}>
+              <ClipboardCheck size={16} /> {t('header.completed-evaluations')}
+            </MenuItem>
 
-          <MenuItem onClick={onLogOut}>
-            <LogOutIcon size={16} /> Log out
-          </MenuItem>
-        </Menu>
-      </Dropdown>
+            <ListDivider />
+
+            <MenuItem onClick={onLogOut}>
+              <LogOutIcon size={16} /> {t('header.log-out')}
+            </MenuItem>
+          </Menu>
+        </Dropdown>
+      </div>
     </Box>
   );
 };

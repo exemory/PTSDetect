@@ -1,0 +1,112 @@
+{
+  "general": {
+    "sign-in": "Sign in",
+    "sign-up": "Sign up",
+    "error": "Error",
+    "success": "Success",
+    "email": "Email",
+    "password": "Password"
+  },
+  "validations": {
+    "email-not-verified": "Email is not verified",
+    "wrong-password": "Wrong password",
+    "valid-email": "Must be a valid email address",
+    "email-required": "Email is required",
+    "password-required": "Password is required",
+    "must-be-char-long": "Must be 8 or more characters long",
+    "must-contain-non-whitespace-char": "Password must contain at least one non-whitespace character",
+    "must-contain-one-lowercase-letter": "Password must contain at least one lowercase letter",
+    "must-contain-one-uppercase-letter": "Password must contain at least one uppercase letter",
+    "must-contain-one-digit": "Password must contain at least one digit",
+    "must-contain-one-non-alphanumeric": "Password must contain at least one non-alphanumeric character",
+    "passwords-must-match": "Passwords must match",
+    "repeat-password-required": "Repeat password is required",
+    "user-with-email-not-found": "User with this email not found",
+    "first-name-required": "First name is required",
+    "last-name-required": "Last name is required",
+    "birthdate-required": "Birthdate is required",
+    "gender-required": "Gender is required",
+    "married-required": "Married is required",
+    "user-with-email-exists": "A user with this email already exists"
+  },
+  "sign-in": {
+    "title": "Sign in",
+    "sub-title-part-1": "Don't have an account?",
+    "sub-title-part-2": "Sign up!",
+    "forgot-password": "Forgot your password?",
+    "action": "Sign in",
+    "remember-me": "Remember me"
+  },
+  "sign-up": {
+    "title": "Sign up",
+    "sub-title-part-1": "Already have an account?",
+    "sub-title-part-2": "Sign in!",
+    "repeat-password": "Repeat password",
+    "action": "Sign up"
+  },
+  "reset-password": {
+    "title": "Reset password",
+    "sub-title": "Enter a new password below to change your password",
+    "new-password": "New password",
+    "repeat-new-password": "Repeat new password",
+    "return-to-sign-in": "Return to sign in",
+    "action": "Reset",
+    "password-reset-successfully": "Password has been reset successfully",
+    "password-reset-error": "An error occurred while trying to reset the password"
+  },
+  "forgot-password": {
+    "title": "Reset password",
+    "sub-title": "Enter your email address and we will send you the recovery link",
+    "return-to-sign-in": "Return to sign in",
+    "check-your-email": "Check your email",
+    "action": "Send",
+    "we-sent-recovery-link": "We have sent a password recovery link to your email."
+  },
+  "confirm-email": {
+    "title": "Confrim your email address",
+    "sub-title": "We have sent you an email to make sure your email address is valid. Once you receive the email, please click on the provided link to complete your registration."
+  },
+  "verify-email": {
+    "email-could-not-be-verified": "Your email address could not be verified",
+    "titile": "Email Verified",
+    "sub-title": "Your email address was successfully verified."
+  },
+  "home": {
+    "title": "Comprehensive Post-Traumatic Stress Disorder Evaluation",
+    "sub-title": "Welcome to your personal PTSD self-assessment tool. This test, designed by mental health professionals, provides a confidential space to help you understand potential PTSD symptoms. Remember, this isn't a substitute for professional advice. If you're struggling, seek immediate help from a healthcare provider.",
+    "action": "Begin Your Assessment Now"
+  },
+  "general-test": {
+    "question": "Question",
+    "of": "of",
+    "next": "Next",
+    "finish": "Finish"
+  },
+  "general-test-result": {
+    "title": "Result of the Comprehensive PTSD evaluation",
+    "sub-title": "Potential problems:"
+  },
+  "results": {
+    "title": "Completed evaluations",
+    "card-title": "Comprehensive Post-Traumatic Stress Disorder Evaluation"
+  },
+  "profile": {
+    "my-profile": "My profile",
+    "title": "Personal info",
+    "sub-title": "Customize how your profile information will apper to the networks.",
+    "first-name": "First name",
+    "last-name": "Last name",
+    "birthdate": "Birthdate",
+    "gender": "Gender",
+    "married": "Married",
+    "reset": "Reset",
+    "save": "Save",
+    "i-am-married": "I am married",
+    "male": "Male",
+    "female": "Female"
+  },
+  "header": {
+    "completed-evaluations": "Completed evaluations",
+    "log-out": "Log out"
+  }
+}

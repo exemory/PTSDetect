@@ -8,14 +8,18 @@ import { REQUEST_PASSWORD_RESET } from '@/graphql/mutations';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { Mail } from 'lucide-react';
+import i18n from '@/i18n/i18n';
+import { useTranslation } from 'react-i18next';
 
 const formSchema = yup
   .object({
-    email: yup.string().email().required(),
+    email: yup.string().email(i18n.t('validations.valid-email')).required(i18n.t('validations.email-required')),
   })
   .required();
 
 export const ForgotPassword = () => {
+  const { t } = useTranslation();
+
   const {
     register,
     handleSubmit,
@@ -40,7 +44,7 @@ export const ForgotPassword = () => {
         data.requestPasswordReset.errors.forEach((error) => {
           switch (error.__typename) {
             case 'UserNotFoundError':
-              setError('email', { message: 'User with this email not found' });
+              setError('email', { message: t('validations.user-with-email-not-found') });
               break;
             default:
               console.error(`Unhandled error type: ${error.__typename}`);
@@ -62,10 +66,10 @@ export const ForgotPassword = () => {
         <div className="flex flex-col gap-2 items-center">
           <Mail size={92} color="#185EA5" />
           <Typography level="h3" textAlign="center">
-            Check your email
+            {t('forgot-password.check-your-email')}
           </Typography>
           <Typography level="body-sm" textAlign="center">
-            We have sent a password recovery link to your email.
+            {t('forgot-password.we-sent-recovery-link')}
           </Typography>
         </div>
       </div>
@@ -75,14 +79,14 @@ export const ForgotPassword = () => {
   return (
     <div className="flex flex-col w-[400px] gap-6">
       <div className="flex flex-col gap-2">
-        <Typography level="h3">Reset password</Typography>
-        <Typography level="body-sm">Enter your email address and we will send you the recovery link</Typography>
+        <Typography level="h3">{t('forgot-password.title')}</Typography>
+        <Typography level="body-sm">{t('forgot-password.sub-title')}</Typography>
       </div>
 
       <form onSubmit={onSubmit}>
         <div className="flex flex-col gap-4">
           <FormControl required error={!!errors.email}>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>{t('general.email')}</FormLabel>
             <Input type="email" {...register('email')} />
             <FormHelperText>{errors.email?.message}</FormHelperText>
           </FormControl>
@@ -90,11 +94,11 @@ export const ForgotPassword = () => {
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-end">
               <NavLink to={routes.SIGN_IN}>
-                <Link level="title-sm">Return to sign in</Link>
+                <Link level="title-sm">{t('forgot-password.return-to-sign-in')}</Link>
               </NavLink>
             </div>
             <Button loading={loading} type="submit" fullWidth>
-              Send
+              {t('forgot-password.action')}
             </Button>
           </div>
         </div>

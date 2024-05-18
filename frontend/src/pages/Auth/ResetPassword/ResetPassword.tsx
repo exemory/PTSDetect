@@ -19,26 +19,30 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { VERIFY_RESET_PASSWORD_TOKEN } from '@/graphql/queries';
 import { Eye, EyeOff, XCircle, CheckCircle } from 'lucide-react';
+import i18n from '@/i18n/i18n';
+import { useTranslation } from 'react-i18next';
 
 const formSchema = yup
   .object({
     password: yup
       .string()
-      .required('Password is required')
-      .min(8, 'Must be 8 or more characters long')
-      .matches(/[^\s]/, 'Password must contain at least one non-whitespace character')
-      .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .matches(/[0-9]/, 'Password must contain at least one digit')
-      .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one non-alphanumeric character'),
+      .required(i18n.t('validations.password-required'))
+      .min(8, i18n.t('validations.must-be-char-long'))
+      .matches(/[^\s]/, i18n.t('validations.must-contain-non-whitespace-char'))
+      .matches(/[a-z]/, i18n.t('validations.must-contain-one-lowercase-letter'))
+      .matches(/[A-Z]/, i18n.t('validations.must-contain-one-uppercase-letter'))
+      .matches(/[0-9]/, i18n.t('validations.must-contain-one-digit'))
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, i18n.t('validations.must-contain-one-non-alphanumeric')),
     repeatPassword: yup
       .string()
-      .oneOf([yup.ref('password')], 'Passwords must match')
-      .required('Repeat password is required'),
+      .oneOf([yup.ref('password')], i18n.t('validations.passwords-must-match'))
+      .required(i18n.t('validations.repeat-password-required')),
   })
   .required();
 
 export const ResetPassword = () => {
+  const { t } = useTranslation();
+
   const {
     register,
     handleSubmit,
@@ -124,13 +128,13 @@ export const ResetPassword = () => {
         <div className="flex flex-col gap-2 items-center">
           <XCircle size={92} color="red" />
           <Typography level="h3" alignContent="center">
-            Error
+            {t('general.error')}
           </Typography>
-          <Typography level="body-sm">An error occurred while trying to reset the password</Typography>
+          <Typography level="body-sm">{t('reset-password.password-reset-error')}</Typography>
         </div>
 
         <Button onClick={() => navigate(routes.SIGN_UP)} loading={loading} fullWidth>
-          Sign up
+          {t('general.sign-up')}
         </Button>
       </div>
     );
@@ -142,13 +146,13 @@ export const ResetPassword = () => {
         <div className="flex flex-col gap-2 items-center">
           <CheckCircle size={92} color="green" />
           <Typography level="h3" alignContent="center">
-            Success
+            {t('general.success')}
           </Typography>
-          <Typography level="body-sm">Password has been reset successfully</Typography>
+          <Typography level="body-sm">{t('reset-password.password-reset-successfully')}</Typography>
         </div>
 
         <Button onClick={() => navigate(routes.SIGN_IN)} loading={loading} fullWidth>
-          Sign in
+          {t('general.sign-in')}
         </Button>
       </div>
     );
@@ -157,14 +161,14 @@ export const ResetPassword = () => {
   return (
     <div className="flex flex-col w-[400px] gap-6">
       <div className="flex flex-col gap-2">
-        <Typography level="h3">Reset password</Typography>
-        <Typography level="body-sm">Enter a new password below to change your password</Typography>
+        <Typography level="h3">{t('reset-password.title')}</Typography>
+        <Typography level="body-sm">{t('reset-password.sub-title')}</Typography>
       </div>
 
       <form onSubmit={onSubmit}>
         <div className="flex flex-col gap-4">
           <FormControl error={!!errors.password}>
-            <FormLabel>New password</FormLabel>
+            <FormLabel>{t('reset-password.new-password')}</FormLabel>
             <Input
               type={passwordInputType}
               endDecorator={
@@ -182,7 +186,7 @@ export const ResetPassword = () => {
           </FormControl>
 
           <FormControl error={!!errors.repeatPassword}>
-            <FormLabel>Repeat new password</FormLabel>
+            <FormLabel>{t('reset-password.repeat-new-password')}</FormLabel>
             <Input
               type={repeatPasswordInputType}
               endDecorator={
@@ -202,11 +206,11 @@ export const ResetPassword = () => {
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-end">
               <NavLink to={routes.SIGN_IN}>
-                <Link level="title-sm">Return to sign in</Link>
+                <Link level="title-sm">{t('reset-password.return-to-sign-in')}</Link>
               </NavLink>
             </div>
             <Button loading={loading} type="submit" fullWidth>
-              Reset
+              {t('reset-password.action')}
             </Button>
           </div>
         </div>
