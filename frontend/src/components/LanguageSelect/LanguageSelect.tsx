@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 export const LanguageSelect = () => {
   const { i18n } = useTranslation();
 
-  const onLanguageChange = (event: any, value: any) => {
+  const onLanguageChange = (_event: any, value: any) => {
     i18n.changeLanguage(value);
     localStorage.setItem('lang', value);
   };
