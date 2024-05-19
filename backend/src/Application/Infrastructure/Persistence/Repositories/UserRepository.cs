@@ -60,47 +60,67 @@ public class UserRepository(IAppDbContext context) : IUserRepository
             updateDefinition, cancellationToken: cancellationToken);
     }
 
-    public Task<IQueryable<Common.Models.GeneralTestResult>> GetGeneralTestResults(string userId, string languageCode,
+    public async Task<IQueryable<Common.Models.GeneralTestResult>> GetGeneralTestResults(string userId,
+        string languageCode,
         CancellationToken cancellationToken = default)
     {
-        var testResultsWithAdvices = context.Users
-            .AsQueryable()
+        var testResults = await context.Users.AsQueryable()
             .Where(x => x.Id == ObjectId.Parse(userId))
             .SelectMany(x => x.GeneralTestResults)
-            .SelectMany(testResult => testResult.PotentialProblems,
-                (testResult, problem) => new { TestResult = testResult, Problem = problem })
-            .Join(context.AdviceLists.AsQueryable(),
-                testResult => testResult.Problem,
-                adviceList => adviceList.Problem,
-                (testResult, adviceList) => new { TestResult = testResult, AdviceList = adviceList })
-            .GroupBy(testResultWithAdvices => testResultWithAdvices.TestResult.TestResult,
-                testResult => testResult.AdviceList)
-            .Select(testResultGroup =>
-                new Common.Models.GeneralTestResult
-                {
-                    Id = testResultGroup.Key.Id,
-                    CompletionDate = testResultGroup.Key.CompletionDate,
-                    PotentialProblems = testResultGroup.Key.PotentialProblems,
-                    AdviceLists = testResultGroup.Select(adviceList =>
-                            new AdviceList
-                            {
-                                Problem = adviceList.Problem,
-                                Advices = adviceList.Translations[languageCode].Advices
-                            })
-                        .ToList()
-                });
+            .ToListAsync(cancellationToken);
 
-        return Task.FromResult(testResultsWithAdvices);
+        var problems = testResults
+            .SelectMany(x => x.PotentialProblems)
+            .ToList();
+
+        var adviceLists = await context.AdviceLists.AsQueryable()
+            .Where(x => problems.Contains(x.Problem))
+            .Select(x => new AdviceList
+            {
+                Problem = x.Problem,
+                Advices = x.Translations[languageCode].Advices
+            })
+            .ToListAsync(cancellationToken);
+
+        return testResults.Select(x => new Common.Models.GeneralTestResult
+        {
+            Id = x.Id,
+            CompletionDate = x.CompletionDate,
+            PotentialProblems = x.PotentialProblems,
+            AdviceLists = adviceLists
+                .Where(y => x.PotentialProblems.Contains(y.Problem))
+                .ToList()
+        }).AsQueryable();
     }
 
     public async Task<Common.Models.GeneralTestResult?> GetGeneralTestResult(Guid resultId, string userId,
         string languageCode, CancellationToken cancellationToken = default)
     {
-        var queryableResults =
-            (IMongoQueryable<Common.Models.GeneralTestResult>)await GetGeneralTestResults(userId, languageCode,
-                cancellationToken);
-
-        return await queryableResults
+        var testResult = await context.Users.AsQueryable()
+            .Where(x => x.Id == ObjectId.Parse(userId))
+            .SelectMany(x => x.GeneralTestResults)
             .FirstOrDefaultAsync(x => x.Id == resultId, cancellationToken);
+
+        if (testResult == null)
+        {
+            return null;
+        }
+
+        var adviceLists = await context.AdviceLists.AsQueryable()
+            .Where(x => testResult.PotentialProblems.Contains(x.Problem))
+            .Select(x => new AdviceList
+            {
+                Problem = x.Problem,
+                Advices = x.Translations[languageCode].Advices
+            })
+            .ToListAsync(cancellationToken);
+
+        return new Common.Models.GeneralTestResult
+        {
+            Id = testResult.Id,
+            CompletionDate = testResult.CompletionDate,
+            PotentialProblems = testResult.PotentialProblems,
+            AdviceLists = adviceLists
+        };
     }
 }
