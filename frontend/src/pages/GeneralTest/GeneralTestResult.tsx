@@ -1,7 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { GET_GENERAL_TEST_RESULT } from '@/graphql/queries';
+import { ProblemsEnum } from '@/utils/problems.enum';
 import { useLazyQuery } from '@apollo/client';
-import { Box, CircularProgress, List, ListItem, Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
+import {
+  Box,
+  Chip,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+  Typography,
+} from '@mui/joy';
 import { tabClasses } from '@mui/joy/Tab';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -50,12 +63,20 @@ export const GeneralTestResult = () => {
   return (
     <>
       {result && (
-        <div className="flex flex-col mx-auto gap-4 max-w-[960px]">
+        <div className="flex flex-col mx-auto gap-4 ">
           <Typography level="h2">{t('general-test-result.title')}</Typography>
 
-          <Typography level="h4">
-            {t('general-test-result.sub-title')}{' '}
-            <span className="inline-flex gap-1">{result.potentialProblems.join(', ')}</span>
+          <Divider />
+
+          <Typography level="title-lg">
+            {t('general-test-result.sub-title')}
+            <div className="flex flex-wrap gap-1 mt-2">
+              {result.potentialProblems.map((problem: any) => (
+                <Chip key={problem} variant="soft" color="primary">
+                  {t(`problems.${problem}`)} ({problem})
+                </Chip>
+              ))}
+            </div>
           </Typography>
 
           <Box
