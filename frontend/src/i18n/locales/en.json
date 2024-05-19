@@ -84,7 +84,8 @@
   },
   "general-test-result": {
     "title": "Result of the Comprehensive PTSD evaluation",
-    "sub-title": "Potential problems:"
+    "sub-title": "Potential problems:",
+    "no-problems-found": "No potential problems found"
   },
   "results": {
     "title": "Completed evaluations",
@@ -108,5 +109,16 @@
   "header": {
     "completed-evaluations": "Completed evaluations",
     "log-out": "Log out"
+  },
+  "problems": {
+    "SS": "Suicidal syndrome",
+    "CTSD": "Chronic traumatic stress disorder",
+    "PTSD": "Post-traumatic stress disorder",
+    "MT": "Moral injury",
+    "PCS": "Post-concussion syndrome",
+    "PTS": "Post-traumatic symptom",
+    "A": "Anxiety",
+    "D": "Discomfort",
+    "N": "Norm"
   }
 }

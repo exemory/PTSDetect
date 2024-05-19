@@ -19,15 +19,26 @@ export const GeneralTest = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
 
-  const { register, handleSubmit, watch } = useForm({});
+  const { register, handleSubmit, watch, reset } = useForm({});
   const watchedValues = watch();
 
   const navigate = useNavigate();
 
-  const [getQuestions, { loading: isQuestionsLoading, data: questionsData }] = useLazyQuery(GET_GENERAL_TEST_QUESTIONS);
+  const [getQuestions, { loading: isQuestionsLoading, data: questionsData }] = useLazyQuery(
+    GET_GENERAL_TEST_QUESTIONS,
+    {
+      fetchPolicy: 'no-cache',
+    }
+  );
   const [submitAnswers, { loading: isSubmitLoading }] = useMutation(SUBMIT_GENERAL_TEST_ANSWERS);
 
   useEffect(() => {
+    setCurrentQuestion(0);
+    setQuestions([]);
+    setEndCursor(undefined);
+    setHasNextPage(undefined);
+    reset();
+
     getQuestions({
       variables: {
         input: {
@@ -36,7 +47,7 @@ export const GeneralTest = () => {
         first: 1,
       },
     });
-  }, []);
+  }, [i18n.language]);
 
   useEffect(() => {
     if (questionsData) {
