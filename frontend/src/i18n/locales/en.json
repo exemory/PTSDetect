@@ -84,7 +84,8 @@
   },
   "general-test-result": {
     "title": "Result of the Comprehensive PTSD evaluation",
-    "sub-title": "Potential problems:"
+    "sub-title": "Potential problems:",
+    "no-problems-found": "No potential problems found"
   },
   "results": {
     "title": "Completed evaluations",

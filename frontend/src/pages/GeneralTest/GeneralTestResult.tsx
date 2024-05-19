@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { GET_GENERAL_TEST_RESULT } from '@/graphql/queries';
-import { ProblemsEnum } from '@/utils/problems.enum';
 import { useLazyQuery } from '@apollo/client';
 import {
   Box,
@@ -60,10 +59,22 @@ export const GeneralTestResult = () => {
     );
   }
 
+  if (result?.potentialProblems.length === 0) {
+    return (
+      <div className="flex flex-col mx-auto gap-4">
+        <Typography level="h2">{t('general-test-result.title')}</Typography>
+
+        <Divider />
+
+        <Typography level="title-lg">{t('general-test-result.no-problems-found')}</Typography>
+      </div>
+    );
+  }
+
   return (
     <>
       {result && (
-        <div className="flex flex-col mx-auto gap-4 ">
+        <div className="flex flex-col mx-auto gap-4">
           <Typography level="h2">{t('general-test-result.title')}</Typography>
 
           <Divider />
