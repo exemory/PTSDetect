@@ -22,7 +22,9 @@ export const GeneralTestResult = () => {
   const [index, setIndex] = useState(0);
 
   const { id } = useParams();
-  const [getResult, { loading: isResultLoading }] = useLazyQuery(GET_GENERAL_TEST_RESULT);
+  const [getResult, { loading: isResultLoading }] = useLazyQuery(GET_GENERAL_TEST_RESULT, {
+    fetchPolicy: 'no-cache',
+  });
 
   useEffect(() => {
     getResult({
@@ -35,7 +37,7 @@ export const GeneralTestResult = () => {
     }).then((result) => {
       setResult(result.data?.generalTestResult?.result);
     });
-  }, [id]);
+  }, [id, i18n.language]);
 
   if (isResultLoading) {
     return (
