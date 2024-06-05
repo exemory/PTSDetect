@@ -93,10 +93,6 @@ jobs:
       - name: Get AKS credentials
         run: az aks get-credentials --resource-group ${{vars.AZURE_RESOURCE_GROUP}} --name ${{vars.AZURE_AKS_NAME}}
 
-      - name: Update config map
-        run: |
-          kubectl patch configmap ptsdetect-api-config -p '{"data": {"FrontendOptions__BaseUrl": "${{vars.FrontendOptions__BaseUrl}}"}}'
-
       - name: Create secrets
         run: |
           kubectl get secret ptsdetect-api-secrets && kubectl delete secret ptsdetect-api-secrets
@@ -112,6 +108,10 @@ jobs:
 
       - name: Deploy PTSDetect API to AKS
         run: kubectl apply -f k8s
+
+      - name: Update config map
+        run: |
+          kubectl patch configmap ptsdetect-api-config -p '{"data": {"FrontendOptions__BaseUrl": "${{vars.FrontendOptions__BaseUrl}}"}}'
 
       - name: Rollout restart of PTSDetect API deployment
         run: kubectl rollout restart deployment/${{vars.PTSDETECT_API_DEPLOYMENT}}
