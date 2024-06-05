@@ -113,6 +113,10 @@ jobs:
       - name: Deploy PTSDetect API to AKS
         run: kubectl apply -f k8s
 
+      - name: Update config map
+        run: |
+          kubectl patch configmap ptsdetect-api-config -p '{"data": {"FrontendOptions__BaseUrl": "${{vars.FrontendOptions__BaseUrl}}"}}'
+
       - name: Rollout restart of PTSDetect API deployment
         run: kubectl rollout restart deployment/${{vars.PTSDETECT_API_DEPLOYMENT}}
 
