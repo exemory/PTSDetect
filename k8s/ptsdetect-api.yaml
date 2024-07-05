@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: ptsdetect-api-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: ptsdetect-api
   ports:
