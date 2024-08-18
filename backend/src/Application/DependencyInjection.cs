@@ -130,6 +130,7 @@ public static class DependencyInjection
                 y.WithOrigins(corsOptions.AllowedOrigins)
                     .WithMethods(corsOptions.AllowedMethods)
                     .AllowAnyHeader()
+                    .AllowCredentials()
             )
         );
 

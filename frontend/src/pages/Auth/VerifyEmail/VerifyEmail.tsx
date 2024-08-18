@@ -65,7 +65,7 @@ export const VerifyEmail = () => {
         <CheckCircle size={92} color="green" />
 
         <Typography level="h3" alignContent="center">
-          {t('verify-email.titile')}
+          {t('verify-email.title')}
         </Typography>
         <Typography level="body-sm"> {t('verify-email.sub-title')}</Typography>
       </div>
