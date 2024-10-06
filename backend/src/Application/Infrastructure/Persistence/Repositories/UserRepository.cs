@@ -61,8 +61,7 @@ public class UserRepository(IAppDbContext context) : IUserRepository
     }
 
     public async Task<IQueryable<Common.Models.GeneralTestResult>> GetGeneralTestResults(string userId,
-        string languageCode,
-        CancellationToken cancellationToken = default)
+        string languageCode, CancellationToken cancellationToken = default)
     {
         var testResults = await context.Users.AsQueryable()
             .Where(x => x.Id == ObjectId.Parse(userId))
@@ -89,6 +88,57 @@ public class UserRepository(IAppDbContext context) : IUserRepository
             PotentialProblems = x.PotentialProblems,
             AdviceLists = adviceLists
                 .Where(y => x.PotentialProblems.Contains(y.Problem))
+                .ToList()
+        }).AsQueryable();
+    }
+
+    public async Task<IQueryable<GeneralTestUserResults>> GetGeneralTestUsersResults(
+        IList<string>? userIds, string languageCode, CancellationToken cancellationToken = default)
+    {
+        var userObjectIds = userIds?.Select(ObjectId.Parse).ToList();
+
+        var testResultsQuery = context.Users.AsQueryable();
+
+        if (userObjectIds != null)
+        {
+            testResultsQuery = testResultsQuery.Where(x => userObjectIds.Contains(x.Id));
+        }
+
+        var testResults = await testResultsQuery
+            .Select(x => new
+            {
+                UserId = x.Id,
+                x.GeneralTestResults
+            })
+            .ToListAsync(cancellationToken);
+
+        var problems = testResults
+            .SelectMany(x => x.GeneralTestResults)
+            .SelectMany(x => x.PotentialProblems)
+            .ToList();
+
+        var adviceLists = await context.AdviceLists.AsQueryable()
+            .Where(x => problems.Contains(x.Problem))
+            .Select(x => new AdviceList
+            {
+                Problem = x.Problem,
+                Advices = x.Translations[languageCode].Advices
+            })
+            .ToListAsync(cancellationToken);
+
+        return testResults.Select(x => new GeneralTestUserResults()
+        {
+            UserId = x.UserId.ToString(),
+            GeneralTestResults = x.GeneralTestResults
+                .Select(y => new Common.Models.GeneralTestResult
+                {
+                    Id = y.Id,
+                    CompletionDate = y.CompletionDate,
+                    PotentialProblems = y.PotentialProblems,
+                    AdviceLists = adviceLists
+                        .Where(z => y.PotentialProblems.Contains(z.Problem))
+                        .ToList()
+                })
                 .ToList()
         }).AsQueryable();
     }

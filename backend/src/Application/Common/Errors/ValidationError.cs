@@ -13,6 +13,7 @@ public record struct PropertyValidationError(
 
 public class ValidationError : Error,
     IGeneralTestResultsErrorUnion,
+    IGeneralTestUsersResultsErrorUnion,
     IGeneralTestResultErrorUnion,
     IGeneralTestQuestionsErrorUnion,
     IIsEmailTakenErrorUnion,
