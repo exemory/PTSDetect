@@ -124,6 +124,12 @@ public class UserService(
         return Result.Success();
     }
 
+    public Task<Result<IList<UserInfo>>> GetUsersAsync(CancellationToken cancellationToken = default)
+    {
+        var users = userManager.Users.ToList();
+        return Task.FromResult<Result<IList<UserInfo>>>(users.Select(GetUserInfo).ToList());
+    }
+
     private UserInfo GetUserInfo(ApplicationUser user)
     {
         PersonalInfo? personalUserInfo = null;

@@ -22,4 +22,6 @@ public interface IUserService
 
     public Task<Result> UpdateAvatarAsync(string userId, string avatarId,
         CancellationToken cancellationToken = default);
+    
+    public Task<Result<IList<UserInfo>>> GetUsersAsync(CancellationToken cancellationToken = default);
 }

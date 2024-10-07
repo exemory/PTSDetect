@@ -1,4 +1,5 @@
-﻿using Application.Infrastructure.Identity;
+﻿using Application.Common.Models;
+using GeneralTestResult = Application.Infrastructure.Identity.GeneralTestResult;
 
 namespace Application.Common.Interfaces.Repositories;
 
@@ -11,6 +12,9 @@ public interface IUserRepository
 
     public Task<IQueryable<Models.GeneralTestResult>> GetGeneralTestResults(string userId, string languageCode,
         CancellationToken cancellationToken = default);
+
+    public Task<IQueryable<GeneralTestUserResults>> GetGeneralTestUsersResults(IList<string>? userIds,
+        string languageCode, CancellationToken cancellationToken = default);
 
     public Task<Models.GeneralTestResult?> GetGeneralTestResult(Guid resultId, string userId,
         string languageCode, CancellationToken cancellationToken = default);
