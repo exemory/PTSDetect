@@ -143,11 +143,41 @@ public class UserRepository(IAppDbContext context) : IUserRepository
         }).AsQueryable();
     }
 
-    public async Task<Common.Models.GeneralTestResult?> GetGeneralTestResult(Guid resultId, string userId,
+    public async Task<Common.Models.GeneralTestResult?> GetUserGeneralTestResult(Guid resultId, string userId,
         string languageCode, CancellationToken cancellationToken = default)
     {
         var testResult = await context.Users.AsQueryable()
             .Where(x => x.Id == ObjectId.Parse(userId))
+            .SelectMany(x => x.GeneralTestResults)
+            .FirstOrDefaultAsync(x => x.Id == resultId, cancellationToken);
+
+        if (testResult == null)
+        {
+            return null;
+        }
+
+        var adviceLists = await context.AdviceLists.AsQueryable()
+            .Where(x => testResult.PotentialProblems.Contains(x.Problem))
+            .Select(x => new AdviceList
+            {
+                Problem = x.Problem,
+                Advices = x.Translations[languageCode].Advices
+            })
+            .ToListAsync(cancellationToken);
+
+        return new Common.Models.GeneralTestResult
+        {
+            Id = testResult.Id,
+            CompletionDate = testResult.CompletionDate,
+            PotentialProblems = testResult.PotentialProblems,
+            AdviceLists = adviceLists
+        };
+    }
+    
+    public async Task<Common.Models.GeneralTestResult?> GetGeneralTestResult(Guid resultId, string languageCode, 
+        CancellationToken cancellationToken = default)
+    {
+        var testResult = await context.Users.AsQueryable()
             .SelectMany(x => x.GeneralTestResults)
             .FirstOrDefaultAsync(x => x.Id == resultId, cancellationToken);
 

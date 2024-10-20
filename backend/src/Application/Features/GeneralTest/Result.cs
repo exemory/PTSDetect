@@ -43,9 +43,13 @@ public class GeneralTestResultQuery
             return new GeneralTestResultPayload(null, validationResult.UnionErrors<IGeneralTestResultErrorUnion>());
         }
 
-        var testResultWithAdvices =
-            await userRepository.GetGeneralTestResult(input.ResultId, currentUser.Id, input.LanguageCode,
-                cancellationToken);
+        var testResultWithAdvices = currentUser.IsAdmin switch
+        {
+            false => await userRepository.GetUserGeneralTestResult(input.ResultId, currentUser.Id,
+                input.LanguageCode, cancellationToken),
+            true => await userRepository.GetGeneralTestResult(input.ResultId, input.LanguageCode, 
+                cancellationToken)
+        };
 
         if (testResultWithAdvices is null)
         {
