@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Application.Common.Constants;
 using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -20,4 +21,5 @@ public class CurrentUser : ICurrentUser
 
     public string Id { get; }
     public ClaimsPrincipal User { get; }
+    public bool IsAdmin => User.IsInRole(Roles.Administrator);
 }

@@ -6,4 +6,5 @@ public interface ICurrentUser
 {
     public string Id { get; }
     public ClaimsPrincipal User { get; }
+    public bool IsAdmin { get; }
 }

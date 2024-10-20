@@ -16,6 +16,9 @@ public interface IUserRepository
     public Task<IQueryable<GeneralTestUserResults>> GetGeneralTestUsersResults(IList<string>? userIds,
         string languageCode, CancellationToken cancellationToken = default);
 
-    public Task<Models.GeneralTestResult?> GetGeneralTestResult(Guid resultId, string userId,
+    public Task<Models.GeneralTestResult?> GetUserGeneralTestResult(Guid resultId, string userId,
         string languageCode, CancellationToken cancellationToken = default);
+    
+    public Task<Models.GeneralTestResult?> GetGeneralTestResult(Guid resultId, string languageCode, 
+        CancellationToken cancellationToken = default);
 }
