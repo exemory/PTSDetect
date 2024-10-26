@@ -1,6 +1,6 @@
 import { routes } from '@/routes';
 import { Routes, Route } from 'react-router-dom';
-import { AuthRoutes, PrivateRoutes } from '@/components/Auth';
+import { AuthRoutes, PrivateRoutes, AdminRoutes } from '@/components/Auth';
 import { SignUp, SignIn, VerifyEmail, ConfirmEmail, ForgotPassword, ResetPassword } from '@/pages/Auth';
 import { Home } from '@/pages/Home';
 import { GeneralTest } from '@/pages/GeneralTest';
@@ -26,6 +26,8 @@ function App() {
         <Route element={<GeneralTestResult />} path={routes.PTSD_TEST_RESULT} />
         <Route element={<Results />} path={routes.RESULTS} />
         <Route element={<Profile />} path={routes.PROFILE} />
+      </Route>
+      <Route element={<AdminRoutes />}>
         <Route element={<GeneralTestUserResults />} path={routes.ADMIN_RESULTS} />
       </Route>
     </Routes>

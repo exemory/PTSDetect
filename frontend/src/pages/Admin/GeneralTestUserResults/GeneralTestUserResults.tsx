@@ -139,7 +139,7 @@ export const GeneralTestUserResults = () => {
         </div>
       )}
 
-      {results && results.length > 0 && (
+      {selectedUserId && results && results.length > 0 && (
         <div className="flex gap-4 flex-wrap mt-8 justify-center lg:justify-start">
           {results.map((result) => (
             <Card
