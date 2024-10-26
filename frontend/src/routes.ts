@@ -10,4 +10,5 @@ export const enum routes {
   PTSD_TEST_RESULT = '/general/result/:id',
   PROFILE = '/profile',
   RESULTS = '/results',
+  ADMIN_RESULTS = '/admin/results',
 }

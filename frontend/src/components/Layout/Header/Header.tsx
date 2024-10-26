@@ -1,11 +1,12 @@
 import { routes } from '@/routes';
 import { Avatar, Box, Dropdown, ListDivider, Menu, MenuButton, MenuItem, Typography } from '@mui/joy';
-import { Fingerprint, LogOutIcon, ClipboardCheck } from 'lucide-react';
+import { Fingerprint, LogOutIcon, ClipboardCheck, BookLock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import avatarImage from '@/assets/images/avatar.jpg';
 import { useStore } from '@/store/useStore';
 import { LanguageSelect } from '@/components/LanguageSelect';
 import { useTranslation } from 'react-i18next';
+import { jwtDecode } from 'jwt-decode';
 
 export const Header = () => {
   const { t } = useTranslation();
@@ -15,6 +16,16 @@ export const Header = () => {
   const onLogOut = () => {
     localStorage.removeItem('token');
     navigate(routes.SIGN_IN);
+  };
+
+  const isAdmin = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return false;
+
+    const decodedToken: any = jwtDecode(token);
+
+    return decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === 'Administrator';
   };
 
   return (
@@ -87,6 +98,15 @@ export const Header = () => {
             </MenuItem>
 
             <ListDivider />
+
+            {isAdmin() && (
+              <>
+                <MenuItem onClick={() => navigate(routes.ADMIN_RESULTS)}>
+                  <BookLock size={16} /> {t('admin.title')}
+                </MenuItem>
+                <ListDivider />
+              </>
+            )}
 
             <MenuItem onClick={onLogOut}>
               <LogOutIcon size={16} /> {t('header.log-out')}

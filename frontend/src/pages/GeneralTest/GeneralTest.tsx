@@ -105,11 +105,35 @@ export const GeneralTest = () => {
 
   return (
     <div className="flex flex-col mx-auto gap-2 max-w-[660px]">
-      <Typography level="title-md" color="primary">
-        {t('general-test.question')} {currentQuestion + 1} {t('general-test.of')} {totalQuestions}
-      </Typography>
-
       <form onSubmit={onSubmit}>
+        <div className="flex items-center justify-between mb-2">
+          <Typography level="title-md" color="primary">
+            {t('general-test.question')} {currentQuestion + 1} {t('general-test.of')} {totalQuestions}
+          </Typography>
+          <div className="flex flex-col items-end">
+            {hasNextPage ? (
+              <Button
+                loading={isQuestionsLoading}
+                onClick={loadNextQuestion}
+                size="lg"
+                endDecorator={<ArrowRight />}
+                disabled={!watchedValues[questions?.[currentQuestion]?.id ?? '']}
+              >
+                {t('general-test.next')}
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                size="lg"
+                loading={isSubmitLoading}
+                disabled={!watchedValues[questions?.[currentQuestion]?.id ?? '']}
+              >
+                {t('general-test.finish')}
+              </Button>
+            )}
+          </div>
+        </div>
+
         <div className="flex flex-col gap-4">
           {questions?.length && (
             <FormControl key={questions[currentQuestion].id}>
@@ -160,31 +184,6 @@ export const GeneralTest = () => {
               </RadioGroup>
             </FormControl>
           )}
-
-          <div className="flex flex-col items-end">
-            {hasNextPage ? (
-              <Button
-                loading={isQuestionsLoading}
-                onClick={loadNextQuestion}
-                size="lg"
-                fullWidth
-                endDecorator={<ArrowRight />}
-                disabled={!watchedValues[questions?.[currentQuestion]?.id ?? '']}
-              >
-                {t('general-test.next')}
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                size="lg"
-                fullWidth
-                loading={isSubmitLoading}
-                disabled={!watchedValues[questions?.[currentQuestion]?.id ?? '']}
-              >
-                {t('general-test.finish')}
-              </Button>
-            )}
-          </div>
         </div>
       </form>
     </div>

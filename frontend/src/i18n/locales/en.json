@@ -120,5 +120,10 @@
     "A": "Anxiety",
     "D": "Discomfort",
     "N": "Norm"
+  },
+  "admin": {
+    "title": "Completed user evaluations",
+    "label": "Select user",
+    "no-results": "No results"
   }
 }

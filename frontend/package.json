@@ -23,6 +23,7 @@
     "graphql": "^16.8.1",
     "i18next": "^23.11.4",
     "immer": "^10.0.3",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.297.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
