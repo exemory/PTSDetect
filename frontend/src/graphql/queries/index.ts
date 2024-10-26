@@ -5,3 +5,5 @@ export * from './getGeneralTestResults';
 export * from './getUserInfo';
 export * from './getUploadAvatarUrl';
 export * from './getUserAvatar';
+export * from './users';
+export * from './generalTestUsersResults';

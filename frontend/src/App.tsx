@@ -7,6 +7,7 @@ import { GeneralTest } from '@/pages/GeneralTest';
 import { GeneralTestResult } from '@/pages/GeneralTest';
 import { Profile } from '@/pages/Profile/Profile';
 import { Results } from '@/pages/Results';
+import { GeneralTestUserResults } from '@/pages/Admin/GeneralTestUserResults/GeneralTestUserResults';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route element={<GeneralTestResult />} path={routes.PTSD_TEST_RESULT} />
         <Route element={<Results />} path={routes.RESULTS} />
         <Route element={<Profile />} path={routes.PROFILE} />
+        <Route element={<GeneralTestUserResults />} path={routes.ADMIN_RESULTS} />
       </Route>
     </Routes>
   );
