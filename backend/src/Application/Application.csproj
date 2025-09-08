@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -19,6 +19,7 @@
       <PackageReference Include="HotChocolate.AspNetCore" Version="13.8.1" />
       <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.8.1" />
       <PackageReference Include="HotChocolate.Data" Version="13.8.1" />
+      <PackageReference Include="HotChocolate.Diagnostics" Version="13.8.1" />
       <PackageReference Include="MediatR" Version="12.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
       <PackageReference Include="Microsoft.Extensions.Azure" Version="1.7.2" />
