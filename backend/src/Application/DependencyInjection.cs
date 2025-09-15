@@ -235,7 +235,8 @@ public static class DependencyInjection
             .AddType<PropertyValidationError>()
             .AddFiltering()
             .AddSorting()
-            .AddProjections();
+            .AddProjections()
+            .AddInstrumentation();
 
         var executingAssembly = Assembly.GetExecutingAssembly();
 

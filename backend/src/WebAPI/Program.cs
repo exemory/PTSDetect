@@ -11,12 +11,8 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Host.UseSerilog((context, configuration) =>
-        configuration.ReadFrom.Configuration(context.Configuration)
-    );
-
-    builder.Services.AddApplicationServices(builder.Configuration);
     builder.Services.AddWebApiServices(builder.Configuration);
+    builder.Services.AddApplicationServices(builder.Configuration);
 
     var app = builder.Build();
 
@@ -28,7 +24,9 @@ try
     app.MapEndpoints();
 
     await app.InitializeDatabase();
-
+    
+    Log.Information("Application initialized successfully");
+    
     app.Run();
 }
 catch (Exception e)
@@ -38,4 +36,9 @@ catch (Exception e)
 finally
 {
     Log.CloseAndFlush();
+}
+
+public partial class Program
+{
+    public static readonly Guid InstanceId = Guid.NewGuid();
 }
