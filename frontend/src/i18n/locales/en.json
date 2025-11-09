@@ -125,5 +125,10 @@
     "title": "Completed user evaluations",
     "label": "Select user",
     "no-results": "No results"
+  },
+  "chatbot": {
+    "title": "AI Assistant",
+    "welcome-message": "Hello! I'm here to help you understand your PTSD evaluation results. Feel free to ask me questions about the problems identified, the advice provided, or any concerns you may have. Remember, I'm here to provide information and support, but I cannot replace professional medical advice.",
+    "input-placeholder": "Ask me about your results..."
   }
 }

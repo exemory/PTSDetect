@@ -4,7 +4,7 @@
     image: ptsdetect-api
     environment:
       ASPNETCORE_URLS: "http://+:5000"
-      MongoDbOptions__ConnectionString: "mongodb://root:9BjFZXmE2d@mongo"
+      MongoDbOptions__ConnectionString: "mongodb+srv://nikitapanagoda16_db_user:wnPJJIIXVWDcRJAK@appdb.uifa92k.mongodb.net/?retryWrites=true&w=majority"
       MongoDbOptions__AppDatabaseName: "AppDB"
       JwtOptions__Issuer: "http://localhost:5000"
       JwtOptions__Audience: "http://localhost:5173"
@@ -28,8 +28,8 @@
   mongo:
     image: mongo:7.0.3
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 9BjFZXmE2d
+      MONGO_INITDB_ROOT_USERNAME: nikitapanagoda16_db_user
+      MONGO_INITDB_ROOT_PASSWORD: wnPJJIIXVWDcRJAK
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s

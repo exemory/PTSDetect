@@ -18,6 +18,7 @@ import { tabClasses } from '@mui/joy/Tab';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { Chatbot } from '@/components/Chatbot';
 
 interface Result {
   __typename?: 'GeneralTestResult' | undefined;
@@ -74,78 +75,106 @@ export const GeneralTestResult = () => {
   return (
     <>
       {result && (
-        <div className="flex flex-col mx-auto gap-4">
-          <Typography level="h2">{t('general-test-result.title')}</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 3,
+            width: '100%',
+            maxWidth: '1400px',
+            mx: 'auto',
+            flexDirection: { xs: 'column', lg: 'row' },
+            minHeight: 'calc(100vh - 200px)',
+          }}
+        >
+          {/* Main Content */}
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <div className="flex flex-col gap-4">
+              <Typography level="h2">{t('general-test-result.title')}</Typography>
 
-          <Divider />
+              <Divider />
 
-          <Typography level="title-lg">
-            {t('general-test-result.sub-title')}
-            <div className="flex flex-wrap gap-1 mt-2">
-              {result.potentialProblems.map((problem: any) => (
-                <Chip key={problem} variant="soft" color="primary">
-                  {t(`problems.${problem}`)} ({problem})
-                </Chip>
-              ))}
-            </div>
-          </Typography>
+              <Typography level="title-lg">
+                {t('general-test-result.sub-title')}
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {result.potentialProblems.map((problem: any) => (
+                    <Chip key={problem} variant="soft" color="primary">
+                      {t(`problems.${problem}`)} ({problem})
+                    </Chip>
+                  ))}
+                </div>
+              </Typography>
 
-          <Box
-            sx={{
-              flexGrow: 1,
-              overflowX: 'hidden',
-              marginTop: 1,
-            }}
-          >
-            <Tabs value={index} onChange={(_: any, value) => setIndex(value as number)} sx={{ borderRadius: 'xl' }}>
-              <TabList
+              <Box
                 sx={{
-                  pt: 1,
-                  [`&& .${tabClasses.root}`]: {
-                    flex: 'initial',
-                    bgcolor: 'transparent',
-                    '&:hover': {
-                      bgcolor: 'transparent',
-                    },
-                    [`&.${tabClasses.selected}`]: {
-                      color: 'primary.plainColor',
-                      '&::after': {
-                        height: 2,
-                        borderTopLeftRadius: 3,
-                        borderTopRightRadius: 3,
-                        bgcolor: 'primary.500',
-                      },
-                    },
-                  },
+                  flexGrow: 1,
+                  overflowX: 'hidden',
+                  marginTop: 1,
                 }}
               >
-                {result.adviceLists.map((adviceList, idx) => (
-                  <Tab key={idx} indicatorInset color={index === idx ? 'primary' : 'neutral'}>
-                    {adviceList.problem}
-                  </Tab>
-                ))}
-              </TabList>
-              <Box>
-                {result.adviceLists.map((adviceList, idx) => (
-                  <TabPanel value={idx} key={idx}>
-                    <List
-                      marker="disc"
-                      sx={{
-                        maxHeight: 900,
-                        overflowY: 'auto',
-                        borderRadius: 'xl',
-                      }}
-                    >
-                      {adviceList.advices.map((advice) => (
-                        <ListItem key={advice}>{advice}</ListItem>
-                      ))}
-                    </List>
-                  </TabPanel>
-                ))}
+                <Tabs value={index} onChange={(_: any, value) => setIndex(value as number)} sx={{ borderRadius: 'xl' }}>
+                  <TabList
+                    sx={{
+                      pt: 1,
+                      [`&& .${tabClasses.root}`]: {
+                        flex: 'initial',
+                        bgcolor: 'transparent',
+                        '&:hover': {
+                          bgcolor: 'transparent',
+                        },
+                        [`&.${tabClasses.selected}`]: {
+                          color: 'primary.plainColor',
+                          '&::after': {
+                            height: 2,
+                            borderTopLeftRadius: 3,
+                            borderTopRightRadius: 3,
+                            bgcolor: 'primary.500',
+                          },
+                        },
+                      },
+                    }}
+                  >
+                    {result.adviceLists.map((adviceList, idx) => (
+                      <Tab key={idx} indicatorInset color={index === idx ? 'primary' : 'neutral'}>
+                        {adviceList.problem}
+                      </Tab>
+                    ))}
+                  </TabList>
+                  <Box>
+                    {result.adviceLists.map((adviceList, idx) => (
+                      <TabPanel value={idx} key={idx}>
+                        <List
+                          marker="disc"
+                          sx={{
+                            maxHeight: 900,
+                            overflowY: 'auto',
+                            borderRadius: 'xl',
+                          }}
+                        >
+                          {adviceList.advices.map((advice) => (
+                            <ListItem key={advice}>{advice}</ListItem>
+                          ))}
+                        </List>
+                      </TabPanel>
+                    ))}
+                  </Box>
+                </Tabs>
               </Box>
-            </Tabs>
+            </div>
           </Box>
-        </div>
+
+          {/* Chatbot Sidebar */}
+          <Box
+            sx={{
+              width: { xs: '100%', lg: '400px' },
+              minHeight: { xs: '500px', lg: '600px' },
+              maxHeight: { xs: '600px', lg: 'calc(100vh - 200px)' },
+              position: { lg: 'sticky' },
+              top: { lg: 100 },
+            }}
+          >
+            <Chatbot resultData={result} />
+          </Box>
+        </Box>
       )}
     </>
   );
